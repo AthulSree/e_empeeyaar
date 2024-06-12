@@ -1,0 +1,35 @@
+<table class="table" id="allcandidatedetails">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Designation</th>
+            <th scope="col">WO Number</th>
+            <th scope="col">Project Number</th>
+            <th scope="col">Agency</th>
+            <th scope="col">Join Date</th>
+            <th scope="col">Updated on</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {# {{candidatelist}} #}
+        {# {% with 3 as i %}{% endwith %} #}
+            {% for items in candidatelist %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{items.name}}</td>
+                    <td>{{items.designation}}</td>
+                    <td>{{items.workorder_no}}</td>
+                    <td>{{items.project_no}}</td>
+                    <td>AEOLOGIC</td>
+                    <td>{{items.joining_date}}</td>
+                    <td>{{items.entered_time}}</td>
+                    <td><button class="btn btn-success editcandidate" data-candid="{{items.c_id}}">Edit</button></td>
+                </tr>
+            {% endfor %}
+    </tbody>
+    </tbody>
+</table>
+
+<script></script>

@@ -1,0 +1,5 @@
+cffi==1.16.0
+cryptography==42.0.8
+mysqlclient==2.2.4
+pycparser==2.22
+PyMySQL==1.1.1
