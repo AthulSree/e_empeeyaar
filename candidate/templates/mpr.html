@@ -1,109 +1,96 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="/home/athul/pythonProject/python_env/my_mpr/candidate/static/css/bootstrap5.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="/home/athul/pythonProject/python_env/my_mpr/candidate/static/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-</head>
-<style>
-    body {
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        font-size: 18px;
-    }
+{{html_header|safe}}
 
-    th {
-        text-align: center;
-        vertical-align: middle;
-        padding: 0 !important;
-    }
+	<body>
+		<center>
+			<h1 style="font-weight:bold;font-size: 38px;">
+				<u>Monthly Performance Reporst</u>
+			</h1>
+		</center>
+		<br><br>
+		<div class="column">
+			<div class="row justify-content-start">
+				<div class="col-1"></div>
+				<div class="col-2">
+					<b>Project No:</b>
+				</div>
+				<div class="col-2">
+					<b>S222021GNKL</b>
+				</div>
+				<div class="col-3"></div>
+				<div class="col-2">
+					<b>MPR for the Month:</b>
+				</div>
+				<div class="col-2">
+					<b>July 2023</b>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="column">
+			<div class="row justify-content-start">
+				<div class="col-1"></div>
+				<div class="col-2">
+					<b>Work Order No:</b>
+				</div>
+				<div class="col-2">
+					<b>M2302642</b>
+				</div>
+			</div>
+		</div>
 
-    td {
-        vertical-align: middle;
-    }
-    .absstyle{
-        width:90px !important;
-    }
-</style>
+		<br><br>
+		<table class="table table-bordered border-dark">
+			<thead>
+				<tr>
+					<th rowspan="2">Sl no</th>
+					<th rowspan="2">Name</th>
+					<th rowspan="2">Designation</th>
+					<th rowspan="2">Date of Joining</th>
+					<th colspan="2">Working Period</th>
+					<th rowspan="2" class="absstyle">Absent</th>
+				</tr>
+				<tr>
+					<th>From</th>
+					<th>TO</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>ATHUL SREEKUMAR</td>
+					<td>Developer – Tier-3, Level 4</td>
+					<td>01/05/2023</td>
+					<td>{{from_date}}</td>
+					<td>31/07/2023</td>
+					<td class="absstyle">{{absent_no}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
 
-<body>
-    <center>
-        <h1 style="font-weight:bold;font-size: 38px;"><u>Monthly Performance Report</u></h1>
-    </center>
-    <br><br>
-    <div class="column">
-        <div class="row justify-content-start">
-            <div class="col-1"></div>
-            <div class="col-2"><b>Project No:</b></div>
-            <div class="col-2"><b>S222021GNKL</b></div>
-            <div class="col-3"></div>
-            <div class="col-2"><b>MPR for the Month:</b></div>
-            <div class="col-2"><b>July 2023</b></div>
-        </div>
-    </div>
-    <br>
-    <div class="column">
-        <div class="row justify-content-start">
-            <div class="col-1"></div>
-            <div class="col-2"><b>Work Order No:</b></div>
-            <div class="col-2"><b>M2302642</b></div>
-        </div>
-    </div>
+	<br><br>
 
-    <br><br>
-    <table class="table table-bordered border-dark">
-        <thead>
-            <tr>
-                <th rowspan="2">Sl no</th>
-                <th rowspan="2">Name</th>
-                <th rowspan="2">Designation</th>
-                <th rowspan="2">Date of Joining</th>
-                <th colspan="2">Working Period</th>
-                <th rowspan="2" class="absstyle">Absent</th>
-            </tr>
-            <tr>
-                <th>From</th>
-                <th>TO</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>ATHUL SREEKUMAR</td>
-                <td>Developer – Tier-3, Level 4</td>
-                <td>01/05/2023</td>
-                <td>{{from_date}}</td>
-                <td>31/07/2023</td>
-                <td  class="absstyle">{{absent_no}}</td>
-            </tr>
-        </tbody>
-    </table>
-</body>
+	<div class="column">
+		<div class="row justify-content-start">
+			<div class="col-1"></div>
+			<div class="col-10">
+				<b>Performance of the above Resource found satisfactory</b>
+			</div>
+		</div>
+	</div>
 
+	<br><br>
+	<br><br>
 
-<br><br>
-
-<div class="column">
-    <div class="row justify-content-start">
-        <div class="col-1"></div>
-        <div class="col-10"><b>Performance of the above Resource found satisfactory</b></div>
-    </div>
-</div>
-
-<br><br>
-<br><br>
-
-<div class="column">
-    <div class="row justify-content-start">
-        <div class="col-7"></div>
-        <div class="col-5"><b>Signature with date of the Reporting officer with Stamp</b></div>
-    </div>
-</div>
+	<div class="column">
+		<div class="row justify-content-start">
+			<div class="col-7"></div>
+			<div class="col-5">
+				<b>Signature with date of the Reporting officer with Stamp</b>
+			</div>
+		</div>
+	</div>
 
 </html>
+

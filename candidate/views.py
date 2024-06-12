@@ -7,7 +7,7 @@ from .models import Candidate,LeaveRecords
 from datetime import datetime
 from django.utils.dateparse import parse_date  # type: ignore
 import pdfkit # type: ignore
-from my_mpr.settings import WKHTMLTOPDF_PATH  # type: ignore
+from my_mpr.settings import WKHTMLTOPDF_PATH,MPR_HTML_HEAD  # type: ignore
 
 
 
@@ -144,8 +144,10 @@ def gen_mpr(request):
 def generatepdf(request):
     absent_no = request.POST['age']
     # pdf = pdfkit.from_url(request.build_absolute_uri(reverse('gen_mpr')),False, configuration=config)
-    context = {'absent_no':absent_no,'from_date':'01/06/2024'}
+    context = {'absent_no':absent_no,'from_date':'01/06/2024','html_header':MPR_HTML_HEAD}
     html_content = render_to_string('mpr.html', context)
+
+    print(html_content)
     options = {
         'page-size': 'Letter',
         'margin-top': '0.75in',

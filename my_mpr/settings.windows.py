@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-ddt%#u7&%vdf5)x9rl__(xk0(dx7v5&sxyszfyc^(yven4^%s@'
 WKHTMLTOPDF_PATH = r"C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"
+MPR_HTML_HEAD = '<!DOCTYPE html><html lang="en">	<head>		<meta charset="UTF-8">		<meta name="viewport" content="width=device-width, initial-scale=1.0">		<title>Document</title>		<!-- Absolute path for Bootstrap CSS -->		<link		rel="stylesheet" href="D:\PythonProject\py_env\e-empeeyaar\candidate\static\css\Bootstrap4.min.css">		<!-- Absolute path for Bootstrap JS -->		<script src="D:\PythonProject\py_env\e-empeeyaar\candidate\static\js\jquery.js"></script>		<style>			body {				font-family: Calibri, sans-serif;				font-size: 22px;			}			th {				text-align: center;				vertical-align: middle !important;				padding: 0 !important;				border: 1.5px solid #0d0c0c !important;			}			td {				vertical-align: middle !important;				border: 1.5px solid #0d0c0c !important;				line-height: 1;			}			.absstyle {				width: 90px !important;			}		</style>	</head>'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
