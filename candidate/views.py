@@ -7,7 +7,7 @@ from .models import Candidate,LeaveRecords
 from datetime import datetime
 from django.utils.dateparse import parse_date  # type: ignore
 import pdfkit # type: ignore
-from my_mpr.settings import WKHTMLTOPDF_PATH
+from my_mpr.settings import WKHTMLTOPDF_PATH  # type: ignore
 
 
 
