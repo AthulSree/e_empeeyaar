@@ -1,0 +1,38 @@
+{% extends 'header.html' %}
+
+{% load static %}
+{% block content %}
+	<!-- for header part -->
+	<div
+		class="main">
+		{# <center><button type="button" class="btn btn-secondary btn-lg">Add New +</button></center> #}
+
+		<div class="searchbar2">
+			<input type="text" name="" id="" placeholder="Search">
+			<div class="searchbtn">
+				<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png" class="icn srchicn" alt="search-button">
+			</div>
+		</div>
+
+		{% if pagestat != NULL %}
+			<input type="hidden" id="id_pagestat" value="{{pagestat}}">
+		{% endif %}
+
+		
+		<div class="report-container">
+			<div class="report-header">
+				<h1 class="recent-Articles">Leave Records</h1>
+				<input type="hidden" id="leave_update_list" value="{% url 'leaveUpdate_list' %}"></input>
+
+		</div>
+
+		<div
+			class="report-body" id="leaveUpdate_list_table">{# table goes here #}
+		</div>
+	</div>
+
+
+</div>
+
+
+<script src="{% static 'js/candidate_leaves.js' %}"></script>{% endblock %}

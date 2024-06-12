@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<!-- Toast Container -->
+	<div class="toast-container" id="toast-container"></div>
+
+
+	<header>
+
+		<div class="logosec">
+			<div class="logo">
+				<i>e-Empeeyaar</i>
+			</div>
+			<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png" class="icn menuicn" id="menuicn" alt="menu-icon">
+		</div>
+
+		<div class="searchbar">
+			<input type="text" placeholder="Search">
+			<div class="searchbtn">
+				<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png" class="icn srchicn" alt="search-icon">
+			</div>
+		</div>
+
+		{# ------------ MOnth dropdown-begin #}
+		<div class='col-3'></div>
+		<div class='col-1'>
+			<select class="form-select" style="background-color: lavender;border-radius: 10px;">>
+				{% for  months in  last_three_months  %}
+					<option value="{{months.value}}">{{months.name}}</option>
+				{% endfor %}
+			</select>
+		</div>
+		{# ------------ MOnth dropdown-ends #}
+
+		<div class="message">
+			<div class="dp">
+				<img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png" class="dpicn" alt="dp">
+			</div>
+		</div>
+
+	</header>
+{% endblock %}
+
+
+{% block options %}
+	<div class="main-container">
+		<div class="navcontainer">
+			<nav class="nav">
+				<div
+					class="nav-upper-options">
+					<!-- Dashboard option -->
+					<a href="{% url 'dashboard' %}" class="nav-option {% if option == 'dashboard' %}option1{% endif %}">
+						<h4>Dashboard</h4>
+					</a>
+
+					<!-- Candidate option -->
+					<a href="{% url 'candidate_details' %}" class="nav-option {% if option == 'candidatedetails' %}option1{% endif %}">
+						<h4>Add Candidate</h4>
+					</a>
+
+					<!-- Candidate option -->
+					<a href="{% url 'leave_records' %}" class="nav-option {% if option == 'leave_records' %}option1{% endif %}">
+						<h4>Leave Updates</h4>
+					</a>
+				</div>
+			</nav>
+		</div>
+		{% block content %}{% endblock %}
+	</div>
+{% endblock %}

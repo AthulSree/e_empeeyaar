@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, 
+                   initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}">
+    <title>{% block title %} Ente Empeeyaar{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/datatable.css' %}">
+    <script src="{% static 'js/bootstrap5.min.js' %}"></script>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/datatable.js' %}"></script>
+
+</head>
+
+
+<body>
+<input type="hidden" value="{{ csrf_token }}" id="csrf_token">
+
+
+    {% block header %}{% endblock %}
+    {% block options %}{% endblock %}
+
+</body>
+
+<script src = "{% static 'js/dashboard.js' %}"></script>
+
+
+</html>
