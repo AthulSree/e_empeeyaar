@@ -11,6 +11,22 @@ $(document).on('click', '.searchbtn,.dp', function () {
     alert('തെക്കോട്ട് നോക്കി ഇരുന്നോ');
 })
 
+$(document).on('change','#id_curr_month',function(){
+    var path = $(this).data('path')
+    var month = $(this).val();
+    var csrf_token = $('#csrf_token').val();
+    $.ajax({
+        url: path,
+        type: 'POST',
+        data: {'csrfmiddlewaretoken':csrf_token, month},
+        success: function(status){
+            if(status['status'] == 200){
+                window.location.reload();
+            }
+        }
+    })
+})
+
 
 function showToast(message, bgColor = '#333') {
     const toastContainer = $('#toast-container');

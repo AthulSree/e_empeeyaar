@@ -24,9 +24,9 @@
 		{# ------------ MOnth dropdown-begin #}
 		<div class='col-3'></div>
 		<div class='col-1'>
-			<select class="form-select" style="background-color: lavender;border-radius: 10px;">>
+			<select class="form-select" style="background-color: lavender;border-radius: 10px;" id="id_curr_month" data-path = "{% url 'change_month' %}">
 				{% for  months in  last_three_months  %}
-					<option value="{{months.value}}">{{months.name}}</option>
+					<option value="{{months.value}}" {% if months.value == cur_month_selected %} selected="" {% endif %}>{{months.name}} / {{request.session.cur_year_selected}}</option>
 				{% endfor %}
 			</select>
 		</div>

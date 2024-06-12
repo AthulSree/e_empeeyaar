@@ -11,5 +11,6 @@ urlpatterns = [
     path('showallcandidates', views.showallcandidates, name="showall_candidates"),
     path('leaveRecordList',views.leaveRecordList, name='leave_records'),
     path('leaveUpdatelist',views.leaveUpdatelist, name='leaveUpdate_list'),
-    path('leaveRecordSave',views.leaveRecordSave, name='leaveRecord_Save')
+    path('leaveRecordSave',views.leaveRecordSave, name='leaveRecord_Save'),
+    path('changeMonth',views.changeMonth, name='change_month')
 ]

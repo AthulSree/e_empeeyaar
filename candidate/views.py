@@ -88,14 +88,18 @@ def leaveRecordList(request):
 
 
 def leaveUpdatelist(request):
-     query = " SELECT   C.c_id,C.name,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s "
-     leaves = Candidate.objects.raw(query,[6,2024])
-     context = {'leave_records':leaves,'month':6,'year':2024,'month_year':'6/2024'}
+     month = request.session['cur_month_selected']
+     year = request.session['cur_year_selected']
+     query = " SELECT   C.c_id,C.name,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s "
+     leaves = Candidate.objects.raw(query,[month,year])
+     context = {'leave_records':leaves,'month_year':f"{month}/{year}"}
      return render(request,'leaveRecords_table.html',context)
 
 
 
 def leaveRecordSave(request):
+     s_month = request.session['cur_month_selected']
+     s_year = request.session['cur_year_selected']
      if(request.method == 'POST'):
           req = request.POST
           cand_id = req.get('cand_id')
@@ -113,8 +117,8 @@ def leaveRecordSave(request):
           paid_leaves = ",".join(paidleaveArr)
           non_paid_leaves = ",".join(nonpaidleaveArr)
           addRecord = LeaveRecords.objects.create(
-               year=2024, 
-               month=6, 
+               year=s_year, 
+               month=s_month, 
                paid_leave_days=paid_leaves, 
                non_paid_leave_days=non_paid_leaves, 
                c_id=candidate, 
@@ -131,7 +135,13 @@ def leaveRecordSave(request):
 
 
 
-
+def changeMonth(request):
+     if(request.method == 'POST'):
+          month = request.POST.get('month')
+          request.session['cur_month_selected']=month
+          return JsonResponse({'status':200})
+     else:
+          return JsonResponse({'status':500})
 
 
     
@@ -143,11 +153,17 @@ def gen_mpr(request):
 
 def generatepdf(request):
     absent_no = request.POST['age']
+    mode = request.POST['mode']
+    print('============')
+    print(mode)
     # pdf = pdfkit.from_url(request.build_absolute_uri(reverse('gen_mpr')),False, configuration=config)
     context = {'absent_no':absent_no,'from_date':'01/06/2024','html_header':MPR_HTML_HEAD}
-    html_content = render_to_string('mpr.html', context)
 
-    print(html_content)
+    if(mode == '1'):
+        html_content = render_to_string('mpr.html', context)
+    elif(mode == '2'):
+        html_content = render_to_string('mpr_with_sign.html',context) 
+
     options = {
         'page-size': 'Letter',
         'margin-top': '0.75in',
