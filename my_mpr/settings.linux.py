@@ -21,8 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-ddt%#u7&%vdf5)x9rl__(xk0(dx7v5&sxyszfyc^(yven4^%s@'
+
 WKHTMLTOPDF_PATH = r"/usr/bin/wkhtmltopdf"
+
 MPR_HTML_HEAD = '<!DOCTYPE html><html lang="en">	<head>		<meta charset="UTF-8">		<meta name="viewport" content="width=device-width, initial-scale=1.0">		<title>Document</title>		<link href="/home/athul/pythonProject/python_env/my_mpr/candidate/static/css/bootstrap5.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">		<script src="/home/athul/pythonProject/python_env/my_mpr/candidate/static/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>	</head>	<style>		body {			font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;			font-size: 18px;		}		th {			text-align: center;			vertical-align: middle;			padding: 0 !important;		}		td {			vertical-align: middle;		}		.absstyle {			width: 90px !important;		}	</style>'
+
+SIGNED_MPR_SIGN_IMG_PATH = '<img src="/home/athul/pythonProject/python_env/my_mpr/candidate/static/img/sign.png" alt="Flowers in Chania" style="width:42em;position:relative;left:4em"></html>'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
