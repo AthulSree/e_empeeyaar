@@ -172,7 +172,10 @@ def generatepdf(request):
         'margin-left': '0.75in',
         'encoding': 'UTF-8',
         'no-outline': None,
-        'enable-local-file-access':""
+        'enable-local-file-access':"",
+        'debug-javascript': None,
+        'no-stop-slow-scripts': None,
+        'log-level': 'info'
     }
     pdf = pdfkit.from_string(html_content, False, configuration=config, options=options)
     response = HttpResponse(pdf, content_type='application/pdf')
