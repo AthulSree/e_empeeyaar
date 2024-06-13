@@ -36,10 +36,11 @@ def addcandidate(request):
         wonum = request.POST.get('cand_wonumber')
         proj_no = request.POST.get('cand_proj_num')
         join_date = request.POST.get('cand_join_date')
+        profile_pic = request.FILES.get('profile_pic')
         # ------ Add candidate
         if(request.POST.get('cand_addmode')=='add'):
             try:
-                candidate = Candidate.objects.create(name=name, designation=desig, joining_date=join_date, project_no=proj_no, workorder_no=wonum, entered_time=datetime.now())            
+                candidate = Candidate.objects.create(name=name, designation=desig, joining_date=join_date, project_no=proj_no, workorder_no=wonum, entered_time=datetime.now(), image=profile_pic)            
                 return HttpResponseRedirect(reverse('add_candidate_success')+'?pagestat=200')
             except Exception as e:
                 context = {'option':'candidatedetails','msg':str(e), 'pagestat':'500'}
@@ -54,6 +55,7 @@ def addcandidate(request):
                   candidate.joining_date=join_date
                   candidate.project_no=proj_no
                   candidate.workorder_no=wonum
+                  candidate.image=profile_pic
                   candidate.save()
                   return HttpResponseRedirect(reverse('add_candidate_success')+'?pagestat=204')
              except Exception as e:
@@ -73,7 +75,7 @@ def add_candidate_success(request):
 def showallcandidates(request):
     #  query = "SELECT * FROM candidates"
     #  cands = Candidate.objects.raw(query)
-     candidates = Candidate.objects.all().values
+     candidates = Candidate.objects.all()
      context = {'candidatelist':candidates}
      return render(request,'allcandidateslist.html',context)
     #  print(candidates)

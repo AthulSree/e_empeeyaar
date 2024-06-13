@@ -9,6 +9,7 @@ class Candidate(models.Model):
     joining_date = models.DateField()
     project_no = models.CharField(max_length = 20)
     workorder_no = models.CharField(max_length = 20)
+    image = models.ImageField(upload_to='photos/')
     entered_time = models.DateTimeField()
 
     def __str__(self):

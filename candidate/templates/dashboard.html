@@ -1,4 +1,5 @@
 {% extends 'header.html' %}
+{% load static %}
 
 
 {% block content %}
@@ -16,56 +17,138 @@
 
 
 
-
-            <div class="box-container">
-
-                <div class="box box1">
-                    <div class="text">
-                        <h2 class="topic-heading">60.5k</h2>
-                        <h2 class="topic">Article Views</h2>
-                        <p>hiuhio</p>
+{# ------------------------- #}
+<ul class="cards">
+    <li>
+        <a href="" class="card_dash">
+            <img src="{% static 'img/athul.png' %}" class="card__image" alt="" />
+            <div class="card__overlay">
+                <div class="card__header">
+                    <svg class="card__arc" >
+                        <path />
+                    </svg>
+                    <img class="card__thumb" src="{% static 'img/verified.png' %}" alt="" />
+                    <div class="card__header-text">
+                        <h3 class="card__title">ATHUL SREEKUMAR</h3>
+                        <span class="badge rounded-pill bg-secondary">Total Leaves - 1</span>
                     </div>
-
-                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(31).png"
-                        alt="Views">
                 </div>
-
-                <div class="box box2">
-                    <div class="text">
-                        <h2 class="topic-heading">150</h2>
-                        <h2 class="topic">Likes</h2>
-                    </div>
-
-                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185030/14.png" alt="likes">
-                </div>
-
-                <div class="box box3">
-                    <div class="text">
-                        <h2 class="topic-heading">320</h2>
-                        <h2 class="topic">Comments</h2>
-                    </div>
-
-                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(32).png"
-                        alt="comments">
-                </div>
-
-                <div class="box box4">
-                    <div class="text">
-                        <h2 class="topic-heading">70</h2>
-                        <h2 class="topic">Published</h2>
-                    </div>
-
-                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185029/13.png" alt="published">
-                </div>
+                <p class="card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores,
+                    blanditiis?</p>
             </div>
+        </a>
+    </li>
+    <li>
+        <a href="" class="card_dash">
+            <img src="{% static 'img/nisanth.png' %}" class="card__image" alt="" />
+            <div class="card__overlay">
+                <div class="card__header">
+                    <svg class="card__arc" >
+                        <path />
+                    </svg>
+                    <img class="card__thumb" src="{% static 'img/warning.png' %}" alt="" />
+                    <div class="card__header-text">
+                        <h3 class="card__title">Jessica Parker</h3>
+                        <span class="badge rounded-pill bg-secondary">Total Leaves - 3</span>
+                    </div>
+                </div>
+                <p class="card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores,
+                    blanditiis?</p>
+            </div>
+        </a>
+    </li>
+    <li>
+        <a href="" class="card_dash">
+            <img src="{% static 'img/sreeraj.png' %}" class="card__image" alt="" />
+            <div class="card__overlay">
+                <div class="card__header">
+                    <svg class="card__arc" >
+                        <path />
+                    </svg>
+                    <img class="card__thumb" src="{% static 'img/warning.png' %}" alt="" />
+                    <div class="card__header-text">
+                        <h3 class="card__title">Jessica Parker</h3>
+                        <span class="badge rounded-pill bg-secondary">Total Leaves - 3</span>
+                    </div>
+                </div>
+                <p class="card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores,
+                    blanditiis?</p>
+            </div>
+        </a>
+    </li>
+    <li>
+        <a href="" class="card_dash">
+            <img src="{% static 'img/simi.png' %}" class="card__image" alt="" />
+            <div class="card__overlay">
+                <div class="card__header">
+                    <svg class="card__arc" >
+                        <path />
+                    </svg>
+                    <img class="card__thumb" src="{% static 'img/warning.png' %}" alt="" />
+                    <div class="card__header-text">
+                        <h3 class="card__title">Jessica Parker</h3>
+                        <span class="card__status">1 hour ago</span>
+                    </div>
+                </div>
+                <p class="card__description">
+                <form action="{% url 'pdf' %}" method="post">
+                    {% csrf_token %}
+                    {# <input value="{{ csrf_token }}"> #}
+                    <input name="age" value="3">
+                    <input name="mode" value="1">
+                    <button type="submit">print pdf</button>
+                </form>
+                </p>
+            </div>
+        </a>
+    </li>
 
-<form action="{% url 'pdf' %}" method="post">
-    {% csrf_token %}
-    {# <input value="{{ csrf_token }}"> #}
-    <input name="age" value="3">
-    <input name="mode" value="1">
-    <button type="submit">print pdf</button>
-</form>
+        <li>
+            <a href="" class="card_dash">
+                <img src="{% static 'img/anujith.png' %}" class="card__image" alt="" />
+                <div class="card__overlay">
+                    <div class="card__header">
+                        <svg class="card__arc">
+                            <path />
+                        </svg>
+                        <img class="card__thumb" src="{% static 'img/warning.png' %}" alt="" />
+                        <div class="card__header-text">
+                            <h3 class="card__title">Jessica Parker</h3>
+                            <span class="badge rounded-pill bg-secondary">Total Leaves - 3</span>
+                        </div>
+                    </div>
+                    <p class="card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores,
+                        blanditiis?</p>
+                </div>
+            </a>
+        </li>
+
+        <li>
+            <a href="" class="card_dash">
+                <img src="{% static 'img/vimal.png' %}" class="card__image" alt="" />
+                <div class="card__overlay">
+                    <div class="card__header">
+                        <svg class="card__arc">
+                            <path />
+                        </svg>
+                        <img class="card__thumb" src="{% static 'img/warning.png' %}" alt="" />
+                        <div class="card__header-text">
+                            <h3 class="card__title">Jessica Parker</h3>
+                            <span class="badge rounded-pill bg-secondary">Total Leaves - 3</span>
+                        </div>
+                    </div>
+                    <p class="card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores,
+                        blanditiis?</p>
+                </div>
+            </a>
+        </li>
+  
+</ul>
+
+{# ------------------------- #}
+
+
+
 
 
 

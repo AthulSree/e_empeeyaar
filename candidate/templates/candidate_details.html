@@ -46,7 +46,7 @@
                     </div>
                 </div> {# ----------- Form begin ----------------- #}
                 <form class="row g-3 needs-validation formblockcontent" novalidate action="{% url 'add_candidates' %}"
-                    method="post">
+                    method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="hidden" name="cand_id" id="id_cand_id">
                     <input type="hidden" name="cand_addmode" id="id_cand_addmode" value="add">
@@ -78,7 +78,10 @@
                         <label class="form-label">Joining Date</label>
                         <input type="date" class="form-control" name="cand_join_date" id="id_cand_join_date" required>
                     </div>
-                    <div class="col-12">
+                    <div class="col-md-8">
+                        <input type="file" class="form-control" name="profile_pic">
+                    </div>
+                    <div class="col-md-4">
                         <button class="btn btn-primary addcandidate" type="submit">Save Candidate</button>
                         <button class="btn btn-success updatecandidate" type="submit">Update Candidate</button>
                     </div>
