@@ -48,7 +48,6 @@ def addcandidate(request):
         elif(request.POST.get('cand_addmode')=='edit'):
              try:
                   c_id = request.POST.get('cand_id')
-                  print(c_id)
                   candidate = Candidate.objects.get(c_id=c_id)
                   candidate.name=name
                   candidate.designation=desig
