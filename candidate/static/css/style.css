@@ -436,7 +436,7 @@ body {
   position: relative;
   display: block;
   height: 100% !important;
-  width: 100%;
+  width: 80%;
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;
   text-decoration: none;
@@ -454,7 +454,8 @@ body {
   right: 0;
   z-index: 1;
   border-radius: calc(var(--curve) * 1px);
-  background-color: var(--surface-color);
+  /* background-color: var(--surface-color); */
+  background-color: #e1e1e1;
   transform: translateY(100%);
   transition: .2s ease-in-out;
 }
@@ -468,9 +469,10 @@ body {
   display: flex;
   align-items: center;
   gap: 2em;
-  padding: 2em;
+  padding: 2em 2em 0em 2em;
   border-radius: calc(var(--curve) * 1px) 0 0 0;
-  background-color: var(--surface-color);
+  /* background-color: var(--surface-color); */
+  background-color: #e1e1e1;
   transform: translateY(-100%);
   transition: .2s ease-in-out;
 }
@@ -520,7 +522,7 @@ body {
 }
 
 .card__description {
-  padding: 0 2em 2em;
+  padding: 1em 0em 1em 1em;
   margin: 0;
   color: #D7BDCA;
   font-family: "MockFlowFont";

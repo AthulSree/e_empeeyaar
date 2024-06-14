@@ -21,7 +21,7 @@
 <ul class="cards">
     <li>
         <a href="" class="card_dash">
-            <img src="{% static 'img/athul.png' %}" class="card__image" alt="" />
+            <img src="{% static 'img/propic.png' %}" class="card__image" alt="" />
             <div class="card__overlay">
                 <div class="card__header">
                     <svg class="card__arc" >
@@ -40,7 +40,7 @@
     </li>
     <li>
         <a href="" class="card_dash">
-            <img src="{% static 'img/nisanth.png' %}" class="card__image" alt="" />
+            <img src="{% static 'img/propic.png' %}" class="card__image" alt="" />
             <div class="card__overlay">
                 <div class="card__header">
                     <svg class="card__arc" >
@@ -59,7 +59,7 @@
     </li>
     <li>
         <a href="" class="card_dash">
-            <img src="{% static 'img/sreeraj.png' %}" class="card__image" alt="" />
+            <img src="{% static 'img/propic.png' %}" class="card__image" alt="" />
             <div class="card__overlay">
                 <div class="card__header">
                     <svg class="card__arc" >
@@ -78,7 +78,7 @@
     </li>
     <li>
         <a href="" class="card_dash">
-            <img src="{% static 'img/simi.png' %}" class="card__image" alt="" />
+            <img src="{% static 'img/propic.png' %}" class="card__image" alt="" />
             <div class="card__overlay">
                 <div class="card__header">
                     <svg class="card__arc" >
@@ -105,7 +105,7 @@
 
         <li>
             <a href="" class="card_dash">
-                <img src="{% static 'img/anujith.png' %}" class="card__image" alt="" />
+                <img src="{% static 'img/propic.png' %}" class="card__image" alt="" />
                 <div class="card__overlay">
                     <div class="card__header">
                         <svg class="card__arc">
@@ -117,15 +117,25 @@
                             <span class="badge rounded-pill bg-secondary">Total Leaves - 3</span>
                         </div>
                     </div>
-                    <p class="card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores,
-                        blanditiis?</p>
+                    <p class="card__description">
+                        <center><form action="{% url 'pdf' %}" method="post">
+                            {% csrf_token %}
+                            {# <input value="{{ csrf_token }}"> #}
+                            <input type="hidden" name="age" value="3">
+                            <input type="hidden" name="mode" value="1">
+                            <!-- <button >print pdf</button> -->
+                            <button class="btn btn-primary btn-sm" style="border-radius: 1em 0em 0em 1em ; background: linear-gradient(to right, #274060, #1B2845)" type="submit">MPR</button>
+                            <button class="btn btn-success btn-sm" style="border-radius: 0em 1em 1em 0em; background: linear-gradient(to right, #1B2845, #274060)"type="submit">LAC</button>
+                        </center>
+                        </form>        
+                    </p>
                 </div>
             </a>
         </li>
 
         <li>
             <a href="" class="card_dash">
-                <img src="{% static 'img/vimal.png' %}" class="card__image" alt="" />
+                <img src="{% static 'img/propic.png' %}" class="card__image" alt="" />
                 <div class="card__overlay">
                     <div class="card__header">
                         <svg class="card__arc">
