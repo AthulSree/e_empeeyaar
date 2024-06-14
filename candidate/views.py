@@ -37,10 +37,11 @@ def addcandidate(request):
         proj_no = request.POST.get('cand_proj_num')
         join_date = request.POST.get('cand_join_date')
         profile_pic = request.FILES.get('profile_pic')
+        gender = request.POST.get('cand_gender')
         # ------ Add candidate
         if(request.POST.get('cand_addmode')=='add'):
             try:
-                candidate = Candidate.objects.create(name=name, designation=desig, joining_date=join_date, project_no=proj_no, workorder_no=wonum, entered_time=datetime.now(), image=profile_pic)            
+                candidate = Candidate.objects.create(name=name, designation=desig, joining_date=join_date, project_no=proj_no, workorder_no=wonum, entered_time=datetime.now(), image=profile_pic, gender=gender)            
                 return HttpResponseRedirect(reverse('add_candidate_success')+'?pagestat=200')
             except Exception as e:
                 context = {'option':'candidatedetails','msg':str(e), 'pagestat':'500'}
@@ -55,7 +56,9 @@ def addcandidate(request):
                   candidate.joining_date=join_date
                   candidate.project_no=proj_no
                   candidate.workorder_no=wonum
-                  candidate.image=profile_pic
+                  if(profile_pic != None):
+                    candidate.image=profile_pic
+                  candidate.gender=gender
                   candidate.save()
                   return HttpResponseRedirect(reverse('add_candidate_success')+'?pagestat=204')
              except Exception as e:

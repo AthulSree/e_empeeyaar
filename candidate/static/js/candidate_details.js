@@ -7,7 +7,9 @@ $(document).ready(function(){
 
     pagestat = $('#id_pagestat').val();
     if(pagestat == '200'){
-        showToast('Successfully Updated','green');
+        showToast('Successfully added new candidate','green');
+    } else if (pagestat == '204') {
+        showToast('Successfully updated', 'greeen');
     } else if (pagestat == '500'){
         showToast('Error occurred! Odikko','red');
     }
@@ -53,6 +55,7 @@ $(document).ready(function(){
         $('#id_cand_addmode').val('edit')
 
         c_id = $(this).data('candid');
+        c_gender = $(this).data('gender');
         classname = $('#AddNewAccordion').attr('class')
             if(classname == 'collapse'){
                 $('#id_addNewAccordion').trigger('click')
@@ -71,6 +74,7 @@ $(document).ready(function(){
         $('#id_cand_wonumber').val(candidate_details[2])
         $('#id_cand_proj_num').val(candidate_details[3])
         $('#id_cand_join_date').val(formattedjoiningDate)
+        $('#id_cand_gender').val(c_gender)
     })
 
 

@@ -2,114 +2,110 @@
 
 {% load static %}
 {% block content %}
-<!-- for header part -->
-<div class="main">
-    {# <center><button type="button" class="btn btn-secondary btn-lg">Add New +</button></center> #}
-
-    <div class="searchbar2">
-        <input type="text" name="" id="" placeholder="Search">
-        <div class="searchbtn">
-            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
-                class="icn srchicn" alt="search-button">
-        </div>
-    </div>
-
-    <center>
-        {% if pagestat != NULL %}
-            <input type="hidden" id="id_pagestat" value="{{pagestat}}">
-        {% endif %}
-
-        {# ------- Accordion Begin ------------------------ #}
-        <p>
-            <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" id="id_addNewAccordion"
-                data-bs-target="#AddNewAccordion" aria-expanded="false" aria-controls="AddNewAccordion">
-                Add New +
-            </button>
-        </p>
-
-        <div class="collapse" id="AddNewAccordion">
-
-            <div class="card card-body">
-                {# ---- password block--- #}
-                <div class="row g-3 align-items-center passwordblock">
-                    <div class="col-auto">
-                        <label for="inputPassword6" class="col-form-label">Password</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="password" id="inputPassword" class="form-control"
-                            aria-describedby="passwordHelpInline">
-                    </div>
-                    <div class="col-auto">
-                        <span id="passwordHelpInline" class="form-text">
-                            <button class="btn btn-info" id="pass_check">GO</button>
-                        </span>
-                    </div>
-                </div> {# ----------- Form begin ----------------- #}
-                <form class="row g-3 needs-validation formblockcontent" novalidate action="{% url 'add_candidates' %}"
-                    method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" name="cand_id" id="id_cand_id">
-                    <input type="hidden" name="cand_addmode" id="id_cand_addmode" value="add">
-                    <div class="col-md-4">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-control" name="cand_name" id="id_cand_name" required>
-                    </div>
-                    <div class="col-md-5">
-                        <label class="form-label">Designation</label>
-                        <input type="text" class="form-control" name="cand_desig" id="id_cand_desig" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Agency</label>
-                        <select class="form-select" name="cand_agency" id="id_cand_agency">
-                            <option value="AEOLOGIC">AEOLOGIC</option>
-                            <option value="SISL">SISL</option>
-                            <option value="AKAL">AKAL</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Work Order Number</label>
-                        <input type="text" class="form-control" name="cand_wonumber" id="id_cand_wonumber" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Project Number</label>
-                        <input type="text" class="form-control" name="cand_proj_num" id="id_cand_proj_num" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Joining Date</label>
-                        <input type="date" class="form-control" name="cand_join_date" id="id_cand_join_date" required>
-                    </div>
-                    <div class="col-md-8">
-                        <input type="file" class="form-control" name="profile_pic">
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-primary addcandidate" type="submit">Save Candidate</button>
-                        <button class="btn btn-success updatecandidate" type="submit">Update Candidate</button>
-                    </div>
-                </form>
-                {# --------------- Form end ------------------- #}
-            </div>
-        </div>
-
-    </center>
+	<!-- for header part -->
+	<div
+		class="main">
+		{# <center><button type="button" class="btn btn-secondary btn-lg">Add New +</button></center> #}
 
 
-    <div class="report-container">
-        <div class="report-header">
-            <h1 class="recent-Articles">Candidate List</h1>
-            <input type="hidden" id="show_all_candidates" data-viewallurl="{% url 'showall_candidates' %}"></input>
-        </div>
+		<center>
+			{% if pagestat != NULL %}
+				<input type="hidden" id="id_pagestat" value="{{pagestat}}">
+			{% endif %}
 
-        <div class="report-body" id="show_all_candidates_table">
-            {# table goes here #}
-        </div>
-    </div>
+			{# ------- Accordion Begin ------------------------ #}
+			<p>
+				<button class="btn btn-secondary" type="button" data-bs-toggle="collapse" id="id_addNewAccordion" data-bs-target="#AddNewAccordion" aria-expanded="false" aria-controls="AddNewAccordion">
+					Add New +
+				</button>
+			</p>
+
+			<div class="collapse" id="AddNewAccordion">
+
+				<div
+					class="card card-body">
+					{# ---- password block--- #}
+					<div class="row g-3 align-items-center passwordblock">
+						<div class="col-auto">
+							<label for="inputPassword6" class="col-form-label">Password</label>
+						</div>
+						<div class="col-auto">
+							<input type="password" id="inputPassword" class="form-control" aria-describedby="passwordHelpInline">
+						</div>
+						<div class="col-auto">
+							<span id="passwordHelpInline" class="form-text">
+								<button class="btn btn-info" id="pass_check">GO</button>
+							</span>
+						</div>
+					</div>
+					{# ----------- Form begin ----------------- #}
+					<form class="row g-3 needs-validation formblockcontent" novalidate action="{% url 'add_candidates' %}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<input type="hidden" name="cand_id" id="id_cand_id">
+						<input type="hidden" name="cand_addmode" id="id_cand_addmode" value="add">
+						<div class="col-md-6">
+							<label class="form-label">Name</label>
+							<input type="text" class="form-control" name="cand_name" id="id_cand_name" required>
+						</div>
+
+						<div class="col-md-3">
+							<label class="form-label">Gender</label>
+							<select class="form-select" name="cand_gender" id="id_cand_gender">
+								<option value="M" selected>Male</option>
+								<option value="F">Female</option>
+							</select>
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">Agency</label>
+							<select class="form-select" name="cand_agency">
+								<option value="AEOLOGIC">AEOLOGIC</option>
+							</select>
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">WO Number</label>
+							<input type="text" class="form-control" name="cand_wonumber" id="id_cand_wonumber" required>
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Project Number</label>
+							<input type="text" class="form-control" name="cand_proj_num" id="id_cand_proj_num" required>
+						</div>
+						<div class="col-md-4">
+							<label class="form-label">Joining Date</label>
+							<input type="date" class="form-control" name="cand_join_date" id="id_cand_join_date" required>
+						</div>
+						<div class="col-md-12">
+							<label class="form-label">Upload Profile Pic</label>
+							<input type="file" class="form-control" name="profile_pic">
+						</div>
+						<div class="col-md-12">
+							<label class="form-label">Designation</label>
+							<textarea row="1" type="text" class="form-control" name="cand_desig" id="id_cand_desig" required></textarea>
+						</div>
+						<div class="col-md-4">
+							<button class="btn btn-primary addcandidate" type="submit">Save Candidate</button>
+							<button class="btn btn-success updatecandidate" type="submit">Update Candidate</button>
+						</div>
+					</form>
+					{# --------------- Form end ------------------- #}
+				</div>
+			</div>
+
+		</center>
+
+
+		<div class="report-container">
+			<div class="report-header">
+				<h1 class="recent-Articles">Candidate List</h1>
+				<input type="hidden" id="show_all_candidates" data-viewallurl="{% url 'showall_candidates' %}"></input>
+		</div>
+
+		<div
+			class="report-body" id="show_all_candidates_table">{# table goes here #}
+		</div>
+	</div>
 
 
 </div>
 
 
-
-
-
-<script src="{% static 'js/candidate_details.js' %}"></script>
-{% endblock %}
+<script src="{% static 'js/candidate_details.js' %}"></script>{% endblock %}
