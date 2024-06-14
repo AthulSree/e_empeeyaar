@@ -5,6 +5,7 @@ from django.db import models  # type: ignore
 class Candidate(models.Model):
     c_id = models.AutoField(primary_key = True)
     name = models.CharField(max_length = 50)
+    gender = models.CharField(max_length=1)
     designation = models.CharField(max_length = 200)
     joining_date = models.DateField()
     project_no = models.CharField(max_length = 20)
