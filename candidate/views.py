@@ -4,9 +4,10 @@ from django.template import loader # type: ignore
 from django.template.loader import render_to_string # type: ignore
 from django.urls import reverse # type: ignore
 from .models import Candidate,LeaveRecords
-from datetime import datetime
+from datetime import datetime,date
 from django.utils.dateparse import parse_date  # type: ignore
 import pdfkit # type: ignore
+import calendar
 from my_mpr.settings import WKHTMLTOPDF_PATH,MPR_HTML_HEAD,SIGNED_MPR_SIGN_IMG_PATH  # type: ignore
 
 
@@ -15,7 +16,16 @@ config = pdfkit.configuration(wkhtmltopdf = WKHTMLTOPDF_PATH)
 
 
 def dashboard(request):
-    context = {'option':'dashboard'}  # Add your context data here
+    today = datetime.today()
+    month = request.session.get('cur_month_selected',today.month)
+    year = request.session.get('cur_year_selected',today.year)
+    request.session['cur_month_selected'] = month #setting session for month
+    request.session['cur_year_selected'] = year #setting session for year
+
+    query = " SELECT   C.c_id,C.name,C.image,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s "
+    leaves = Candidate.objects.raw(query,[month,year])
+    context = {'option':'dashboard','leave_records':leaves,'month_year':f"{month}/{year}"}
+
     return render(request, 'dashboard.html', context)
 
 
@@ -24,7 +34,6 @@ def dashboard(request):
 def candidatelist(request):
     context = {'option':'candidatedetails'}
     return render(request, 'candidate_details.html', context)
-
 
 
 
@@ -94,7 +103,7 @@ def leaveRecordList(request):
 def leaveUpdatelist(request):
      month = request.session['cur_month_selected']
      year = request.session['cur_year_selected']
-     query = " SELECT   C.c_id,C.name,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s "
+     query = " SELECT   C.c_id,C.name,C.image,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s "
      leaves = Candidate.objects.raw(query,[month,year])
      context = {'leave_records':leaves,'month_year':f"{month}/{year}"}
      return render(request,'leaveRecords_table.html',context)
@@ -156,15 +165,63 @@ def gen_mpr(request):
 
 
 def generatepdf(request):
-    absent_no = request.POST['age']
+    cand_id = request.POST['cand_id']
     mode = request.POST['mode']
-    # pdf = pdfkit.from_url(request.build_absolute_uri(reverse('gen_mpr')),False, configuration=config)
-    context = {'absent_no':absent_no,'from_date':'01/06/2024','html_header':MPR_HTML_HEAD, 'SIGNED_MPR_SIGN_IMG_PATH':SIGNED_MPR_SIGN_IMG_PATH}
+    s_month = request.session['cur_month_selected']
+    s_year = request.session['cur_year_selected']
+    s_mprformonth = request.session['mprformonth']
+    today = date.today()
 
-    if(mode == '1'):
-        html_content = render_to_string('mpr.html', context)
+
+    candidateDetails = Candidate.objects.get(c_id = cand_id)
+    name = candidateDetails.name
+    designation = candidateDetails.designation
+    project_no = candidateDetails.project_no
+    workorder_no = candidateDetails.workorder_no
+    gender = candidateDetails.gender
+    joining_date = candidateDetails.joining_date
+    joining_date_f = joining_date.strftime('%d/%m/%Y')
+
+    from_date = date(today.year,today.month,1)
+    from_date_f = from_date.strftime('%d/%m/%Y')
+    to_date = date(today.year,today.month,calendar.monthrange(today.year,today.month)[1])
+    to_date_f = to_date.strftime('%d/%m/%Y')
+
+
+    leavedetails = LeaveRecords.objects.get(c_id = cand_id, month = s_month, year = s_year)
+    leaves = leavedetails.no_of_leaves
+    leave_days = leavedetails.paid_leave_days
+    leave_list = ''
+
+
+    if(leaves > 0):
+        if((leavedetails.non_paid_leave_days) != ""):
+            leave_days = leave_days +","+leavedetails.non_paid_leave_days
+
+        leave_arr = leave_days.split(',')
+        leaveFormat = []
+
+        for days in leave_arr :
+            leaveFormat.append(datetime.strptime(f"{days}/{s_month}/{s_year}","%d/%m/%Y").strftime("%d/%m/%Y"))
+
+        if len(leaveFormat) > 1:
+            leave_list = ", ".join(leaveFormat[:-1]) + " and " + leaveFormat[-1]
+        else:
+            leave_list = leaveFormat[0]
+
+
+
+    mpr_context = {'proj_no': project_no, 'mpr_for_month': s_mprformonth, 'wo_no': workorder_no, 'name': name, 'designation': designation, 'doj':joining_date_f, 'from_date':from_date_f, 'to_date':to_date_f, 'leave_no': leaves, 'html_header':MPR_HTML_HEAD,'SIGNED_MPR_SIGN_IMG_PATH':SIGNED_MPR_SIGN_IMG_PATH}
+
+
+    lac_context = {'project_no': project_no, 'work_order_no': workorder_no, 'cand_name': name, 'gender':gender, 'leave_no': leaves, 'leave_list': leave_list, 'html_header':MPR_HTML_HEAD }
+
+    if(mode == 'mpr'):
+        html_content = render_to_string('mpr.html', mpr_context)
+    if(mode == 'lac'):
+        html_content = render_to_string('lac.html', lac_context)
     elif(mode == '2'):
-        html_content = render_to_string('mpr_with_sign.html',context) 
+        html_content = render_to_string('mpr_with_sign.html',mpr_context) 
 
     options = {
         'page-size': 'Letter',

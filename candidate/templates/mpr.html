@@ -1,97 +1,93 @@
-
 {{html_header|safe}}
 
-	<body>
-		<center>
-			<h1 style="font-weight:bold;font-size: 38px;">
-				<u>Monthly Performance Reporst</u>
-			</h1>
-		</center>
-		<br><br>
-		<div class="column">
-			<div class="row justify-content-start">
-				<div class="col-1"></div>
-				<div class="col-2">
-					<b>Project No:</b>
-				</div>
-				<div class="col-2">
-					<b>S222021GNKL</b>
-				</div>
-				<div class="col-3"></div>
-				<div class="col-2">
-					<b>MPR for the Month:</b>
-				</div>
-				<div class="col-2">
-					<b>July 2023</b>
-				</div>
-			</div>
-		</div>
-		<br>
-		<div class="column">
-			<div class="row justify-content-start">
-				<div class="col-1"></div>
-				<div class="col-2">
-					<b>Work Order No:</b>
-				</div>
-				<div class="col-2">
-					<b>M2302642</b>
-				</div>
-			</div>
-		</div>
-
-		<br><br>
-		<table class="table table-bordered border-dark">
-			<thead>
-				<tr>
-					<th rowspan="2">Sl no</th>
-					<th rowspan="2">Name</th>
-					<th rowspan="2">Designation</th>
-					<th rowspan="2">Date of Joining</th>
-					<th colspan="2">Working Period</th>
-					<th rowspan="2" class="absstyle">Absent</th>
-				</tr>
-				<tr>
-					<th>From</th>
-					<th>TO</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>1</td>
-					<td>ATHUL SREEKUMAR</td>
-					<td>Developer – Tier-3, Level 4</td>
-					<td>01/05/2023</td>
-					<td>{{from_date}}</td>
-					<td>31/07/2023</td>
-					<td class="absstyle">{{absent_no}}</td>
-				</tr>
-			</tbody>
-		</table>
-	</body>
-
+<body>
+	<center>
+		<h1 style="font-weight:bold;font-size: 38px;">
+			<u>Monthly Performance Report</u>
+		</h1>
+	</center>
 	<br><br>
-
 	<div class="column">
 		<div class="row justify-content-start">
 			<div class="col-1"></div>
-			<div class="col-10">
-				<b>Performance of the above Resource found satisfactory</b>
+			<div class="col-2">
+				<b>Project No:</b>
+			</div>
+			<div class="col-2">
+				<b>{{proj_no}}</b>
+			</div>
+			<div class="col-3"></div>
+			<div class="col-2">
+				<b>MPR for the Month:</b>
+			</div>
+			<div class="col-2">
+				<b>{{mpr_for_month}}</b>
 			</div>
 		</div>
 	</div>
-
-	<br><br>
-	<br><br>
-
+	<br>
 	<div class="column">
 		<div class="row justify-content-start">
-			<div class="col-7"></div>
-			<div class="col-5">
-				<b>Signature with date of the Reporting officer with Stamp</b>
+			<div class="col-1"></div>
+			<div class="col-2">
+				<b>Work Order No:</b>
+			</div>
+			<div class="col-2">
+				<b>{{wo_no}}</b>
+
 			</div>
 		</div>
 	</div>
 
+	<br><br>
+	<table class="table table-bordered border-dark">
+		<thead>
+			<tr>
+				<th rowspan="2">Sl no</th>
+				<th rowspan="2" style="width:6em">Name</th>
+				<th rowspan="2">Designation</th>
+				<th rowspan="2"  style="width:1em">Date of Joining</th>
+				<th colspan="2">Working Period</th>
+				<th rowspan="2" class="absstyle">Absent</th>
+			</tr>
+			<tr>
+				<th>From</th>
+				<th>To</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td style="width:6em">{{name}}</td>
+				<td style="font-size:20px">{{designation}}</td>
+				<td  style="width:1em">{{doj}}</td>
+				<td>{{from_date}}</td>
+				<td>{{to_date}}</td>
+				<td class="absstyle">{{leave_no}}</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
 
-</html>
+<br><br>
 
+<div class="column">
+	<div class="row justify-content-start">
+		<div class="col-1"></div>
+		<div class="col-10">
+			<b>Performance of the above Resource found satisfactory</b>
+		</div>
+	</div>
+</div>
+
+<br><br>
+<br><br>
+
+<div class="column">
+	<div class="row justify-content-start">
+		<div class="col-7"></div>
+		<div class="col-5">
+			<b>Signature with date of the Reporting officer with Stamp</b>
+		</div>
+	</div>
+</div></html>

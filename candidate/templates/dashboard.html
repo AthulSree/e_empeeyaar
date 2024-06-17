@@ -3,156 +3,59 @@
 
 
 {% block content %}
-    <!-- for header part -->
+<!-- for header part -->
 
-        <div class="main">
 
-            <div class="searchbar2">
-                <input type="text" name="" id="" placeholder="Search">
-                <div class="searchbtn">
-                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
-                        class="icn srchicn" alt="search-button">
-                </div>
-            </div>
 
 
 
 {# ------------------------- #}
 <ul class="cards">
+    {% for items in leave_records %}
     <li>
         <a href="" class="card_dash">
-            <img src="{% static 'img/propic.png' %}" class="card__image" alt="" />
+            <img src="{{items.image.url}}" class="card__image" alt="" />
             <div class="card__overlay">
                 <div class="card__header">
-                    <svg class="card__arc" >
+                    <svg class="card__arc">
                         <path />
                     </svg>
+                    {% if items.no_of_leaves != None %}
                     <img class="card__thumb" src="{% static 'img/verified.png' %}" alt="" />
                     <div class="card__header-text">
-                        <h3 class="card__title">ATHUL SREEKUMAR</h3>
-                        <span class="badge rounded-pill bg-secondary">Total Leaves - 1</span>
-                    </div>
-                </div>
-                <p class="card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores,
-                    blanditiis?</p>
-            </div>
-        </a>
-    </li>
-    <li>
-        <a href="" class="card_dash">
-            <img src="{% static 'img/propic.png' %}" class="card__image" alt="" />
-            <div class="card__overlay">
-                <div class="card__header">
-                    <svg class="card__arc" >
-                        <path />
-                    </svg>
-                    <img class="card__thumb" src="{% static 'img/warning.png' %}" alt="" />
-                    <div class="card__header-text">
-                        <h3 class="card__title">Jessica Parker</h3>
-                        <span class="badge rounded-pill bg-secondary">Total Leaves - 3</span>
-                    </div>
-                </div>
-                <p class="card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores,
-                    blanditiis?</p>
-            </div>
-        </a>
-    </li>
-    <li>
-        <a href="" class="card_dash">
-            <img src="{% static 'img/propic.png' %}" class="card__image" alt="" />
-            <div class="card__overlay">
-                <div class="card__header">
-                    <svg class="card__arc" >
-                        <path />
-                    </svg>
-                    <img class="card__thumb" src="{% static 'img/warning.png' %}" alt="" />
-                    <div class="card__header-text">
-                        <h3 class="card__title">Jessica Parker</h3>
-                        <span class="badge rounded-pill bg-secondary">Total Leaves - 3</span>
-                    </div>
-                </div>
-                <p class="card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores,
-                    blanditiis?</p>
-            </div>
-        </a>
-    </li>
-    <li>
-        <a href="" class="card_dash">
-            <img src="{% static 'img/propic.png' %}" class="card__image" alt="" />
-            <div class="card__overlay">
-                <div class="card__header">
-                    <svg class="card__arc" >
-                        <path />
-                    </svg>
-                    <img class="card__thumb" src="{% static 'img/warning.png' %}" alt="" />
-                    <div class="card__header-text">
-                        <h3 class="card__title">Jessica Parker</h3>
-                        <span class="card__status">1 hour ago</span>
+                        <h3 class="card__title">{{items.name}}</h3>
+                        <span class="badge rounded-pill bg-secondary">Total Leaves - {{items.no_of_leaves}}</span>
                     </div>
                 </div>
                 <p class="card__description">
-                <form action="{% url 'pdf' %}" method="post">
-                    {% csrf_token %}
-                    {# <input value="{{ csrf_token }}"> #}
-                    <input name="age" value="3">
-                    <input name="mode" value="1">
-                    <button type="submit">print pdf</button>
-                </form>
+                    <center>
+                        <form action="{% url 'pdf' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="cand_id" value="{{items.c_id}}">
+                            <input type="hidden" name="mode" id="id_pdftype">
+                            <button class="btn btn-primary btn-sm pdf_print mprprint"
+                                style="border-radius: 1em 0em 0em 1em ; background: linear-gradient(to right, #274060, #1B2845)"
+                                type="submit">MPR</button>
+                            <button class="btn btn-success btn-sm pdf_print lacprint"
+                                style="border-radius: 0em 1em 1em 0em; background: linear-gradient(to right, #1B2845, #274060)"
+                                type="submit">LAC</button>
+                    </form>
+                    </center>
                 </p>
+                {% else %}
+                <img class="card__thumb" src="{% static 'img/warning.png' %}" alt="" />
+                <div class="card__header-text">
+                    <h3 class="card__title">{{items.name}}</h3>
+                    <span class="badge rounded-pill bg-danger">Update Leaves!</span>
+                </div>
+            </div>
+            {% endif %}
             </div>
         </a>
     </li>
+    {% endfor %}
 
-        <li>
-            <a href="" class="card_dash">
-                <img src="{% static 'img/propic.png' %}" class="card__image" alt="" />
-                <div class="card__overlay">
-                    <div class="card__header">
-                        <svg class="card__arc">
-                            <path />
-                        </svg>
-                        <img class="card__thumb" src="{% static 'img/warning.png' %}" alt="" />
-                        <div class="card__header-text">
-                            <h3 class="card__title">Jessica Parker</h3>
-                            <span class="badge rounded-pill bg-secondary">Total Leaves - 3</span>
-                        </div>
-                    </div>
-                    <p class="card__description">
-                        <center><form action="{% url 'pdf' %}" method="post">
-                            {% csrf_token %}
-                            {# <input value="{{ csrf_token }}"> #}
-                            <input type="hidden" name="age" value="3">
-                            <input type="hidden" name="mode" value="1">
-                            <!-- <button >print pdf</button> -->
-                            <button class="btn btn-primary btn-sm" style="border-radius: 1em 0em 0em 1em ; background: linear-gradient(to right, #274060, #1B2845)" type="submit">MPR</button>
-                            <button class="btn btn-success btn-sm" style="border-radius: 0em 1em 1em 0em; background: linear-gradient(to right, #1B2845, #274060)"type="submit">LAC</button>
-                        </center>
-                        </form>        
-                    </p>
-                </div>
-            </a>
-        </li>
 
-        <li>
-            <a href="" class="card_dash">
-                <img src="{% static 'img/propic.png' %}" class="card__image" alt="" />
-                <div class="card__overlay">
-                    <div class="card__header">
-                        <svg class="card__arc">
-                            <path />
-                        </svg>
-                        <img class="card__thumb" src="{% static 'img/warning.png' %}" alt="" />
-                        <div class="card__header-text">
-                            <h3 class="card__title">Jessica Parker</h3>
-                            <span class="badge rounded-pill bg-secondary">Total Leaves - 3</span>
-                        </div>
-                    </div>
-                    <p class="card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores,
-                        blanditiis?</p>
-                </div>
-            </a>
-        </li>
-  
 </ul>
 
 {# ------------------------- #}
@@ -163,9 +66,9 @@
 
 
 
-        </div>
+</div>
 
 
-        
+
 
 {% endblock %}

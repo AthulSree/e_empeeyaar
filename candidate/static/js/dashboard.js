@@ -27,6 +27,15 @@ $(document).on('change','#id_curr_month',function(){
     })
 })
 
+$(document).on('click','.pdf_print', function(){
+    mprprint = $(this).hasClass('mprprint')
+    pdftypeEle = $(this).closest('form').find('#id_pdftype')
+    if(mprprint){
+        pdftypeEle.val('mpr')
+    }else{
+        pdftypeEle.val('lac')
+    }
+})
 
 function showToast(message, bgColor = '#333') {
     const toastContainer = $('#toast-container');
