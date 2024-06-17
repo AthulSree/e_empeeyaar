@@ -31,22 +31,62 @@ $(document).ready(function(){
     })
 
 
-    $(document).on('click','.updateleaverecord', function(){
+    // $(document).on('click','.updateleaverecord', function(){
+    //     var paidleaves = $(this).closest('tr').find('.paidleavedays').val();
+    //     var non_paidleaves = $(this).closest('tr').find('.non_paidleavedays').val();
+    //     var cand_id = $(this).data('candid');
+    //     var path = $(this).data('path');
+
+    //         var att_graph_meta = $(this).closest('tr').find('#att_graph')
+    //         var att_details_meta = $(this).closest('tr').find('#att_details')
+    //         att_graph = att_graph_meta[0].files[0]
+    //         att_details = att_details_meta[0].files[0]
+
+    //     console.log(att_graph, att_details);
+    //     $.ajax({
+    //         url : path,
+    //         type : 'POST',
+    //         data: { 'csrfmiddlewaretoken': csrf_token, paidleaves, non_paidleaves, cand_id, att_graph, att_details},
+    //         success: function(response){
+    //             // alert()
+    //             leave_list();
+    //         }
+    //     })
+    // })
+
+    $(document).on('click', '.updateleaverecord', function () {
         var paidleaves = $(this).closest('tr').find('.paidleavedays').val();
         var non_paidleaves = $(this).closest('tr').find('.non_paidleavedays').val();
         var cand_id = $(this).data('candid');
         var path = $(this).data('path');
 
-        console.log(paidleaves,non_paidleaves,cand_id);
+        var att_graph_meta = $(this).closest('tr').find('#att_graph');
+        var att_details_meta = $(this).closest('tr').find('#att_details');
+        var att_graph = att_graph_meta[0].files[0];
+        var att_details = att_details_meta[0].files[0];
+
+        var formData = new FormData();
+        formData.append('csrfmiddlewaretoken', csrf_token);
+        formData.append('paidleaves', paidleaves);
+        formData.append('non_paidleaves', non_paidleaves);
+        formData.append('cand_id', cand_id);
+        formData.append('att_graph', att_graph);
+        formData.append('att_details', att_details);
+
         $.ajax({
-            url : path,
-            type : 'POST',
-            data: { 'csrfmiddlewaretoken': csrf_token, paidleaves, non_paidleaves, cand_id},
-            success: function(response){
-                // alert()
+            url: path,
+            type: 'POST',
+            data: formData,
+            processData: false,  // Prevent jQuery from automatically transforming the data into a query string
+            contentType: false,  // Let the browser set the content type, including the boundary for multipart/form-data
+            success: function (response) {
                 leave_list();
+            },
+            error: function (xhr, status, error) {
+                console.error('Upload failed:', error);
             }
-        })
-    })
+        });
+    });
+
 
 })

@@ -28,6 +28,8 @@ class LeaveRecords(models.Model):
     paid_leave_days = models.CharField(max_length=50,null=False)
     non_paid_leave_days = models.CharField(max_length=50,null=False,default='')
     no_of_leaves = models.IntegerField(null=False)
+    att_graph = models.ImageField(upload_to='photos/')
+    att_details = models.ImageField(upload_to='photos/')
 
     def __str__(self) -> str:
         return f"{self.no_of_leaves} - {self.Candidate.name}"

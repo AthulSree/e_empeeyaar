@@ -550,3 +550,31 @@ body {
   border-radius: 50%;
   object-fit: cover;
 }
+/* ----------dashboard */
+.pdf_print1{
+  border-radius: 1em 0em 0em 1em;
+  background: linear-gradient(to right, #274060, #1B2845)
+}
+.pdf_print2{
+  border-radius: 0em 1em 1em 0em;
+  background: linear-gradient(to right, #1B2845, #274060)
+}
+.pdf_print_attendance1{
+  border-radius: 1em 0em 0em 1em;
+  background: linear-gradient(to right, #CB218E, #6617CB)
+}
+.pdf_print_attendance2{
+  border-radius: 0em 1em 1em 0em;
+  background: linear-gradient(to right, #6617CB, #CB218E)
+}
+/* ------- */
+siv {
+  font-weight: bold;
+  font-style: italic;
+  color:green
+}
+piv {
+  font-weight: bold;
+  font-style: italic;
+  color:tomato
+}

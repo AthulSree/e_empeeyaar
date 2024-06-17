@@ -22,7 +22,7 @@ def dashboard(request):
     request.session['cur_month_selected'] = month #setting session for month
     request.session['cur_year_selected'] = year #setting session for year
 
-    query = " SELECT   C.c_id,C.name,C.image,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s "
+    query = " SELECT   C.c_id,L.id,C.name,C.image,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves,L.att_details,L.att_graph FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s "
     leaves = Candidate.objects.raw(query,[month,year])
     context = {'option':'dashboard','leave_records':leaves,'month_year':f"{month}/{year}"}
 
@@ -46,6 +46,7 @@ def addcandidate(request):
         proj_no = request.POST.get('cand_proj_num')
         join_date = request.POST.get('cand_join_date')
         profile_pic = request.FILES.get('profile_pic')
+        print(profile_pic)
         gender = request.POST.get('cand_gender')
         # ------ Add candidate
         if(request.POST.get('cand_addmode')=='add'):
@@ -103,7 +104,7 @@ def leaveRecordList(request):
 def leaveUpdatelist(request):
      month = request.session['cur_month_selected']
      year = request.session['cur_year_selected']
-     query = " SELECT   C.c_id,C.name,C.image,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s "
+     query = " SELECT   C.c_id,L.id,C.name,C.image,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves,L.att_details,L.att_graph FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s "
      leaves = Candidate.objects.raw(query,[month,year])
      context = {'leave_records':leaves,'month_year':f"{month}/{year}"}
      return render(request,'leaveRecords_table.html',context)
@@ -118,8 +119,19 @@ def leaveRecordSave(request):
           cand_id = req.get('cand_id')
           paid_leaves = req.get('paidleaves')
           non_paid_leaves = req.get('non_paidleaves')
+          att_graph = request.FILES.get('att_graph')
+          att_details = request.FILES.get('att_details')
+          print(att_details)
+          
+        #   if(att_graph == None):
+        #     att_graph_exist = LeaveRecords.objects.values('att_graph').get(c_id=cand_id,month=s_month,year=s_year)
+        #     att_graph = att_graph_exist['att_graph']
+        #   if(att_details == None):
+        #     att_details_exist = LeaveRecords.objects.values('att_details').get(c_id=cand_id,month=s_month,year=s_year)
+        #     att_details = att_details_exist['att_details']
 
-          delRecord = LeaveRecords.objects.filter(c_id=cand_id,month=6).delete()
+          LeaveRecords.objects.filter(c_id=cand_id,month=s_month,year=s_year).delete()
+
           candidate = Candidate.objects.get(c_id=cand_id)
           paidleaveArr = paid_leaves.split(',')
           nonpaidleaveArr = non_paid_leaves.split(',')
@@ -129,13 +141,17 @@ def leaveRecordSave(request):
           total_leaves = len(paidleaveArr)+len(nonpaidleaveArr)
           paid_leaves = ",".join(paidleaveArr)
           non_paid_leaves = ",".join(nonpaidleaveArr)
-          addRecord = LeaveRecords.objects.create(
-               year=s_year, 
-               month=s_month, 
-               paid_leave_days=paid_leaves, 
-               non_paid_leave_days=non_paid_leaves, 
-               c_id=candidate, 
-               no_of_leaves=total_leaves)
+   
+          LeaveRecords.objects.create(
+            year=s_year, 
+            month=s_month, 
+            paid_leave_days=paid_leaves, 
+            non_paid_leave_days=non_paid_leaves, 
+            c_id=candidate, 
+            no_of_leaves=total_leaves,
+            att_graph=att_graph,
+            att_details=att_details
+            )
           
           return JsonResponse({'msg':200})
 

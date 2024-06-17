@@ -4,23 +4,27 @@
 	<thead>
 		<tr>
 			<th scope="col">#</th>
-			<th scope="col">Month</th>
+			{# <th scope="col">Month</th> #}
 			<th scope="col">Name</th>
-			<th scope="col" class="leavecol">Paid Leave Days</th>
-			<th scope="col" class="leavecol">Non Paid Leave Days</th>
+			<th scope="col" class="leavecol">Paid Leaves</th>
+			<th scope="col" class="leavecol">Non Paid Leaves</th>
+			<th scope="col" >@1</th>
+			<th scope="col" >@2</th>
 			<th scope="col">Action</th>
 		</tr>
 	</thead>
 	<tbody>
 		{# {{leave_records}} #}
+		{% for items in leaves %}
+			{# {{items.att_details.url}} #}
+		{% endfor %}
 		{% for items in leave_records %}
-			{{items.paid_leave_Days}}
 
 
 			<tr>
 				<th scope="row">
 					{{forloop.counter}}</th>
-				<td>{{current_month}},{{current_year}}</td>
+				{# <td>{{current_month}},{{current_year}}</td> #}
 				<td>{{items.name}}</td>
 				<td class="paid_leave_Days leavecol">
 					<input class="form-control leaveentry paidleavedays">
@@ -39,7 +43,14 @@
 						{% endfor %}
 					</div>
 				</td>
-
+				<td style="width:30em !important" >
+					<input class="form-control leaveentry" type="file" id="att_graph" >
+					{% if items.att_graph != '' %} <siv>uploaded</siv>{% else %}<piv>Pending</piv>{% endif %}
+				</td>
+				<td style="width:30em !important" >
+					<input class="form-control leaveentry" type="file" id="att_details">
+					{% if items.att_details != '' %} <siv>uploaded</siv>{% else %}<piv>Pending</piv>{% endif %}
+				</td>
 				<td>
 					<button class="btn btn-success editleaverecord" data-candid="{{items.c_id}}" data-paidleaves="{{items.paid_leave_days}}" data-nonpaidleaves="{{items.non_paid_leave_days}}">Edit</button>
 					<button class="btn btn-info updateleaverecord" data-candid="{{items.c_id}}" data-path="{% url 'leaveRecord_Save' %}">Update</button>
