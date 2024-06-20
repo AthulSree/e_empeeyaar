@@ -24,7 +24,7 @@ def dashboard(request):
     request.session['cur_month_selected'] = month #setting session for month
     request.session['cur_year_selected'] = year #setting session for year
 
-    query = " SELECT   C.c_id,L.id,C.name,C.image,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves,L.att_details,L.att_graph FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s "
+    query = " SELECT   C.c_id,C.name,C.image,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves,L.att_details,L.att_graph,L.id FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s  order by c_id"
     leaves = Candidate.objects.raw(query,[month,year])
     context = {'option':'dashboard','leave_records':leaves,'month_year':f"{month}/{year}"}
 
@@ -106,7 +106,7 @@ def leaveRecordList(request):
 def leaveUpdatelist(request):
      month = request.session['cur_month_selected']
      year = request.session['cur_year_selected']
-     query = " SELECT   C.c_id,L.id,C.name,C.image,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves,L.att_details,L.att_graph FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s "
+     query = " SELECT   C.c_id,L.id,C.name,C.image,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves,L.att_details,L.att_graph FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s order by c_id"
      leaves = Candidate.objects.raw(query,[month,year])
      context = {'leave_records':leaves,'month_year':f"{month}/{year}"}
      return render(request,'leaveRecords_table.html',context)
