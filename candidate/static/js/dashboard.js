@@ -37,6 +37,27 @@ $(document).on('click','.pdf_print', function(){
     }
 })
 
+
+$(document).on('click','#send_whatsapp_msg',function(){
+    path = $(this).data('url')
+    var csrf_token = $('#csrf_token').val();
+    $.ajax({
+        url:path,
+        type:'post',
+        data: { 'csrfmiddlewaretoken': csrf_token },
+        success: function (status) {
+            if(status['status']==400){
+                showToast('Message send successfully','green')
+            }
+        }
+    })
+})
+
+
+
+
+
+
 function showToast(message, bgColor = '#333') {
     const toastContainer = $('#toast-container');
     const toast = $('<div class="toast"></div>').text(message).css('background-color', bgColor);

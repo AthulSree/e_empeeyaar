@@ -17,7 +17,8 @@ urlpatterns = [
     path('leaveRecordList',views.leaveRecordList, name='leave_records'),
     path('leaveUpdatelist',views.leaveUpdatelist, name='leaveUpdate_list'),
     path('leaveRecordSave',views.leaveRecordSave, name='leaveRecord_Save'),
-    path('changeMonth',views.changeMonth, name='change_month')
+    path('changeMonth',views.changeMonth, name='change_month'),
+    path('send_whatsapp_msgs',views.send_whatsapp_msgs, name='send_whatsapp_message')
 ]
 
 if settings.DEBUG:

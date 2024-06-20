@@ -8,6 +8,8 @@ from datetime import datetime,date
 from django.utils.dateparse import parse_date  # type: ignore
 import pdfkit # type: ignore
 import calendar
+import time
+import pywhatkit as kit #type: ignore
 from my_mpr.settings import WKHTMLTOPDF_PATH,MPR_HTML_HEAD,SIGNED_MPR_SIGN_IMG_PATH  # type: ignore
 
 
@@ -121,14 +123,13 @@ def leaveRecordSave(request):
           non_paid_leaves = req.get('non_paidleaves')
           att_graph = request.FILES.get('att_graph')
           att_details = request.FILES.get('att_details')
-          print(att_details)
           
-        #   if(att_graph == None):
-        #     att_graph_exist = LeaveRecords.objects.values('att_graph').get(c_id=cand_id,month=s_month,year=s_year)
-        #     att_graph = att_graph_exist['att_graph']
-        #   if(att_details == None):
-        #     att_details_exist = LeaveRecords.objects.values('att_details').get(c_id=cand_id,month=s_month,year=s_year)
-        #     att_details = att_details_exist['att_details']
+          if(att_graph == None):
+            att_graph_exist = LeaveRecords.objects.values('att_graph').get(c_id=cand_id,month=s_month,year=s_year)
+            att_graph = att_graph_exist['att_graph']
+          if(att_details == None):
+            att_details_exist = LeaveRecords.objects.values('att_details').get(c_id=cand_id,month=s_month,year=s_year)
+            att_details = att_details_exist['att_details']
 
           LeaveRecords.objects.filter(c_id=cand_id,month=s_month,year=s_year).delete()
 
@@ -257,3 +258,11 @@ def generatepdf(request):
     response['Content-Disposition'] = 'attachment; filename="file_name.pdf"'
     return response
 
+
+def send_whatsapp_msgs(request):
+    # pywhatkit.sendwhatmsg('+9170xxxxxxxx','*Thank for Choosing e-Empeeyar*<br>thanks')
+    # for phone in phonenumbers:
+    kit.sendwhatmsg_instantly('+917025007631',"*Your MPR has been generated* \n Thanks for choosing e-Empeeyaar")
+        # time.sleep(10)
+
+    return JsonResponse({'status':400})
