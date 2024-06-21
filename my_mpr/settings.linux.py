@@ -9,11 +9,14 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Quick-start development settings - unsuitable for production
@@ -21,18 +24,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-ddt%#u7&%vdf5)x9rl__(xk0(dx7v5&sxyszfyc^(yven4^%s@'
-
 WKHTMLTOPDF_PATH = r"/usr/bin/wkhtmltopdf"
-
-MPR_HTML_HEAD = '<!DOCTYPE html><html lang="en">	<head>		<meta charset="UTF-8">		<meta name="viewport" content="width=device-width, initial-scale=1.0">		<title>Document</title>		<link href="/home/athul/pythonProject/python_env/my_mpr/candidate/static/css/bootstrap5.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">		<script src="/home/athul/pythonProject/python_env/my_mpr/candidate/static/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>	</head>	<style>		body {			font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;			font-size: 18px;		}		th {			text-align: center;			vertical-align: middle;			padding: 0 !important;		}		td {			vertical-align: middle;		}		.absstyle {			width: 90px !important;		}	</style>'
-
+MPR_HTML_HEAD = '<!DOCTYPE html><html lang="en">	<head>		<meta charset="UTF-8">		<meta name="viewport" content="width=device-width, initial-scale=1.0">		<title>Document</title>		<link href="/home/athul/pythonProject/python_env/my_mpr/candidate/static/css/bootstrap5.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">		<script src="/home/athul/pythonProject/python_env/my_mpr/candidate/static/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>	</head>	<style>		body {			font-family:  sans-serif;			font-size: 18px;		}		th {			text-align: center;			vertical-align: middle;			padding: 0 !important;		}		td {			vertical-align: middle;		}		.absstyle {			width: 90px !important;		}	</style>'
 SIGNED_MPR_SIGN_IMG_PATH = '<img src="/home/athul/pythonProject/python_env/my_mpr/candidate/static/img/sign.png" alt="Flowers in Chania" style="width:42em;position:relative;left:4em"></html>'
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.162.6.11','localhost']
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
@@ -138,6 +137,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'static/')
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8021','http://10.162.6.11:8021']
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

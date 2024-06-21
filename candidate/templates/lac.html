@@ -9,7 +9,7 @@
             <u><b>Leave Adjustment Certificate</b></u>
         </div>
         <br>
-        <div class="column">
+        <div class="column" style="line-height: 2em;">
             <div class="row justify-content-start">
                 <div class="col-3"><b>Project No:</b></div>
                 <div class="col-2 notsowide"><b>{{project_no}}</b></div>
@@ -20,17 +20,15 @@
             </div>
         </div>
         <br><br>
-        <div class="mb-4">
+        <div class="mb-4"  style="line-height: 1.3em;">
             
             <p>This letter certifies that 
                     {% if gender == 'M' %} Mr./<s>Ms</s> {% else %}  <s>Mr.</s>/Ms. {% endif %}  
                 <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{cand_name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> has taken
                 <u>&nbsp;&nbsp;&nbsp;{{leave_no}}&nbsp;&nbsp;&nbsp;</u>  
                     {% if leave_no > 1 %}days leave on<u>&nbsp;&nbsp;&nbsp;{{leave_list}}&nbsp;&nbsp;&nbsp;</u>.
-                    {% else %}day leave.{% endif %} 
-            </p>
-            <p>The above mentioned leaves has been approved and requested to adjust the same if candidate is having
-                pending leaves in his/her account.</p>
+                    {% else %}day leave.{% endif %} </p>
+            <p>The above mentioned leaves has been approved and requested to adjust the same if candidate is having pending leaves in his/her account.</p>
         </div>
 
 

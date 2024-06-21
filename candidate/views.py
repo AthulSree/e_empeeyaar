@@ -11,6 +11,9 @@ import calendar
 import time
 import pywhatkit as kit #type: ignore
 from my_mpr.settings import WKHTMLTOPDF_PATH,MPR_HTML_HEAD,SIGNED_MPR_SIGN_IMG_PATH  # type: ignore
+from django.core.mail import EmailMultiAlternatives # type: ignore
+from django.template.loader import get_template
+
 
 
 
@@ -253,6 +256,16 @@ def generatepdf(request):
         'no-stop-slow-scripts': None,
         'log-level': 'info'
     }
+    ######################### mail system #################################### 
+    htmly = get_template('email.html')
+    d = { 'username': name, 'month': s_mprformonth }
+    subject, from_email, to = 'E-empeeyar says hi!', 'athulsaas@gmail.com', 'athulsaas@gmail.com'
+    html_content_email = htmly.render(d)
+    msg = EmailMultiAlternatives(subject, html_content_email, from_email, [to])
+    msg.attach_alternative(html_content_email, "text/html")
+    msg.send()
+    ################################################################## 
+
     pdf = pdfkit.from_string(html_content, False, configuration=config, options=options)
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="file_name.pdf"'
