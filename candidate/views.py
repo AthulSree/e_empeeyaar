@@ -259,7 +259,7 @@ def generatepdf(request):
     ######################### mail system #################################### 
     htmly = get_template('email.html')
     d = { 'username': name, 'month': s_mprformonth }
-    subject, from_email, to = 'E-empeeyar says hi!', 'athulsaas@gmail.com', 'athulsaas@gmail.com'
+    subject, from_email, to = 'E-empeeyar says hi!', 'athulsaas@gmail.com', 'nisanth7077@gmail.com'
     html_content_email = htmly.render(d)
     msg = EmailMultiAlternatives(subject, html_content_email, from_email, [to])
     msg.attach_alternative(html_content_email, "text/html")
@@ -275,7 +275,7 @@ def generatepdf(request):
 def send_whatsapp_msgs(request):
     # pywhatkit.sendwhatmsg('+9170xxxxxxxx','*Thank for Choosing e-Empeeyar*<br>thanks')
     # for phone in phonenumbers:
-    kit.sendwhatmsg_instantly('+917025007631',"*Your MPR has been generated* \n Thanks for choosing e-Empeeyaar")
+    kit.sendwhatmsg_instantly('+919539033379',"*Your MPR has been generated* \n Thanks for choosing e-Empeeyaar")
         # time.sleep(10)
 
     return JsonResponse({'status':400})
