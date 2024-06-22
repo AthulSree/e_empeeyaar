@@ -161,7 +161,11 @@ def leaveRecordSave(request):
 
 
 def wallpost(request):
-    context = {'option':'wall_post'}
+    print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    print(request.META.get('HTTP_X_REAL_IP'))
+    print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    candidates = Candidate.objects.all()
+    context = {'option':'wall_post', 'candidates':candidates}
     return render(request, 'wall_post.html',context)
 
 

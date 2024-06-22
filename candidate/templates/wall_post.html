@@ -7,10 +7,15 @@
 
 
 <div class="card main container">
-  <div class="card-header d-flex justify-content-between align-items-center shadow-lg p-3 mb-5 bg-body-tertiary rounded border border-bottom-0" style="border-radius: 19px !important;">
-    <span><h5 style="color:rgb(49, 0, 71)">Public Post Feed</h5></span>
-    <button class="btn btn-success ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><b>+ Post</b></button>
-</div>
+  <div
+    class="card-header d-flex justify-content-between align-items-center shadow-lg p-3 mb-5 bg-body-tertiary rounded border border-bottom-0"
+    style="border-radius: 19px !important;">
+    <span>
+      <h5 style="color:rgb(49, 0, 71)">Wall Post Feeds</h5>
+    </span>
+    <button class="btn btn-success ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+      aria-controls="offcanvasRight"><b>+ Post</b></button>
+  </div>
   <div class="card-body">
     <span class="badge bg-success">Anonymous - June 22 @ 11:41 AM</span>
     <p class="card-text wallpost_content">With supporting text below as a natural lead-in to additional content.Lorem
@@ -30,20 +35,43 @@
 
 
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="width:500px">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
+  style="width:500px">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas right</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <div class="card" >
-      <div class="card-header" style="font-weight: bold;color:navy">
-        Unka comments post pannungo annai !!!
-      </div>
-      <textarea rows="20" cols="30"></textarea>
+
+    <div class="card-header" style="font-weight: bold;color:navy">
+      Unka comments post pannungo annai !!!
     </div>
+    <form class="row g-3 needs-validation formblockcontent" action="">
+      <textarea rows="20" cols="30"></textarea>
+
+
+      <input class="form-control" type="file" id="uploadFile" accept="image/*">
+      <button type="button" id="add_image_txt" class="form-control">Add Image</button>
+
+
+
+      <div class="col-md-2" style="position:relative;top:10px">Post as</div>
+      <div class="col-md-6">
+        <select class="form-select">
+          <option>Anonymous</option>
+          {% for candidate in candidates %}
+          <option>{{ candidate.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label"> </label>
+        <button type="button" class="btn btn-success" id="save_wall_post">Post Publicly</button>
+      </div>
+    </form>
+
   </div>
 </div>
 
-
+<script src="{% static 'js/wall_post.js' %}"></script>
 {% endblock %}
