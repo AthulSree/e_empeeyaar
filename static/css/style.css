@@ -226,7 +226,7 @@ header {
 .option1 {
   border-left: 5px solid #010058af;
   /* background-color: var(--Border-color); */
-  background-color:#554C42;
+  background-color: #554C42;
   color: white;
   cursor: pointer;
 }
@@ -395,19 +395,22 @@ header {
 .toast.show {
   display: block;
 }
+
 /* ---- */
-.leaveentry{
-  width : 70%;
-  display:none
+.leaveentry {
+  width: 70%;
+  display: none
 }
 
-.updateleaverecord{
+.updateleaverecord {
   display: none;
 }
+
 /* ------ */
-.leavecol{
-  width:20em;
+.leavecol {
+  width: 20em;
 }
+
 /* ----- Profile card in dashboard */
 :root {
   --surface-color: #fff;
@@ -424,7 +427,7 @@ body {
 }
 
 .cards {
-  width:100%;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
@@ -550,37 +553,65 @@ body {
   border-radius: 50%;
   object-fit: cover;
 }
+
 /* ----------dashboard */
-.pdf_print1{
+.pdf_print1 {
   border-radius: 1em 0em 0em 1em;
   background: linear-gradient(to right, #274060, #1B2845)
 }
-.pdf_print2{
+
+.pdf_print2 {
   border-radius: 0em 1em 1em 0em;
   background: linear-gradient(to right, #1B2845, #274060)
 }
-.pdf_print_attendance1{
+
+.pdf_print_attendance1 {
   border-radius: 1em 0em 0em 1em;
   background: linear-gradient(to right, #CB218E, #6617CB)
 }
-.pdf_print_attendance2{
+
+.pdf_print_attendance2 {
   border-radius: 0em 1em 1em 0em;
   background: linear-gradient(to right, #6617CB, #CB218E)
 }
+
 /* ------- */
 siv {
   font-weight: bold;
   font-style: italic;
-  color:green
+  color: green
 }
+
 piv {
   font-weight: bold;
   font-style: italic;
-  color:tomato
+  color: tomato
 }
-.wallpost_content{
-    background-color: #dddddd;
-    color: black;
-    padding: 2em;
-    border-radius: 1em;
+
+.wallpost_content {
+  background-color: #dddddd;
+  color: black;
+  padding: 2em;
+  border-radius: 1em;
+}
+
+/* -------- */
+.fixed-container {
+  position: fixed;
+  /* top: 690px; */
+  width: 28%;
+  bottom: 0;
+  background-color: white;
+  z-index: 1000;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 1px solid #ccc; */
+}
+
+.fixed-container .col-md-2,
+.fixed-container .col-md-6,
+.fixed-container .col-md-4 {
+  display: inline-block;
 }

@@ -1,17 +1,17 @@
 
 
 $(document).ready(function(){
+
     $('#imageDisplay').hide()
 
     $(document).on('change','#uploadFile', function(){
         $('#imageDisplay').show()
-        $('#imageDisplay').text('Please wait....Image is uploading...')
         const fileInput = document.getElementById('uploadFile');
         const imageDisplay = document.getElementById('imageDisplay');
         const textarea = document.getElementById('content');
         
         // Remove any existing images in the imageDisplay div
-        imageDisplay.innerHTML = '';
+        // imageDisplay.innerHTML = '';
         
         // Check if a file is selected
         if (fileInput.files.length > 0) {
@@ -43,7 +43,7 @@ $(document).ready(function(){
 
 
     $(document).on('click','#save_wall_post', function(){
-
+        
     })
 
 

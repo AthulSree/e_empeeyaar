@@ -50,24 +50,28 @@
 
 
       <input class="form-control" type="file" id="uploadFile" accept="image/*">
-      <button type="button" id="add_image_txt" class="form-control">Add Image</button>
+      <div class="form-control" id="imageDisplay"></div>
+      <!-- <button type="button" id="add_image_txt" class="form-control">Add Image</button> -->
 
 
 
-      <div class="col-md-2" style="position:relative;top:10px">Post as</div>
-      <div class="col-md-6">
-        <select class="form-select">
-          <option>Anonymous</option>
-          {% for candidate in candidates %}
-          <option>{{ candidate.name }}</option>
-          {% endfor %}
-        </select>
+      <div class="fixed-container">
+        <div class="col-md-2" >Post as</div>
+        <div class="col-md-6">
+          <select class="form-select">
+            <option>Anonymous</option>
+            {% for candidate in candidates %}
+            <option>{{ candidate.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label"> </label>
+          <button type="button" class="btn btn-success" id="save_wall_post">Post Publicly</button>
+        </div>
       </div>
 
-      <div class="col-md-4">
-        <label class="form-label"> </label>
-        <button type="button" class="btn btn-success" id="save_wall_post">Post Publicly</button>
-      </div>
     </form>
 
   </div>
