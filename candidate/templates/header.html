@@ -65,6 +65,16 @@
 					<a href="{% url 'leave_records' %}" class="nav-option {% if option == 'leave_records' %}option1{% endif %}">
 						<h4>Leave Updates</h4>
 					</a>
+
+					<!-- Files pod option -->
+					<a  class="nav-option {% if option == 'files_pod' %}option1{% endif %}">
+						<h4>Files Pod</h4>
+					</a>
+					
+					<!-- Wall Post option -->
+					<a  href="{% url 'wall_post' %}"  class="nav-option {% if option == 'wall_post' %}option1{% endif %}">
+						<h4>Wall Post</h4>
+					</a>
 				</div>
 			</nav>
 		</div>

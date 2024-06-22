@@ -1,0 +1,49 @@
+{% extends 'header.html' %}
+{% load static %}
+{% load custom_filter %}
+
+
+{% block content %}
+
+
+<div class="card main container">
+  <div class="card-header d-flex justify-content-between align-items-center shadow-lg p-3 mb-5 bg-body-tertiary rounded border border-bottom-0" style="border-radius: 19px !important;">
+    <span><h5 style="color:rgb(49, 0, 71)">Public Post Feed</h5></span>
+    <button class="btn btn-success ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><b>+ Post</b></button>
+</div>
+  <div class="card-body">
+    <span class="badge bg-success">Anonymous - June 22 @ 11:41 AM</span>
+    <p class="card-text wallpost_content">With supporting text below as a natural lead-in to additional content.Lorem
+      ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tortor massa, sagittis sed augue eu, mollis posuere
+      est. Phasellus id fringilla orci, quis pulvinar est. Aliquam hendrerit ligula in mauris imperdiet faucibus. Donec
+      nec neque sed ligula efficitur varius. Pellentesque pretium nibh eu neque porttitor, vel aliquam massa lacinia.
+      Fusce blandit lectus risus, id finibus urna iaculis vel. Proin posuere fringilla lectus, nec sodales mauris
+      tristique id. Morbi porta purus eget laoreet accumsan. Sed tincidunt commodo purus, non congue tortor elementum
+      vitae. Aliquam a ante finibus, malesuada dolor nec, tempus nisi. Praesent sodales a nisl eu lacinia. Morbi non
+      ornare risus, ac auctor dolor. Sed ac diam in risus facilisis porttitor eu scelerisque nibh. Donec elementum quam
+      at purus tristique posuere.
+    </p>
+  </div>
+</div>
+
+
+
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="width:500px">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas right</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="card" >
+      <div class="card-header" style="font-weight: bold;color:navy">
+        Unka comments post pannungo annai !!!
+      </div>
+      <textarea rows="20" cols="30"></textarea>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

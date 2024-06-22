@@ -9,7 +9,7 @@ from django.utils.dateparse import parse_date  # type: ignore
 import pdfkit # type: ignore
 import calendar
 import time
-import pywhatkit as kit #type: ignore
+# import pywhatkit as kit #type: ignore
 from my_mpr.settings import WKHTMLTOPDF_PATH,MPR_HTML_HEAD,SIGNED_MPR_SIGN_IMG_PATH  # type: ignore
 from django.core.mail import EmailMultiAlternatives # type: ignore
 from django.template.loader import get_template
@@ -160,7 +160,9 @@ def leaveRecordSave(request):
           return JsonResponse({'msg':200})
 
 
-
+def wallpost(request):
+    context = {'option':'wall_post'}
+    return render(request, 'wall_post.html',context)
 
 
 
@@ -275,7 +277,7 @@ def generatepdf(request):
 def send_whatsapp_msgs(request):
     # pywhatkit.sendwhatmsg('+9170xxxxxxxx','*Thank for Choosing e-Empeeyar*<br>thanks')
     # for phone in phonenumbers:
-    kit.sendwhatmsg_instantly('+919539033379',"*Your MPR has been generated* \n Thanks for choosing e-Empeeyaar")
+    # kit.sendwhatmsg_instantly('+919539033379',"*Your MPR has been generated* \n Thanks for choosing e-Empeeyaar")
         # time.sleep(10)
 
     return JsonResponse({'status':400})

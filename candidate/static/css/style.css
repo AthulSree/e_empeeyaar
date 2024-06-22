@@ -578,3 +578,9 @@ piv {
   font-style: italic;
   color:tomato
 }
+.wallpost_content{
+    background-color: #dddddd;
+    color: black;
+    padding: 2em;
+    border-radius: 1em;
+}
