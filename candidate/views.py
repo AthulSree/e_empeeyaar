@@ -3,16 +3,15 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect # type:
 from django.template import loader # type: ignore
 from django.template.loader import render_to_string # type: ignore
 from django.urls import reverse # type: ignore
-from .models import Candidate,LeaveRecords
+from .models import Candidate,LeaveRecords,Wallpost
 from datetime import datetime,date
 from django.utils.dateparse import parse_date  # type: ignore
 import pdfkit # type: ignore
 import calendar
-import time
+# import time
 # import pywhatkit as kit #type: ignore
 from my_mpr.settings import WKHTMLTOPDF_PATH,MPR_HTML_HEAD,SIGNED_MPR_SIGN_IMG_PATH  # type: ignore
 from django.core.mail import EmailMultiAlternatives # type: ignore
-from django.template.loader import get_template
 
 
 
@@ -91,8 +90,6 @@ def add_candidate_success(request):
 
 
 def showallcandidates(request):
-    #  query = "SELECT * FROM candidates"
-    #  cands = Candidate.objects.raw(query)
      candidates = Candidate.objects.all()
      context = {'candidatelist':candidates}
      return render(request,'allcandidateslist.html',context)
@@ -164,12 +161,22 @@ def wallpost(request):
     print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
     print(request.META.get('HTTP_X_REAL_IP'))
     print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-    candidates = Candidate.objects.all()
-    context = {'option':'wall_post', 'candidates':candidates}
+    wallpost = Wallpost.objects.all().order_by('-posted_time')
+    context = {'option':'wall_post', 'wallpost':wallpost}
     return render(request, 'wall_post.html',context)
 
 
+def wallpost_save(request):
+    name_ip = {'192.168.1.38':'win_local', '10.162.6.11':'Athul Sree', '10.162.6.167':'Sreeraj'}
+    data = request.POST.get("wp_content")
+    file = request.FILES.get("wp_img")
+    # wp_ip = request.META.get('HTTP_X_REAL_IP')
+    wp_ip = '192.168.1.38'
+    wp_by = name_ip[wp_ip]
+    wp_time = datetime.now()
 
+    Wallpost.objects.create(content= data, files=file, posted_ip= wp_ip, posted_by= wp_by , posted_time=wp_time)
+    return HttpResponseRedirect(reverse('wall_post'))
 
 
 
@@ -263,13 +270,13 @@ def generatepdf(request):
         'log-level': 'info'
     }
     ######################### mail system #################################### 
-    htmly = get_template('email.html')
-    d = { 'username': name, 'month': s_mprformonth }
-    subject, from_email, to = 'E-empeeyar says hi!', 'athulsaas@gmail.com', 'nisanth7077@gmail.com'
-    html_content_email = htmly.render(d)
-    msg = EmailMultiAlternatives(subject, html_content_email, from_email, [to])
-    msg.attach_alternative(html_content_email, "text/html")
-    msg.send()
+    # htmly = loader.get_template('email.html')
+    # d = { 'username': name, 'month': s_mprformonth }
+    # subject, from_email, to = 'E-empeeyar says hi!', 'athulsaas@gmail.com', 'nisanth7077@gmail.com'
+    # html_content_email = htmly.render(d)
+    # msg = EmailMultiAlternatives(subject, html_content_email, from_email, [to])
+    # msg.attach_alternative(html_content_email, "text/html")
+    # msg.send()
     ################################################################## 
 
     pdf = pdfkit.from_string(html_content, False, configuration=config, options=options)

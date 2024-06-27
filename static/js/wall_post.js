@@ -11,7 +11,7 @@ $(document).ready(function(){
         const textarea = document.getElementById('content');
         
         // Remove any existing images in the imageDisplay div
-        // imageDisplay.innerHTML = '';
+        imageDisplay.innerHTML = '';
         
         // Check if a file is selected
         if (fileInput.files.length > 0) {

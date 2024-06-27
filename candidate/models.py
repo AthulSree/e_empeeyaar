@@ -50,3 +50,15 @@ class CandidateHistory(models.Model):
 
     class Meta:
         db_table = 'candidate_history'
+
+
+class Wallpost(models.Model):
+    content = models.TextField(null=True)
+    files = models.FileField(upload_to="photos/")
+    posted_ip = models.CharField(max_length=15)
+    posted_by = models.CharField(max_length=30)
+    posted_time = models.DateTimeField(null=False) 
+
+    class Meta:
+        db_table = 'wall_post'
+
