@@ -6,67 +6,74 @@
 {% block content %}
 
 
-	<div class="card main container">
+<div class="card main container">
 
-		<div class="card-header d-flex justify-content-between align-items-center shadow-lg p-3 mb-5 bg-body-tertiary rounded border border-bottom-0" style="border-radius: 19px !important;">
-			<span>
-				<h5 style="color:rgb(49, 0, 71)">Wall Post Feeds</h5>
-			</span>
-			<button class="btn btn-success ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-				<b>+ Post</b>
-			</button>
-		</div>
-		<div class="card-body">
-
-			{% for wall_post in wallpost %}
-				<span class="badge bg-success">{{wall_post.posted_by}}  @ {{wall_post.posted_time}}</span>
-        <div class=" wallpost_content">
-          <p class="card-text">
-            {{wall_post.content}}
-          </p>
-            <img src="{{wall_post.files.url}}" style="width:500px;height:auto">  
-        </div>
-      <br><br>
-			{% endfor %}
-		</div>
+	<div class="card-header d-flex justify-content-between align-items-center shadow-lg p-3 mb-5 bg-body-tertiary rounded border border-bottom-0"
+		style="border-radius: 19px !important;">
+		<span>
+			<h5 style="color:rgb(49, 0, 71)">Wall Post Feeds</h5>
+		</span>
+		<button class="btn btn-success ms-auto" type="button" data-bs-toggle="offcanvas"
+			data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+			<b>+ Post</b>
+		</button>
 	</div>
+	<div class="card-body">
 
-
-	<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="width:500px">
-		<div class="offcanvas-header">
-			<h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas right</h5>
+		{% for wall_post in wallpost %}
+		<span class="badge bg-success">{{wall_post.posted_by}} @ {{wall_post.posted_time}}</span>
+		<div class=" wallpost_content">
+			<p class="card-text">
+				<pre>{{wall_post.content|safe}}</pre>
+			</p>
+			{% if wall_post.files != "" %}
+			<a href="{{ wall_post.files.url }}" target="_blank">
+				<img src="{{ wall_post.files.url }}" style="width:150px !important;height:auto">
+			</a>
+			<br><span style="font-size:10px;font-style: italic;color:blueviolet;">Click the image to open in full size</span>
+			{% endif %}
 		</div>
-		<div class="offcanvas-body">
+		<br><br>
+		{% endfor %}
+	</div>
+</div>
 
-			<div class="card-header" style="font-weight: bold;color:navy">
-				Unka comments post pannungo annai !!!
-			</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
+	style="width:500px">
+	<div class="offcanvas-header">
+		<h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas right</h5>
+	</div>
+	<div class="offcanvas-body">
+
+		<div class="card-header" style="font-weight: bold;color:navy">
+			Unka comments post pannungo annai !!!
+		</div>
 
 
-			<form class="row g-3 needs-validation formblockcontent" action="{% url 'wall_post_save' %}" method="POST" enctype="multipart/form-data">
-				{% csrf_token %}
-				<textarea rows="20" cols="30" name="wp_content"></textarea>
-				<input class="form-control" type="file" id="uploadFile" name="wp_img" accept="image/*">
-				<div class="form-control" id="imageDisplay"></div>
-				<div class="fixed-container">
-					<div class="col-md-2">Post as</div>
-					<div class="col-md-6">
-						<select class="form-select">
-							<option>Anonymous</option>
-							{% for candidate in candidates %}
-								<option>{{ candidate.name }}</option>
-							{% endfor %}
-						</select>
-					</div>
-					<div class="col-md-4">
-						<label class="form-label"></label>
-						<button type="submit" class="btn btn-success" id="save_wall_post">Post Publicly</button>
-					</div>
+		<form class="row g-3 needs-validation formblockcontent" action="{% url 'wall_post_save' %}" method="POST"
+			enctype="multipart/form-data">
+			{% csrf_token %}
+			<textarea rows="20" cols="30" name="wp_content"></textarea>
+			<input class="form-control" type="file" id="uploadFile" name="wp_img" accept="image/*">
+			<div class="form-control" id="imageDisplay"></div>
+			<div class="fixed-container">
+				<div class="col-md-2">Post as</div>
+				<div class="col-md-6">
+					<select class="form-select">
+						<option>{{ post_by }}</option>
+						<option>Anonymous</option>
+					</select>
 				</div>
-			</form>
+				<div class="col-md-4">
+					<label class="form-label"></label>
+					<button type="submit" class="btn btn-success" id="save_wall_post">Post Publicly</button>
+				</div>
+			</div>
+		</form>
 
-		</div>
 	</div>
+</div>
 
-	<script src="{% static 'js/wall_post.js' %}"></script>
+<script src="{% static 'js/wall_post.js' %}"></script>
 {% endblock %}
