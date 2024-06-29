@@ -160,10 +160,10 @@ def wallpost(request):
     name_ip = {'127.0.0.1':'Brahmoski','192.168.1.38':'win_local', '10.162.6.11':'Athul Sree', '10.162.6.169':'Sreeraj', '10.162.6.167':'Simi', '10.162.6.190':'Nisanth', '10.162.6.12':'Vimal', '10.162.6.160':'Anujith', '10.162.6.102':'Nikhil', '10.162.6.236':'Akhil'}
     req_ip = request.META.get('HTTP_X_REAL_IP')
     post_by = name_ip.get(req_ip,'Anonym.')
-
+    poststat = request.GET.get('poststat',500)
     
     wallpost = Wallpost.objects.all().order_by('-posted_time')
-    context = {'option':'wall_post', 'wallpost':wallpost, 'post_by':post_by,'my_ip':req_ip}
+    context = {'option':'wall_post', 'wallpost':wallpost, 'post_by':post_by,'my_ip':req_ip,'poststat':poststat}
     return render(request, 'wall_post.html',context)
 
 
@@ -174,10 +174,9 @@ def wallpost_save(request):
     wp_ip = request.META.get('HTTP_X_REAL_IP')
     wp_by = name_ip.get(wp_ip,'Anonym.')
     wp_time = datetime.now()
-    print(">>>>",data,file)
     if(data != "" or file != None):
         Wallpost.objects.create(content= data, files=file, posted_ip= wp_ip, posted_by= wp_by , posted_time=wp_time)
-    return HttpResponseRedirect(reverse('wall_post'))
+    return HttpResponseRedirect(reverse('wall_post')+'?poststat=200')
 
 
 

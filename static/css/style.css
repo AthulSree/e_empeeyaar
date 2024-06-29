@@ -290,7 +290,7 @@ header {
 
 .report-container {
   min-height: 300px;
-  max-width: 1200px;
+  max-width: 1500px;
   margin: 70px auto 0px auto;
   background-color: #ffffff;
   border-radius: 30px;
@@ -326,7 +326,7 @@ header {
 }
 
 .report-body {
-  max-width: 1160px;
+  max-width: 1500px;
   overflow-x: auto;
   padding: 20px;
 }
