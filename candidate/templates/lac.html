@@ -27,7 +27,8 @@
                 <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{cand_name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> has taken
                 <u>&nbsp;&nbsp;&nbsp;{{leave_no}}&nbsp;&nbsp;&nbsp;</u>  
                     {% if leave_no > 1 %}days leave on<u>&nbsp;&nbsp;&nbsp;{{leave_list}}&nbsp;&nbsp;&nbsp;</u>.
-                    {% else %}day leave.{% endif %} </p>
+                    {% elif leave_no == 1 %}day leave on<u>&nbsp;&nbsp;&nbsp;{{leave_list}}&nbsp;&nbsp;&nbsp;</u>.
+                    {% else %} leave.{% endif %} </p>
             <p>The above mentioned leaves has been approved and requested to adjust the same if candidate is having pending leaves in his/her account.</p>
         </div>
 

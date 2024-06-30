@@ -158,21 +158,22 @@ def leaveRecordSave(request):
 
 
 def wallpost(request):
-    print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-    print(request.META.get('HTTP_X_REAL_IP'))
-    print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    name_ip = {'127.0.0.1':'Brahmav','192.168.1.38':'win_local', '10.162.6.11':'Athul Sree', '10.162.6.169':'Sreeraj', '10.162.6.167':'Simi', '10.162.6.190':'Nisanth', '10.162.6.12':'Vimal', '10.162.6.160':'Anujith', '10.162.6.102':'Nikhil', '10.162.6.236':'Akhil'}
+    req_ip = request.META.get('HTTP_X_REAL_IP')
+    post_by = name_ip.get(req_ip,'Anonym.')
+
+    
     wallpost = Wallpost.objects.all().order_by('-posted_time')
-    context = {'option':'wall_post', 'wallpost':wallpost}
+    context = {'option':'wall_post', 'wallpost':wallpost, 'post_by':post_by}
     return render(request, 'wall_post.html',context)
 
 
 def wallpost_save(request):
-    name_ip = {'192.168.1.38':'win_local', '10.162.6.11':'Athul Sree', '10.162.6.167':'Sreeraj'}
+    name_ip = {'127.0.0.1':'Brahmav','192.168.1.38':'win_local', '10.162.6.11':'Athul Sree', '10.162.6.169':'Sreeraj', '10.162.6.167':'Simi', '10.162.6.190':'Nisanth', '10.162.6.12':'Vimal', '10.162.6.160':'Anujith', '10.162.6.102':'Nikhil', '10.162.6.236':'Akhil'}
     data = request.POST.get("wp_content")
     file = request.FILES.get("wp_img")
-    # wp_ip = request.META.get('HTTP_X_REAL_IP')
-    wp_ip = '192.168.1.38'
-    wp_by = name_ip[wp_ip]
+    wp_ip = request.META.get('HTTP_X_REAL_IP')
+    wp_by = name_ip.get(wp_ip,'Anonym.')
     wp_time = datetime.now()
 
     Wallpost.objects.create(content= data, files=file, posted_ip= wp_ip, posted_by= wp_by , posted_time=wp_time)
@@ -251,8 +252,10 @@ def generatepdf(request):
 
     if(mode == 'mpr'):
         html_content = render_to_string('mpr.html', mpr_context)
+        file_name = name+"_mpr_"+str(s_month)+"_"+str(s_year)+".pdf"
     if(mode == 'lac'):
         html_content = render_to_string('lac.html', lac_context)
+        file_name = name+"_lac_"+str(s_month)+"_"+str(s_year)+".pdf"
     elif(mode == '2'):
         html_content = render_to_string('mpr_with_sign.html',mpr_context) 
 
@@ -281,8 +284,11 @@ def generatepdf(request):
 
     pdf = pdfkit.from_string(html_content, False, configuration=config, options=options)
     response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="file_name.pdf"'
+    response['Content-Disposition'] = 'attachment; filename='+file_name
     return response
+
+
+
 
 
 def send_whatsapp_msgs(request):
