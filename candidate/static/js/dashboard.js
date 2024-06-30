@@ -54,7 +54,23 @@ $(document).on('click','#send_whatsapp_msg',function(){
 })
 
 
-
+$(document).on('click','#processpdf',function(){
+    path = $(this).data('path')
+    var csrf_token = $('#csrf_token').val();
+    $.ajax({
+        url: path,
+        type: 'post',
+        data: { 'csrfmiddlewaretoken': csrf_token },
+        success: function (status) {
+            console.log(status);
+            if (status['status'] == 200) {
+                showToast('PDFs renamed Successfully', 'green')
+            }else{
+                showToast('PDFs rename thenjirikkanu !!! :(', 'red')
+            }
+        }
+    })
+})
 
 
 

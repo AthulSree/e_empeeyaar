@@ -6,8 +6,7 @@ from django.urls import reverse # type: ignore
 from .models import Candidate,LeaveRecords,Wallpost
 from datetime import datetime,date
 from django.utils.dateparse import parse_date  # type: ignore
-import pdfkit # type: ignore
-import calendar
+import pdfkit,calendar,os,fitz # type: ignore
 # import time
 # import pywhatkit as kit #type: ignore
 from my_mpr.settings import WKHTMLTOPDF_PATH,MPR_HTML_HEAD,SIGNED_MPR_SIGN_IMG_PATH  # type: ignore
@@ -298,3 +297,44 @@ def send_whatsapp_msgs(request):
         # time.sleep(10)
 
     return JsonResponse({'status':400})
+
+
+
+
+def process_pdfs(request):
+    s_mprformonth = request.session['mprformonth']
+    if request.method == 'POST':
+        pdf_folder = 'D:\pdfs'
+        target_names = ['ATHUL', 'SREERAJ','NISANTH','SIMI','ANUJITH','VIMAL']
+        # renamed_files = []
+
+        try:
+            for filename in os.listdir(pdf_folder):
+                if filename.endswith('.pdf'):
+                    file_path = os.path.join(pdf_folder, filename)
+                    doc = fitz.open(file_path)
+                    text = ''
+                    for page in doc:
+                        text += page.get_text()
+
+                    new_name = find_name_in_text(text, target_names,s_mprformonth)
+                    doc.close()
+                    if new_name:
+                        new_filename = f"{new_name}.pdf"
+                        os.rename(file_path, os.path.join(pdf_folder, new_filename))
+                        # renamed_files.append(new_filename)
+            
+            return JsonResponse({'status': 200})
+        except Exception as e:
+            return HttpResponse({'status': 300,'msg':str(e)})
+
+    return HttpResponse({'status': 300,'msg':str(e)})
+
+def find_name_in_text( text, names, s_mprformonth):
+    for name in names:
+        if name in text:
+            if 'Monthly Performance Report' in text:
+                return f"{name}_MPR_"+s_mprformonth
+            elif 'Leave Adjustment Certificate' in text:
+                return f"{name}_LAC_"+s_mprformonth
+    return None

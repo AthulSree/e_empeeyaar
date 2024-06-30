@@ -23,6 +23,8 @@
 <body>
 <input type="hidden" value="{{ csrf_token }}" id="csrf_token">
 
+<button id="processpdf" data-path="{% url 'process_pdfs' %}">Process</button
+
 
     {% block header %}{% endblock %}
     {% block options %}{% endblock %}

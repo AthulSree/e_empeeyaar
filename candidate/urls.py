@@ -20,7 +20,8 @@ urlpatterns = [
     path('changeMonth',views.changeMonth, name='change_month'),
     path('send_whatsapp_msgs',views.send_whatsapp_msgs, name='send_whatsapp_message'),
     path('wall_post',views.wallpost, name="wall_post"),
-    path('wall_post_save',views.wallpost_save, name='wall_post_save')
+    path('wall_post_save',views.wallpost_save, name='wall_post_save'),
+    path('process_pdfs', views.process_pdfs, name='process_pdfs')
 ]
 
 if settings.DEBUG:
