@@ -42,8 +42,64 @@ $(document).ready(function(){
 
 
 
-    $(document).on('click','#save_wall_post', function(){
-        
+    $(document).on('click','.deleteWallPost', function(){
+        postid = $(this).data('postid');
+        deleteimgurl = $('#deleteconfirm').data('imgurl');
+        successimgurl = $('#deletesuccess').data('imgurl');
+        failedimgurl = $('#deletefailed').data('imgurl');
+        path = $(this).data('deletepath');
+        csrftoken = $('#csrf_token').val();
+
+        if(postid == 1){
+            Swal.fire("Can't delete")
+            return false;
+        }
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            imageUrl: deleteimgurl,
+            imageWidth: 300,
+            imageHeight: 300,
+            imageAlt: "Custom image",
+            backdrop: `rgba(0, 0, 0, 0.38) blur(10px) left top no-repeat`,    
+            // icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url:path,
+                    type: 'POST',
+                    data:{'csrfmiddlewaretoken':csrftoken, postid},
+                    success:function(data){
+                        if(data.status==200){
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your post has been deleted.",
+                                icon: "success",
+                                imageUrl: successimgurl,
+                                imageWidth: 300,
+                                imageHeight: 300
+                              });
+                        }else{
+                            Swal.fire({
+                                title: "Not deleted!",
+                                text: "some error occurred.",
+                                icon: "error",
+                                imageUrl: failedimgurl,
+                                imageWidth: 300,
+                                imageHeight: 300    
+                              });
+                        }
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    }
+                })
+            }
+          });
     })
 
 

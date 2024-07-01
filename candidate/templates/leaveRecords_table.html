@@ -45,11 +45,11 @@
 				</td>
 				<td style="width:30em !important" >
 					<input class="form-control leaveentry" type="file" id="att_graph" >
-					{% if items.att_graph != '' %} <siv>uploaded</siv>{% else %}<piv>Pending</piv>{% endif %}
+					{% if items.att_graph != '' and  items.att_graph != None %} <siv>uploaded</siv>{% else %}<piv>Pending</piv>{% endif %}
 				</td>
 				<td style="width:30em !important" >
 					<input class="form-control leaveentry" type="file" id="att_details">
-					{% if items.att_details != '' %} <siv>uploaded</siv>{% else %}<piv>Pending</piv>{% endif %}
+					{% if items.att_details != ''  and  items.att_details != None %} <siv>uploaded</siv>{% else %}<piv>Pending</piv>{% endif %}
 				</td>
 				<td>
 					<button class="btn btn-success editleaverecord" data-candid="{{items.c_id}}" data-paidleaves="{{items.paid_leave_days}}" data-nonpaidleaves="{{items.non_paid_leave_days}}">Edit</button>
