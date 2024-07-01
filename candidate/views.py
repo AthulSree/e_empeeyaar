@@ -171,7 +171,7 @@ def wallpost_save(request):
     name_ip = {'127.0.0.1':'Brahmoski','192.168.1.38':'win_local', '10.162.6.11':'Athul Sree', '10.162.6.169':'Sreeraj', '10.162.6.167':'Simi', '10.162.6.190':'Nisanth', '10.162.6.12':'Vimal', '10.162.6.160':'Anujith', '10.162.6.102':'Nikhil', '10.162.6.236':'Akhil'}
     data = request.POST.get("wp_content")
     file = request.FILES.get("wp_img")
-    wp_ip = request.META.get('HTTP_X_REAL_IP')
+    wp_ip = request.META.get('HTTP_X_REAL_IP','Anonym')
     wp_by = name_ip.get(wp_ip,'Anonym.')
     wp_time = datetime.now()
     if(data != "" or file != None):
