@@ -6,12 +6,13 @@ from django.urls import reverse # type: ignore
 from .models import Candidate,LeaveRecords,Wallpost
 from datetime import datetime,date
 from django.utils.dateparse import parse_date  # type: ignore
-import pdfkit,calendar,os,fitz # type: ignore
+import pdfkit,calendar,os,fitz,base64 # type: ignore
 # import time
 # import pywhatkit as kit #type: ignore
 from my_mpr.settings import WKHTMLTOPDF_PATH,MPR_HTML_HEAD,SIGNED_MPR_SIGN_IMG_PATH  # type: ignore
 from django.core.mail import EmailMultiAlternatives # type: ignore
-
+from django.views.decorators.csrf import csrf_exempt # type: ignore
+from weasyprint import HTML # type: ignore
 
 
 
@@ -349,3 +350,52 @@ def find_name_in_text( text, names, s_mprformonth):
             elif 'Leave Adjustment Certificate' in text:
                 return f"{name}_LAC_"+s_mprformonth
     return None
+
+# @csrf_exempt
+# def apitest(request):
+#     # html_content = request.POST.get('html_content')
+#     html_content = render_to_string('headerrepeat.html')
+#     header_path = render_to_string('headerrep1.html')
+#     #  header_path = os.path.join(os.path.dirname(__file__), 'relative/path/to/header.html')
+#     # html_content = render_to_string('mpr.html')
+#     # return HttpResponse(html)
+#     options = {
+#         'page-size': 'Letter',
+#         'margin-top': '0.75in',
+#         'margin-right': '0.75in',
+#         'margin-bottom': '0.75in',
+#         'margin-left': '0.75in',
+#         'encoding': 'UTF-8',
+#         'no-outline': None,
+#         'enable-local-file-access':"",
+#         'debug-javascript': None,
+#         'no-stop-slow-scripts': None,
+#         'log-level': 'info'
+#     }
+
+#     pdf = pdfkit.from_string(html_content, False, configuration=config, options=options)
+#     # pdf_base64 = base64.b64encode(pdf).decode('utf-8')
+#     # return JsonResponse({'pdf_base64': pdf_base64})
+#     response = HttpResponse(pdf, content_type='application/pdf')
+#     response['Content-Disposition'] = 'attachment; filename='
+#     return response
+
+
+@csrf_exempt
+def apitest(request):
+    # template = loader.get_template('headerrepeat.html')
+    template = loader.get_template('report.html')
+    context = {
+        'title': 'Sample PDF',
+        'content': 'This is a simple example of generating PDF using WeasyPrint in Django.',
+        'header_content':'<div style=" padding: 10px; text-align: center;"><span style="color: blue; font-weight: bold;">Dynamic Header Content from View</span></div>'
+    }
+    html_content = template.render(context)
+
+    # Generate PDF using WeasyPrint
+    pdf_file = HTML(string=html_content).write_pdf()
+
+    # Create an HttpResponse with the PDF file
+    response = HttpResponse(pdf_file, content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="output.pdf"'
+    return response

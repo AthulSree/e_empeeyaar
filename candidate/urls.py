@@ -22,7 +22,8 @@ urlpatterns = [
     path('wall_post',views.wallpost, name="wall_post"),
     path('wall_post_save',views.wallpost_save, name='wall_post_save'),
     path('process_pdfs', views.process_pdfs, name='process_pdfs'),
-    path('wall_post_delete',views.wallpost_delete, name="wall_post_delete")
+    path('wall_post_delete',views.wallpost_delete, name="wall_post_delete"),
+    path('apitest',views.apitest,name='apitest')
 ]
 
 if settings.DEBUG:
