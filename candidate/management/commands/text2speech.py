@@ -1,9 +1,18 @@
-
+# For WINDOWS
+# ===========
 # => pip install gtts pydub
 # => pip install pyaudio
 # => Also system should contain ffmpeg else visit https://github.com/BtbN/FFmpeg-Builds/releases and get for the os and extract in 
 #     C:ffmpeg (create the directory). Then its bin path to system environment path 
 # => Just get into this file directory in terminal and run py text2speech.py
+
+# For Linux
+# =========
+# => pip install gtts pydub
+# => sudo apt-get install portaudio19-dev
+# => pip install pyaudio
+# => sudo apt update
+# => sudo apt install ffmpeg
 
 
 import os
@@ -62,5 +71,5 @@ def text_to_speech_malayalam(text):
         play_audio(temp_audio_path)
 
 # Example usage
-malayalam_text = "ഐ.എസ്.ആർ.ഓയിൽ  നിന്ന് റാം സിങ് ആവശ്യപ്പെടുന്ന ഗാനം ............................ പുലി ഉറുമുദ്‌ പുലി ഉറുമുദ്‌  ഇടി ഇടിക്കിത് ഇടി ഇടിക്കിത് കൊടി പറക്കിത് കൊടി പറക്കിത്  വേട്ടക്കാരവരാതപാത്ത്"
+malayalam_text = "ഐ.എസ്.ആർ.ഓയിൽ  "
 text_to_speech_malayalam(malayalam_text)
