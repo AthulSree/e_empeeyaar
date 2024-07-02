@@ -28,7 +28,7 @@
 		{% if my_ip == wall_post.posted_ip or my_ip == '127.0.0.1' %}<span style="cursor: pointer;"><i class="fa fa-trash deleteWallPost" aria-hidden="true"  data-postid="{{wall_post.id}}" data-deletepath="wall_post_delete"></i></span>{% endif %}
 		<div class=" wallpost_content">
 			<p class="card-text">
-				<pre>{{wall_post.content|safe}}</pre>
+				<pre style="text-wrap:pretty">{{wall_post.content|safe}}</pre>
 			</p>
 			{% if wall_post.files != "" %}
 			<a href="{{ wall_post.files.url }}" target="_blank">
