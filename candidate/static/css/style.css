@@ -615,3 +615,7 @@ piv {
 .fixed-container .col-md-4 {
   display: inline-block;
 }
+
+.roundbadge{
+  border-radius: 9px;
+}

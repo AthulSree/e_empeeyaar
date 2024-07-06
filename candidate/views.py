@@ -124,10 +124,12 @@ def leaveRecordSave(request):
           att_graph = request.FILES.get('att_graph')
           att_details = request.FILES.get('att_details')
           
-          if(att_graph == None):
+          leaveExists = LeaveRecords.objects.filter(c_id=cand_id,month=s_month,year=s_year)
+          
+          if(att_graph == None and leaveExists.exists()):
             att_graph_exist = LeaveRecords.objects.values('att_graph').get(c_id=cand_id,month=s_month,year=s_year)
             att_graph = att_graph_exist['att_graph']
-          if(att_details == None):
+          if(att_details == None and leaveExists.exists()):
             att_details_exist = LeaveRecords.objects.values('att_details').get(c_id=cand_id,month=s_month,year=s_year)
             att_details = att_details_exist['att_details']
 

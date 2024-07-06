@@ -24,18 +24,30 @@
 	<div class="card-body">
 
 		{% for wall_post in wallpost %}
-		<span class="badge {% if wall_post.posted_by == 'Brahmoski' %} bg-danger {% else %}bg-success{% endif %} ">{{wall_post.posted_by}} @ {{wall_post.posted_time}}</span>		
-		{% if my_ip == wall_post.posted_ip or my_ip == '127.0.0.1' %}<span style="cursor: pointer;"><i class="fa fa-trash deleteWallPost" aria-hidden="true"  data-postid="{{wall_post.id}}" data-deletepath="wall_post_delete"></i></span>{% endif %}
+		<span
+			class="badge {% if wall_post.posted_by == 'Brahmoski' %} bg-danger {% else %}bg-success{% endif %} roundbadge">{{wall_post.posted_by}}
+			@ {{wall_post.posted_time}}</span>
+		{% if my_ip == wall_post.posted_ip or my_ip == '127.0.0.1' %}<span style="cursor: pointer;"><i
+				class="fa fa-trash deleteWallPost" aria-hidden="true" data-postid="{{wall_post.id}}"
+				data-deletepath="wall_post_delete"></i></span>{% endif %}
 		<div class=" wallpost_content">
 			<p class="card-text">
-				<pre style="text-wrap:pretty">{{wall_post.content|safe}}</pre>
+			<pre style="text-wrap:pretty">{{wall_post.content | style_contents}}</pre>
 			</p>
 			{% if wall_post.files != "" %}
-			<a href="{{ wall_post.files.url }}" target="_blank">
-				<img src="{{ wall_post.files.url }}" style="width:150px !important;height:auto">
-			</a>
-			<br><span style="font-size:10px;font-style: italic;color:blueviolet;">Click the image to open in full size</span>
+				{% if wall_post.files.url|is_pdf  or  wall_post.files.url|is_zip %}
+					<a href="{{ wall_post.files.url }}" target="_blank">
+						{{ wall_post.files.name|getFileName }}
+					</a>
+				{% else %}
+					<a href="{{ wall_post.files.url }}" target="_blank">
+						<img src="{{ wall_post.files.url }}" style="width:150px !important;height:auto">
+					</a>
+					<br><span style="font-size:10px;font-style: italic;color:blueviolet;">Click the image to open in full
+						size</span>
+				{% endif %}
 			{% endif %}
+
 		</div>
 		<br><br>
 		{% endfor %}
@@ -51,7 +63,7 @@
 	<div class="offcanvas-body">
 
 		<div class="card-header" style="font-weight: bold;color:navy">
-			Unka comments post pannungo annai !!!
+			Unka contents post pannungo annai !!!
 		</div>
 
 
@@ -59,8 +71,22 @@
 			enctype="multipart/form-data">
 			{% csrf_token %}
 			<textarea rows="20" cols="30" name="wp_content"></textarea>
-			<input class="form-control" type="file" id="uploadFile" name="wp_img" accept="image/*">
+			<!-- <input class="form-control" type="file" id="uploadFile" name="wp_img" accept="image/*"> -->
+			<input class="form-control" type="file" id="uploadFile" name="wp_img">
 			<div class="form-control" id="imageDisplay"></div>
+			<div class="alert alert-success" role="alert">
+				<h4>Tips & Tricks</h4>
+				<ul>
+					<li>Try to add a subject to your content.</li>
+					<li>Bold Text - enclose between two asterisks.<br>
+						<div style="background-color: #b7d9ca;">**Brahmoski** thunai => <b>Brahmoski</b> thunai.</div>
+					</li>
+					<li>Italic Text - enclose between two underscores.<br>
+						<div style="background-color: #b7d9ca;">Brahmoski __veendum thunai__ <br>=> Brahmoski <i>veendum
+								thunai</i></div>
+					</li>
+				</ul>
+			</div>
 			<div class="fixed-container">
 				<div class="col-md-2">Post as</div>
 				<div class="col-md-6">
