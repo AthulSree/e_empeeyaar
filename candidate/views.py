@@ -166,6 +166,14 @@ def wallpost(request):
     send_to = wallpostIPs.objects.all()       
     poststat = request.GET.get('poststat',200)
     
+    # checking if the req ip is included in the universe
+    try:
+        availip = wallpostIPs.objects.get(ip=req_ip)
+    except ObjectDoesNotExist:
+        return render(request,'notAMember.html')
+    
+    print('>>>>',availip)
+
     # wallpost = Wallpost.objects.all().filter(Q(disabled='N') & (Q(send_to = '0') | Q(send_to = req_ip))).order_by('-posted_time')    #if there is multi cond with or & and
     
     query = Wallpost.objects.filter(disabled = 'N')
