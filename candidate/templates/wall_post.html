@@ -21,18 +21,24 @@
 			<b>+ Post</b>
 		</button>
 	</div>
-	<div class="card-body">
 
+
+	<!-- -------- Wall post content---------- -->
+	<div class="card-body">
 		{% for wall_post in wallpost %}
-		<span
-			class="badge {% if wall_post.posted_by == 'Brahmoski' %} bg-danger {% else %}bg-success{% endif %} roundbadge">{{wall_post.posted_by}}
-			@ {{wall_post.posted_time}}</span>
+			{% if wall_post.send_to == my_ip %}
+				<img class="you-pic" src="{% static 'img/you.png' %}" alt="You">
+				{% else %}	
+				<img class="you-pic" src="{% static 'img/earth.png' %}" alt="You">
+			{% endif %}
+		<span class="badge {% if wall_post.posted_by == 'Brahmoski' %} bg-danger {% else %}bg-success{% endif %} roundbadge">{{wall_post.posted_by}} => {{wall_post.send_to | ip2name:my_ip}}</span>
+
 		{% if my_ip == wall_post.posted_ip or my_ip == '127.0.0.1' %}<span style="cursor: pointer;"><i
 				class="fa fa-trash deleteWallPost" aria-hidden="true" data-postid="{{wall_post.id}}"
 				data-deletepath="wall_post_delete"></i></span>{% endif %}
 		<div class=" wallpost_content">
 			<p class="card-text">
-			<pre style="text-wrap:pretty">{{wall_post.content | style_contents}}</pre>
+				<pre  class="wallpostcontent" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to copy">{{wall_post.content | style_contents}}</pre>
 			</p>
 			{% if wall_post.files != "" %}
 				{% if wall_post.files.url|is_pdf  or  wall_post.files.url|is_zip %}
@@ -49,10 +55,19 @@
 			{% endif %}
 
 		</div>
-		<br><br>
+		<div class="timestampcontainer">
+			<span class="custom-span">{{wall_post.posted_time}}</span>
+		</div>
+		<br>
 		{% endfor %}
+
 	</div>
+
 </div>
+
+
+
+
 
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
@@ -88,16 +103,21 @@
 				</ul>
 			</div>
 			<div class="fixed-container">
-				<div class="col-md-2">Post as</div>
+				<div class="col-md-2">Post for</div>
 				<div class="col-md-6">
-					<select class="form-select">
-						<option>{{ post_by }}</option>
-						<option>Anonymous</option>
+					<select class="form-select" name="wp_sendto_ip">
+						{% for ip in send_to %}
+							{% if ip.ip == "0" %}
+								<option value="{{ip.ip}}" selected>{{ ip.name }}</option>
+							{% else %}
+								<option value="{{ip.ip}}">{{ ip.name }}</option>
+							{% endif %}
+						{% endfor %}
 					</select>
 				</div>
 				<div class="col-md-4">
 					<label class="form-label"></label>
-					<button type="submit" class="btn btn-success" id="save_wall_post">Post Publicly</button>
+					<button type="submit" class="btn btn-success" id="save_wall_post">Post</button>
 				</div>
 			</div>
 		</form>

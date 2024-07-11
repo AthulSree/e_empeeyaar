@@ -1,6 +1,7 @@
 from django import template # type: ignore
+
 from datetime import datetime
-from ..models import LeaveRecords #type: ignore
+from ..models import LeaveRecords,wallpostIPs #type: ignore
 from my_mpr.settings import MEDIA_URL
 from django.utils.html import escape, mark_safe #type: ignore
 import re,os
@@ -63,9 +64,25 @@ def get_FileName(filename):
     return filename.rstrip('/').split('/')[-1]
 
 
+@register.filter(name='ip2name')
+def ip2name(ip,my_ip):
+    if(ip==my_ip):
+        return 'YOU'
+    ipname = wallpostIPs.objects.values('name').get(ip=ip)['name']
+    return ipname
+
+
+
+
+
 
 
 @register.filter(name='test_filter')
 def test_filter(value):
     print("Custom filter applied!")
     return f"Test filter applied: {value}"
+
+
+
+
+#  {{ ip|ip2name:'Anonym.':'Guest' }} //how to send three arg via html

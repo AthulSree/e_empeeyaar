@@ -3,7 +3,8 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect # type:
 from django.template import loader # type: ignore
 from django.template.loader import render_to_string # type: ignore
 from django.urls import reverse # type: ignore
-from .models import Candidate,LeaveRecords,Wallpost
+from .models import Candidate,LeaveRecords,Wallpost,wallpostIPs
+from django.db.models import Q # type: ignore
 from datetime import datetime,date
 from django.utils.dateparse import parse_date  # type: ignore
 import pdfkit,calendar,os,fitz,base64 # type: ignore
@@ -13,6 +14,7 @@ from my_mpr.settings import WKHTMLTOPDF_PATH,MPR_HTML_HEAD,SIGNED_MPR_SIGN_IMG_P
 from django.core.mail import EmailMultiAlternatives # type: ignore
 from django.views.decorators.csrf import csrf_exempt # type: ignore
 from weasyprint import HTML # type: ignore
+from django.core.exceptions import ObjectDoesNotExist # type: ignore
 
 
 
@@ -160,25 +162,43 @@ def leaveRecordSave(request):
 
 
 def wallpost(request):
-    name_ip = {'127.0.0.1':'Brahmoski','192.168.1.38':'win_local', '10.162.6.11':'Athul Sree', '10.162.6.169':'Sreeraj', '10.162.6.167':'Simi', '10.162.6.190':'Nisanth', '10.162.6.12':'Vimal', '10.162.6.160':'Anujith', '10.162.6.102':'Nikhil', '10.162.6.236':'Akhil'}
-    req_ip = request.META.get('HTTP_X_REAL_IP')
-    post_by = name_ip.get(req_ip,'Anonym.')
-    poststat = request.GET.get('poststat',500)
+    req_ip = request.META.get('HTTP_X_REAL_IP')    
+    send_to = wallpostIPs.objects.all()       
+    poststat = request.GET.get('poststat',200)
     
-    wallpost = Wallpost.objects.all().order_by('-posted_time')
-    context = {'option':'wall_post', 'wallpost':wallpost, 'post_by':post_by,'my_ip':req_ip,'poststat':poststat}
+    # wallpost = Wallpost.objects.all().filter(Q(disabled='N') & (Q(send_to = '0') | Q(send_to = req_ip))).order_by('-posted_time')    #if there is multi cond with or & and
+    
+    query = Wallpost.objects.filter(disabled = 'N')
+    if(req_ip != '127.0.0.1'):
+        query = query.filter((Q(send_to = '0')|Q(send_to = req_ip)))
+        
+    wallpost = query.order_by('-posted_time')
+    
+    context = {'option':'wall_post', 'wallpost':wallpost, 'send_to':send_to,'my_ip':req_ip,'poststat':poststat}
     return render(request, 'wall_post.html',context)
 
 
 def wallpost_save(request):
-    name_ip = {'127.0.0.1':'Brahmoski','192.168.1.38':'win_local', '10.162.6.11':'Athul Sree', '10.162.6.169':'Sreeraj', '10.162.6.167':'Simi', '10.162.6.190':'Nisanth', '10.162.6.12':'Vimal', '10.162.6.160':'Anujith', '10.162.6.102':'Nikhil', '10.162.6.236':'Akhil'}
+    
     data = request.POST.get("wp_content")
     file = request.FILES.get("wp_img")
+    wp_sendto_ip = request.POST.get("wp_sendto_ip")
     wp_ip = request.META.get('HTTP_X_REAL_IP','Anonym')
-    wp_by = name_ip.get(wp_ip,'Anonym.')
+    
+    print('>>>>',wp_sendto_ip)
+    # ----
+    if(wp_sendto_ip == '10.162.6.11'):
+        wp_sendto_ip = '127.0.0.1'
+    # ----
+    print('>>>>',wp_sendto_ip)
+    try:
+        wp_by = wallpostIPs.objects.values('name').get(ip=wp_ip)['name']
+    except ObjectDoesNotExist:
+        wp_by = 'Anonym.'
+     
     wp_time = datetime.now()
     if(data != "" or file != None):
-        Wallpost.objects.create(content= data, files=file, posted_ip= wp_ip, posted_by= wp_by , posted_time=wp_time)
+        Wallpost.objects.create(content= data, files=file, posted_ip= wp_ip, posted_by= wp_by , send_to=wp_sendto_ip, posted_time=wp_time)
     return HttpResponseRedirect(reverse('wall_post')+'?poststat=200')
 
 
@@ -188,7 +208,10 @@ def wallpost_delete(request):
     try:
         
         # print('>>>>>>',Wallpost.objects.get(id=postid))
-        Wallpost.objects.filter(id=postid).delete()
+        # Wallpost.objects.filter(id=postid).delete()
+        post = Wallpost.objects.get(id=postid)
+        post.disabled = 'Y'
+        post.save()      
         return JsonResponse({'status':200})
     except Exception as e:
         return JsonResponse({'status':300})

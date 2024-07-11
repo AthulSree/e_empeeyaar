@@ -37,8 +37,6 @@ class LeaveRecords(models.Model):
     class Meta:
         db_table = 'leave_records'
 
-
-
 class CandidateHistory(models.Model):
     c_id = models.ForeignKey(Candidate, on_delete=models.CASCADE, db_column='c_id', null=False)
     name = models.CharField(max_length = 50)
@@ -57,8 +55,20 @@ class Wallpost(models.Model):
     files = models.FileField(upload_to="photos/")
     posted_ip = models.CharField(max_length=15)
     posted_by = models.CharField(max_length=30)
+    send_to = models.CharField(max_length=20)
     posted_time = models.DateTimeField(null=False) 
+    disabled = models.CharField(max_length=1,null=False, default='N')
 
     class Meta:
         db_table = 'wall_post'
 
+class wallpostIPs(models.Model):
+    ip = models.CharField(max_length=20)
+    name = models.CharField(max_length=50)
+    group = models.CharField(max_length=10)
+    
+    class Meta:
+        db_table = 'wall_post_ip'
+        
+    def __str__(self) -> str:
+        return f"{self.ip}-{self.name}"

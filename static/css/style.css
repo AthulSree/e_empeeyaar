@@ -545,10 +545,26 @@ body {
   /* height: 100vh; */
 }
 
+.timestampcontainer{
+  text-align: right;
+  color: gray;
+  font-style: italic;
+  font-size: small;
+}
+
 .profile-pic {
   width: 60px;
   /* Adjust the size as needed */
   height: 60px;
+  /* Adjust the size as needed */
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.you-pic {
+  width: 40px;
+  /* Adjust the size as needed */
+  height: 40px;
   /* Adjust the size as needed */
   border-radius: 50%;
   object-fit: cover;
@@ -618,4 +634,10 @@ piv {
 
 .roundbadge{
   border-radius: 9px;
+}
+
+.wallpostcontent{
+  text-wrap:pretty;
+  max-height: 25em;
+  cursor: copy;
 }

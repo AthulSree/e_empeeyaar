@@ -114,13 +114,53 @@ $(document).ready(function(){
                         }
                         setTimeout(() => {
                             window.location.reload();
-                        }, 2000);
+                        }, 500);
                     }
                 })
             }
           });
     })
 
+
+
+    // ------- cpy to clipboard
+
+    $(document).on('click','.wallpostcontent', function(){
+        var content = $(this).text()
+        console.log(content);
+        var tempElement = $('<textarea>');
+        tempElement.val(content);
+
+        // Append the temporary element to the body
+        $('body').append(tempElement);
+
+        // Select the content of the textarea
+        tempElement.select();
+
+        // Execute the copy command
+        document.execCommand('copy');
+
+        // Remove the temporary element from the body
+        tempElement.remove();
+
+        // // Optionally, notify the user that the content has been copied
+        // alert('Content copied to clipboard!');
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "bottom-left",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: "Content copied to clipboard"
+          });
+    })
 
 })
 
