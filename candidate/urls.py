@@ -23,7 +23,12 @@ urlpatterns = [
     path('wall_post_save',views.wallpost_save, name='wall_post_save'),
     path('process_pdfs', views.process_pdfs, name='process_pdfs'),
     path('wall_post_delete',views.wallpost_delete, name="wall_post_delete"),
-    path('apitest',views.apitest,name='apitest')
+    # path('apitest',views.apitest,name='apitest'),
+    path('open-remote-folder', views.open_remote_folder_view, name='open_remote_folder_view'),
+    
+    path('connect/', views.connect_to_server, name='connect_to_server'),
+    path('list_dir/<path:path>/', views.list_dir, name='list_dir'),
+    path('download/<path:path>/', views.download_file, name='download_file'),
 ]
 
 if settings.DEBUG:

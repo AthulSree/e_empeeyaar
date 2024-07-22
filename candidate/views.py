@@ -15,6 +15,13 @@ from django.core.mail import EmailMultiAlternatives # type: ignore
 from django.views.decorators.csrf import csrf_exempt # type: ignore
 from weasyprint import HTML # type: ignore
 from django.core.exceptions import ObjectDoesNotExist # type: ignore
+import paramiko # type: ignore
+import os
+import subprocess
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 
 
 
@@ -162,27 +169,25 @@ def leaveRecordSave(request):
 
 
 def wallpost(request):
-    req_ip = request.META.get('HTTP_X_REAL_IP')    
+    my_ip = request.META.get('HTTP_X_REAL_IP')    
     send_to = wallpostIPs.objects.all()       
     poststat = request.GET.get('poststat',200)
     
     # checking if the req ip is included in the universe
     try:
-        availip = wallpostIPs.objects.get(ip=req_ip)
+        availip = wallpostIPs.objects.get(ip=my_ip)
     except ObjectDoesNotExist:
         return render(request,'notAMember.html')
     
-    print('>>>>',availip)
-
-    # wallpost = Wallpost.objects.all().filter(Q(disabled='N') & (Q(send_to = '0') | Q(send_to = req_ip))).order_by('-posted_time')    #if there is multi cond with or & and
+    # wallpost = Wallpost.objects.all().filter(Q(disabled='N') & (Q(send_to = '0') | Q(send_to = my_ip))).order_by('-posted_time')    #if there is multi cond with or & and
     
     query = Wallpost.objects.filter(disabled = 'N')
-    if(req_ip != '127.0.0.1'):
-        query = query.filter((Q(send_to = '0')|Q(send_to = req_ip)))
+    if(my_ip != '127.0.0.1'):
+        query = query.filter((Q(send_to = '0')|Q(send_to = my_ip) | Q(posted_by=my_ip)))
         
     wallpost = query.order_by('-posted_time')
     
-    context = {'option':'wall_post', 'wallpost':wallpost, 'send_to':send_to,'my_ip':req_ip,'poststat':poststat}
+    context = {'option':'wall_post', 'wallpost':wallpost, 'send_to':send_to,'my_ip':my_ip,'poststat':poststat}
     return render(request, 'wall_post.html',context)
 
 
@@ -193,12 +198,10 @@ def wallpost_save(request):
     wp_sendto_ip = request.POST.get("wp_sendto_ip")
     wp_ip = request.META.get('HTTP_X_REAL_IP','Anonym')
     
-    print('>>>>',wp_sendto_ip)
     # ----
     if(wp_sendto_ip == '10.162.6.11'):
         wp_sendto_ip = '127.0.0.1'
     # ----
-    print('>>>>',wp_sendto_ip)
     try:
         wp_by = wallpostIPs.objects.values('name').get(ip=wp_ip)['name']
     except ObjectDoesNotExist:
@@ -332,7 +335,7 @@ def generatepdf(request):
     return response
 
 
-
+# ================== Other testing functions =========================>
 
 
 def send_whatsapp_msgs(request):
@@ -384,51 +387,163 @@ def find_name_in_text( text, names, s_mprformonth):
                 return f"{name}_LAC_"+s_mprformonth
     return None
 
-# @csrf_exempt
-# def apitest(request):
-#     # html_content = request.POST.get('html_content')
-#     html_content = render_to_string('headerrepeat.html')
-#     header_path = render_to_string('headerrep1.html')
-#     #  header_path = os.path.join(os.path.dirname(__file__), 'relative/path/to/header.html')
-#     # html_content = render_to_string('mpr.html')
-#     # return HttpResponse(html)
-#     options = {
-#         'page-size': 'Letter',
-#         'margin-top': '0.75in',
-#         'margin-right': '0.75in',
-#         'margin-bottom': '0.75in',
-#         'margin-left': '0.75in',
-#         'encoding': 'UTF-8',
-#         'no-outline': None,
-#         'enable-local-file-access':"",
-#         'debug-javascript': None,
-#         'no-stop-slow-scripts': None,
-#         'log-level': 'info'
-#     }
-
-#     pdf = pdfkit.from_string(html_content, False, configuration=config, options=options)
-#     # pdf_base64 = base64.b64encode(pdf).decode('utf-8')
-#     # return JsonResponse({'pdf_base64': pdf_base64})
-#     response = HttpResponse(pdf, content_type='application/pdf')
-#     response['Content-Disposition'] = 'attachment; filename='
-#     return response
 
 
-@csrf_exempt
-def apitest(request):
-    # template = loader.get_template('headerrepeat.html')
-    template = loader.get_template('report.html')
-    context = {
-        'title': 'Sample PDF',
-        'content': 'This is a simple example of generating PDF using WeasyPrint in Django.',
-        'header_content':'<div style=" padding: 10px; text-align: center;"><span style="color: blue; font-weight: bold;">Dynamic Header Content from View</span></div>'
-    }
-    html_content = template.render(context)
 
-    # Generate PDF using WeasyPrint
-    pdf_file = HTML(string=html_content).write_pdf()
 
-    # Create an HttpResponse with the PDF file
-    response = HttpResponse(pdf_file, content_type='application/pdf')
-    response['Content-Disposition'] = 'filename="output.pdf"'
-    return response
+def open_remote_folder_view(request):
+    transfer_and_open_folder()
+    return HttpResponse("Remote folder has been opened locally.")
+
+def transfer_and_open_folder():
+    # Define the target host and connection details
+
+    try:
+        # Define the target host and connection details
+        target_host = '10.162.6.12'  # Replace with the target system's IP address
+        target_port = 22
+        target_username = 'shershad'
+        target_password = 'nic*123'
+        remote_home_directory = '/home/shershad/'  # Replace with the remote folder path
+        local_home_directory = '/home/athul/Documents'  # Replace with your local folder path
+
+        # Create the local folder if it doesn't exist
+        if not os.path.exists(local_home_directory):
+            os.makedirs(local_home_directory)
+
+        # Create an SSH client
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(
+            target_host,
+            username=target_username,
+            password=target_password
+        )
+
+        # Start an SFTP session
+        sftp = ssh.open_sftp()
+        
+        # Function to recursively download a directory
+        def download_dir(remote_dir, local_dir):
+            if not os.path.exists(local_dir):
+                os.makedirs(local_dir)
+            for item in sftp.listdir(remote_dir):
+                remote_item = os.path.join(remote_dir, item)
+                local_item = os.path.join(local_dir, item)
+                try:
+                    # Check if the remote item is a file or directory
+                    if sftp.stat(remote_item).st_mode & 0o40000:  # Directory
+                        download_dir(remote_item, local_item)
+                    else:  # File
+                        sftp.get(remote_item, local_item)
+                except IOError as e:
+                    logging.error(f"Error accessing {remote_item}: {e}")
+        
+        # Download the home directory
+        download_dir(remote_home_directory, local_home_directory)
+
+        # Close the SFTP session and SSH connection
+        sftp.close()
+        ssh.close()
+
+        # Open the local folder
+        if os.name == 'nt':  # Windows
+            os.startfile(local_home_directory)
+        elif os.name == 'posix':  # macOS or Linux
+            subprocess.run(['open', local_home_directory] if sys.platform == 'darwin' else ['xdg-open', local_home_directory])
+
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        raise  # Re-raise the exception for further debugging
+    
+    
+    
+# my_app/views.py
+
+# my_app/views.py
+
+import os
+import stat
+from django.shortcuts import render, redirect, HttpResponse
+from django.contrib import messages
+from .utils.sftp_client import SFTPClient
+
+def connect_to_server(request):
+    if request.method == 'POST':
+        hostname = request.POST.get('hostname')
+        port = int(request.POST.get('port', 22))
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        request.session['hostname'] = hostname
+        request.session['port'] = port
+        request.session['username'] = username
+        request.session['password'] = password
+
+        return redirect('list_dir', path='/')
+
+    return render(request, 'connect2server.html')
+
+# my_app/views.py
+
+def list_dir(request, path):
+    hostname = request.session.get('hostname')
+    port = request.session.get('port')
+    username = request.session.get('username')
+    password = request.session.get('password')
+
+    if not all([hostname, port, username, password]):
+        messages.error(request, 'Missing connection information. Please reconnect.')
+        return redirect('connect_to_server')
+
+    sftp_client = SFTPClient(hostname, port, username, password)
+    sftp_client.connect()
+
+    try:
+        file_attrs = sftp_client.list_dir(path)
+    except Exception as e:
+        messages.error(request, f'Error listing directory: {e}')
+        return redirect('connect_to_server')
+    finally:
+        sftp_client.disconnect()
+
+    # Filter out hidden files and directories
+    file_list = [
+        {'name': f.filename, 'is_dir': stat.S_ISDIR(f.st_mode)}
+        for f in file_attrs
+        if not f.filename.startswith('.')
+    ]
+
+    return render(request, 'list_dir.html', {'file_list': file_list, 'current_path': path})
+
+
+def download_file(request, path):
+    hostname = request.session.get('hostname')
+    port = request.session.get('port')
+    username = request.session.get('username')
+    password = request.session.get('password')
+
+    if not all([hostname, port, username, password]):
+        messages.error(request, 'Missing connection information. Please reconnect.')
+        return redirect('connect_to_server')
+
+    sftp_client = SFTPClient(hostname, port, username, password)
+    sftp_client.connect()
+
+    local_path = os.path.join('/tmp', os.path.basename(path))
+
+    try:
+        sftp_client.get_file(path, local_path)
+        with open(local_path, 'rb') as f:
+            response = HttpResponse(f.read(), content_type='application/octet-stream')
+            response['Content-Disposition'] = f'attachment; filename={os.path.basename(path)}'
+            return response
+    except Exception as e:
+        messages.error(request, f'Error downloading file: {e}')
+        return redirect('list_dir', path=os.path.dirname(path))
+    finally:
+        sftp_client.disconnect()
+        if os.path.exists(local_path):
+            os.remove(local_path)
+
+  

@@ -71,7 +71,10 @@ def ip2name(ip,my_ip):
     ipname = wallpostIPs.objects.values('name').get(ip=ip)['name']
     return ipname
 
-
+@register.filter
+def endswith(value, arg):
+    """Returns True if the value ends with the given argument"""
+    return str(value).endswith(arg)
 
 
 

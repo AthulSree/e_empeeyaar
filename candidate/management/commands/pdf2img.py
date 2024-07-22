@@ -46,7 +46,7 @@ class Command(BaseCommand):
         return False
 
 
-
+#  python3 manage.py pdf2img
 
 
 # def process_pdfs(request):

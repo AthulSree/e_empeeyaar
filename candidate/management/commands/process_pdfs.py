@@ -9,11 +9,13 @@ class Command(BaseCommand):
         parser.add_argument('pdf_folder', type=str, help='Path to the folder containing PDF files')
 
     def handle(self, *args, **options):
+        print("<<<<<<")
         pdf_folder = options['pdf_folder']
         target_names = ['ATHUL', 'SREERAJ','NISANTH','SIMI','ANUJITH','VIMAL']
 
         for filename in os.listdir(pdf_folder):
             if filename.endswith('.pdf'):
+                print("?????????")
                 file_path = os.path.join(pdf_folder, filename)
                 doc = fitz.open(file_path)
                 text = ''

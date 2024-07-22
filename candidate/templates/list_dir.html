@@ -1,0 +1,23 @@
+{% extends 'header.html' %}
+{% load static %}
+{% load custom_filter %}
+
+
+{% block content %}
+<!-- my_app/templates/my_app/list_dir.html -->
+<h1>Directory Listing for {{ current_path }}</h1>
+<ul>
+    {% if current_path != '/' %}
+        <li><a href="{% url 'list_dir' path=current_path|add:'../' %}">.. (Parent Directory)</a></li>
+    {% endif %}
+    {% for file in file_list %}
+        <li>
+            {% if file.is_dir %}
+                <a href="{% url 'list_dir' path=current_path|add:file.name %}/">{{ file.name }}</a>
+            {% else %}
+                {{ file.name }} - <a href="{% url 'download_file' path=current_path|add:file.name %}">Download</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

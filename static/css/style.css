@@ -562,9 +562,9 @@ body {
 }
 
 .you-pic {
-  width: 40px;
+  width: 50px;
   /* Adjust the size as needed */
-  height: 40px;
+  height: 50px;
   /* Adjust the size as needed */
   border-radius: 50%;
   object-fit: cover;

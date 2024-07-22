@@ -26,10 +26,10 @@
 	<!-- -------- Wall post content---------- -->
 	<div class="card-body">
 		{% for wall_post in wallpost %}
-			{% if wall_post.send_to == my_ip %}
-				<img class="you-pic" src="{% static 'img/you.png' %}" alt="You">
+			{% if wall_post.send_to != '0' %}
+				<img class="you-pic" src="{% static 'img/u2u.png' %}" alt="You">
 				{% else %}	
-				<img class="you-pic" src="{% static 'img/earth.png' %}" alt="You">
+				<img class="you-pic" src="{% static 'img/u2g.png' %}" alt="You">
 			{% endif %}
 		<span class="badge {% if wall_post.posted_by == 'Brahmoski' %} bg-danger {% else %}bg-success{% endif %} roundbadge">{{wall_post.posted_by}} => {{wall_post.send_to | ip2name:my_ip}}</span>
 
