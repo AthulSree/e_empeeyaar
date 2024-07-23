@@ -4,20 +4,79 @@
 
 
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    <label for="hostname">Hostname:</label>
-    <input type="text" id="hostname" name="hostname" required>
-    
-    <label for="port">Port:</label>
-    <input type="number" id="port" name="port" value="22">
-    
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    
-    <button type="submit">Connect</button>
-</form>
+
+
+
+<div class="report-container" style="height: fit-content;">
+    <div class="report-header">
+        <h1 class="recent-Articles"><i>U-Connect is waiting...</i></h1>
+    </div>
+
+
+    <div class="report-body" id="leaveUpdate_list_table">
+
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="hostname" class="form-label">Hostname: <sup>(Optional)</sup></label>
+                <select class="form-select" id="hostname_selection">
+                    <option selected>--- select hostname ---</option>
+                    <option value="1">Athul</option>
+                    <option value="2">Sreeraj</option>
+                    <option value="3">Nisanth</option>
+                    <option value="4">Simi</option>
+                    <option value="5">Vimal</option>
+                    <option value="6">Anujith</option>
+                    <option value="7">Akhil</option>
+                    <option value="8">Nikhil</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="hostname" class="form-label">HostIP:</label>
+                <input type="text" class="form-control" id="hostname" name="hostname" required>
+            </div>
+            <div class="mb-3">
+                <label for="port" class="form-label">Port:</label>
+                <input type="number" class="form-control" id="port" name="port" value="22" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Connect</button>
+        </form>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        var hostArray = {
+                1: { ip: '10.162.6.11', un: 'athul', pw: 'nic*123' },
+                2: { ip: '10.162.6.169', un: 'sreeraj', pw: 'nic*1234' },
+                3: { ip: '10.162.6.190', un: 'nisanth', pw: 'nic*123' },
+                4: { ip: '10.162.6.167', un: 'simi', pw: 'nic*123' },
+                5: { ip: '10.162.6.12', un: 'vimal', pw: 'nic*123' },
+                6: { ip: '10.162.6.160', un: 'anujith', pw: 'nic*123' },
+                7: { ip: '10.162.6.236', un: 'akhil', pw: 'nic*123' },
+                8: { ip: '10.162.6.102', un: 'nikhil', pw: '1' }
+            };
+
+        $(document).on('change', '#hostname_selection', function () {
+            var hostname = $(this).val();
+            ip = hostArray[hostname]['ip'];
+            un = hostArray[hostname]['un'];
+            pw = hostArray[hostname]['pw'];
+            $('#hostname').val(ip);
+            $('#username').val(un);
+            $('#password').val(pw);
+        })
+
+    })
+</script>
 {% endblock %}

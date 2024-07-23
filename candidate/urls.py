@@ -29,7 +29,7 @@ urlpatterns = [
     path('connect/', views.connect_to_server, name='connect_to_server'),
     path('list_dir/<path:path>/', views.list_dir, name='list_dir'),
     path('download/<path:path>/', views.download_file, name='download_file'),
-]
+    path('download_directory/<path:path>/', views.download_directory, name='download_directory'),]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

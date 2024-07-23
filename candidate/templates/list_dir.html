@@ -4,20 +4,53 @@
 
 
 {% block content %}
-<!-- my_app/templates/my_app/list_dir.html -->
-<h1>Directory Listing for {{ current_path }}</h1>
-<ul>
-    {% if current_path != '/' %}
-        <li><a href="{% url 'list_dir' path=current_path|add:'../' %}">.. (Parent Directory)</a></li>
-    {% endif %}
-    {% for file in file_list %}
-        <li>
-            {% if file.is_dir %}
-                <a href="{% url 'list_dir' path=current_path|add:file.name %}/">{{ file.name }}</a>
-            {% else %}
-                {{ file.name }} - <a href="{% url 'download_file' path=current_path|add:file.name %}">Download</a>
-            {% endif %}
-        </li>
-    {% endfor %}
-</ul>
+<div class="report-container">
+    <div class="report-header">
+        <h1 class="recent-Articles"><i>U-Connect is connecting...</i></h1>
+    </div>
+
+
+    <div class="report-body" id="leaveUpdate_list_table">
+        <h1>Directory Listing for {{ current_path }}</h1>
+        {% if current_path != '/' %}
+        <h3><a href="{% url 'list_dir' path=current_path|add:'../' %}"><i class="fa fa-arrow-left"></i></a></h3>
+        {% endif %}
+        <table class="table" id="uconnect_list">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">File/Folder</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in file_list %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+
+                    {% if file.is_dir %}
+                    <td><a href="{% url 'list_dir' path=current_path|add:file.name %}/">
+                            <span class="badge bg-success"><i class="fa fa-folder"></i> {{ file.name }}</span>
+                        </a></td>
+                    <td>
+                        <!-- <a href="{% url 'download_directory' path=current_path|add:file.name %}">Download as ZIP</a> -->
+                    </td>
+                    {% else %}
+                    <td><span class="badge bg-secondary"><i class="fa fa-file"></i> {{ file.name }}</span></td>
+                    <td><a href="{% url 'download_file' path=current_path|add:file.name %}">Download</a></td>
+                    {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#uconnect_list').DataTable();
+    })
+</script>
 {% endblock %}

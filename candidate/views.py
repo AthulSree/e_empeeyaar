@@ -32,8 +32,6 @@ def dashboard(request):
     today = datetime.today()
     month = request.session.get('cur_month_selected',today.month)
     year = request.session.get('cur_year_selected',today.year)
-    request.session['cur_month_selected'] = month #setting session for month
-    request.session['cur_year_selected'] = year #setting session for year
 
     query = " SELECT   C.c_id,C.name,C.image,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves,L.att_details,L.att_graph,L.id FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s  order by c_id"
     leaves = Candidate.objects.raw(query,[month,year])
@@ -175,7 +173,7 @@ def wallpost(request):
     
     # checking if the req ip is included in the universe
     try:
-        availip = wallpostIPs.objects.get(ip=my_ip)
+        wallpostIPs.objects.get(ip=my_ip)
     except ObjectDoesNotExist:
         return render(request,'notAMember.html')
     
@@ -183,8 +181,7 @@ def wallpost(request):
     
     query = Wallpost.objects.filter(disabled = 'N')
     if(my_ip != '127.0.0.1'):
-        query = query.filter((Q(send_to = '0')|Q(send_to = my_ip) | Q(posted_by=my_ip)))
-        
+        query = query.filter((Q(send_to = '0')|Q(send_to = my_ip) | Q(posted_ip=my_ip)))
     wallpost = query.order_by('-posted_time')
     
     context = {'option':'wall_post', 'wallpost':wallpost, 'send_to':send_to,'my_ip':my_ip,'poststat':poststat}
@@ -217,9 +214,6 @@ def wallpost_save(request):
 def wallpost_delete(request):
     postid = request.POST.get('postid')
     try:
-        
-        # print('>>>>>>',Wallpost.objects.get(id=postid))
-        # Wallpost.objects.filter(id=postid).delete()
         post = Wallpost.objects.get(id=postid)
         post.disabled = 'Y'
         post.save()      
@@ -462,11 +456,13 @@ def transfer_and_open_folder():
 
 # my_app/views.py
 
-import os
-import stat
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from .utils.sftp_client import SFTPClient
+import zipfile
+import os
+import io
+import stat
 
 def connect_to_server(request):
     if request.method == 'POST':
@@ -482,9 +478,7 @@ def connect_to_server(request):
 
         return redirect('list_dir', path='/')
 
-    return render(request, 'connect2server.html')
-
-# my_app/views.py
+    return render(request, 'connect2server.html', {'option':'uconnect'})
 
 def list_dir(request, path):
     hostname = request.session.get('hostname')
@@ -507,7 +501,6 @@ def list_dir(request, path):
     finally:
         sftp_client.disconnect()
 
-    # Filter out hidden files and directories
     file_list = [
         {'name': f.filename, 'is_dir': stat.S_ISDIR(f.st_mode)}
         for f in file_attrs
@@ -515,7 +508,6 @@ def list_dir(request, path):
     ]
 
     return render(request, 'list_dir.html', {'file_list': file_list, 'current_path': path})
-
 
 def download_file(request, path):
     hostname = request.session.get('hostname')
@@ -546,4 +538,26 @@ def download_file(request, path):
         if os.path.exists(local_path):
             os.remove(local_path)
 
-  
+def download_directory(request, path):
+    hostname = request.session.get('hostname')
+    port = request.session.get('port')
+    username = request.session.get('username')
+    password = request.session.get('password')
+
+    if not all([hostname, port, username, password]):
+        messages.error(request, 'Missing connection information. Please reconnect.')
+        return redirect('connect_to_server')
+
+    sftp_client = SFTPClient(hostname, port, username, password)
+    sftp_client.connect()
+
+    try:
+        zip_buffer = sftp_client.compress_dir(path)
+        response = HttpResponse(zip_buffer.getvalue(), content_type='application/zip')
+        response['Content-Disposition'] = f'attachment; filename={os.path.basename(path)}.zip'
+        return response
+    except Exception as e:
+        messages.error(request, f'Error compressing and downloading directory: {e}')
+        return redirect('list_dir', path=os.path.dirname(path))
+    finally:
+        sftp_client.disconnect()
