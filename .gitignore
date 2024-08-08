@@ -8,3 +8,5 @@ PyWhatKit_DB.txt
 candidate/management/__pycache__
 candidate/management/commands/__pycache__
 candidate/utils/__pycache__
+Docsquad/__pycache__/
+Docsquad/migrations/__pycache__/

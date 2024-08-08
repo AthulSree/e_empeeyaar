@@ -1,0 +1,108 @@
+{% extends 'header.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+<style>
+	.card {
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		padding: 16px;
+		max-width: 600px;
+		margin: 20px auto;
+	}
+	.card-body {
+		padding: 16px;
+	}
+	.folder-list {
+		display: inline-flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+	.folder {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin: 10px;
+		text-align: center;
+		cursor: pointer;
+		transition: transform 0.2s;
+        color: #0965b9
+	}
+	.folder:hover {
+		transform: scale(1.05);
+	}
+	.folder i {
+		font-size: 40px;
+		margin-bottom: 8px;
+	}
+	.folder-name {
+		font-size: 13px;
+        color: #063866
+	}
+</style>
+
+</style>
+
+	<div class="main">
+
+		{% if pagestat != NULL %}
+			<input type="hidden" id="id_pagestat" value="{{pagestat}}">
+		{% endif %}
+
+
+		<div class="report-container">
+			<div class="report-header">
+				<h1 class="recent-Articles">
+					<span style="color: #0255a0;">Docs</span>'
+					<span style="color: #0255a0;">Q</span>uick
+					<span style="color: #0255a0;">U</span>tility for
+					<span style="color: #0255a0;">A</span>rchiving &
+					<span style="color: #0255a0;">D</span>istribution
+				</h1>
+				<input type="hidden" id="leave_update_list" value="{% url 'leaveUpdate_list' %}"></input>
+
+		</div>
+
+		<div
+			class="report-body" id="leaveUpdate_list_table">
+			{# table goes here #}
+
+
+<div class="card">
+	<div class="card-body">
+		<h5>Docs Created by You</h5>
+		<div class="folder-list">
+			<div class="folder">
+				<i class="fa fa-folder" aria-hidden="true"></i>
+				<span class="folder-name">Folder 1</span>
+			</div>
+			<div class="folder">
+				<i class="fa fa-folder" aria-hidden="true"></i>
+				<span class="folder-name">Folder 2</span>
+			</div>
+			<div class="folder">
+				<i class="fa fa-folder" aria-hidden="true"></i>
+				<span class="folder-name">Folder 3</span>
+			</div>
+			<div class="folder">
+				<i class="fa fa-folder" aria-hidden="true"></i>
+				<span class="folder-name">Folder 4</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+			<br>
+			<div class="card">
+				<div class="card-body">
+					Docs shared with you
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+</div>{% endblock %}

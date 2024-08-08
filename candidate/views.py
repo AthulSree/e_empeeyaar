@@ -13,7 +13,7 @@ import pdfkit,calendar,os,fitz,base64 # type: ignore
 from my_mpr.settings import WKHTMLTOPDF_PATH,MPR_HTML_HEAD,SIGNED_MPR_SIGN_IMG_PATH  # type: ignore
 from django.core.mail import EmailMultiAlternatives # type: ignore
 from django.views.decorators.csrf import csrf_exempt # type: ignore
-from weasyprint import HTML # type: ignore
+# from weasyprint import HTML # type: ignore
 from django.core.exceptions import ObjectDoesNotExist # type: ignore
 import paramiko # type: ignore
 import os
