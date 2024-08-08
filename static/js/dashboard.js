@@ -12,7 +12,7 @@ $(document).on('click', '.searchbtn,.dp', function () {
 })
 
 $(document).on('click','.coming_soon_no_akrantham', function(){
-    alert('ഭാസ്കരൻ പണി തുടങ്ങീട്ടെ ഉള്ളു, അടിച്ചു കേറി വരാൻ വൈകും. Stay Calm! ബ്രോ ഈസ് സ്റ്റിൽ കുക്കിംഗ്.')
+    alert('ഭാസ്കരൻ പണി തുടങ്ങീട്ടെ ഉള്ളു, അടിച്ചു കേറി വരാൻ വൈകും.            Stay Calm!           ബ്രോ ഈസ് സ്റ്റിൽ കുക്കിംഗ്.')
 })
 
 $(document).on('change','#id_curr_month',function(){
