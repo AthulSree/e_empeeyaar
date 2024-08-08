@@ -51,12 +51,19 @@ class CandidateHistory(models.Model):
 
 
 class Wallpost(models.Model):
+    subject = models.TextField(max_length=100,null=True,default=None)
     content = models.TextField(null=True)
     files = models.FileField(upload_to="photos/")
     posted_ip = models.CharField(max_length=15)
     posted_by = models.CharField(max_length=30)
     send_to = models.CharField(max_length=20)
     posted_time = models.DateTimeField(null=False) 
+    
+    reply_content = models.TextField(null=True)
+    reply_ip = models.CharField(max_length=15, null=True)
+    reply_by = models.CharField(max_length=30, null=True)
+    reply_time = models.DateTimeField(null=True) 
+    
     disabled = models.CharField(max_length=1,null=False, default='N')
 
     class Meta:

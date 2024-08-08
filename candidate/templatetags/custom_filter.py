@@ -58,6 +58,11 @@ def is_pdf(file_url):
 def is_zip(file_url):
     return os.path.splitext(file_url)[1].lower() == '.zip'
 
+@register.filter
+def is_xl(file_url):
+    xtension = os.path.splitext(file_url)[1].lower()
+    return xtension in ['.xlsx','.xls','.csv','.ods']
+
 
 @register.filter(name='getFileName')
 def get_FileName(filename):

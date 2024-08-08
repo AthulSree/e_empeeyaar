@@ -605,7 +605,14 @@ piv {
 }
 
 .wallpost_content {
-  background-color: #dddddd;
+  background-color: #ced4d7;
+  color: black;
+  padding: 2em;
+  border-radius: 1em;
+}
+
+.wallpost_content_reply {
+  background-color: #f2f4f5;
   color: black;
   padding: 2em;
   border-radius: 1em;
@@ -673,4 +680,9 @@ piv {
   color: white;
   text-shadow: 2px 2px 4px rgba(0,0,0,1); /* Optional: Add a text shadow */
   z-index: 10; /* Ensure the text appears above the image */
+}
+
+/* wallpost reply */
+.replyWallPost{
+  cursor: pointer;
 }

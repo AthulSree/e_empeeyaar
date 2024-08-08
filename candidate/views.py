@@ -189,11 +189,17 @@ def wallpost(request):
 
 
 def wallpost_save(request):
-    
+    # reply_content = models.TextField(null=True)
+    # reply_ip = models.CharField(max_length=15, null=True)
+    # reply_by = models.CharField(max_length=30, null=True)
+    # reply_time = models.DateTimeField(null=True) 
+
+    subject = request.POST.get("wp_subject")
     data = request.POST.get("wp_content")
     file = request.FILES.get("wp_img")
     wp_sendto_ip = request.POST.get("wp_sendto_ip")
     wp_ip = request.META.get('HTTP_X_REAL_IP','Anonym')
+    wp_reply = int(request.POST.get('wp_reply_id'))
     
     # ----
     if(wp_sendto_ip == '10.162.6.11'):
@@ -205,8 +211,16 @@ def wallpost_save(request):
         wp_by = 'Anonym.'
      
     wp_time = datetime.now()
-    if(data != "" or file != None):
-        Wallpost.objects.create(content= data, files=file, posted_ip= wp_ip, posted_by= wp_by , send_to=wp_sendto_ip, posted_time=wp_time)
+    
+    if(wp_reply > 0):
+        wallpostContent = Wallpost.objects.get(id=wp_reply)
+        wallpostContent.reply_content = data
+        wallpostContent.reply_ip = wp_ip
+        wallpostContent.reply_by = wp_by
+        wallpostContent.reply_time = wp_time
+        wallpostContent.save()
+    elif(data != "" or file != None):
+        Wallpost.objects.create(subject=subject , content= data, files=file, posted_ip= wp_ip, posted_by= wp_by , send_to=wp_sendto_ip, posted_time=wp_time)
     return HttpResponseRedirect(reverse('wall_post')+'?poststat=200')
 
 

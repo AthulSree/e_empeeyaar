@@ -16,7 +16,7 @@
 		<span>
 			<h5 style="color:rgb(49, 0, 71)"><i class="fa fa-google-wallet" aria-hidden="true"></i> Wall Post Feeds</h5>
 		</span>
-		<button class="btn btn-success ms-auto" type="button" data-bs-toggle="offcanvas"
+		<button class="btn btn-success ms-auto post_item" type="button" data-bs-toggle="offcanvas"
 			data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
 			<b>+ Post</b>
 		</button>
@@ -33,15 +33,20 @@
 			{% endif %}
 		<span class="badge {% if wall_post.posted_by == 'Brahmoski' %} bg-danger {% else %}bg-success{% endif %} roundbadge">{{wall_post.posted_by}} => {{wall_post.send_to | ip2name:my_ip}}</span>
 
-		{% if my_ip == wall_post.posted_ip or my_ip == '127.0.0.1' %}<span style="cursor: pointer;"><i
-				class="fa fa-trash deleteWallPost" aria-hidden="true" data-postid="{{wall_post.id}}"
-				data-deletepath="wall_post_delete"></i></span>{% endif %}
+		{% if my_ip == wall_post.posted_ip or my_ip == '127.0.0.1' %}
+			<span style="cursor: pointer;"><i class="fa fa-trash deleteWallPost" aria-hidden="true" data-postid="{{wall_post.id}}" data-deletepath="wall_post_delete"></i></span>
+		{% endif %}
+			<i class="replyWallPost fa fa-reply" data-postid="{{wall_post.id}}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>
+		</button>
 		<div class=" wallpost_content">
 			<p class="card-text">
+				{% if wall_post.subject != None %} 
+					<strong>{{wall_post.subject}}</strong> 
+				{% endif %}
 				<pre  class="wallpostcontent" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to copy">{{wall_post.content | style_contents}}</pre>
 			</p>
 			{% if wall_post.files != "" %}
-				{% if wall_post.files.url|is_pdf  or  wall_post.files.url|is_zip %}
+				{% if wall_post.files.url|is_pdf  or  wall_post.files.url|is_zip or  wall_post.files.url|is_xl %}
 					<a href="{{ wall_post.files.url }}" target="_blank">
 						{{ wall_post.files.name|getFileName }}
 					</a>
@@ -53,6 +58,15 @@
 						size</span>
 				{% endif %}
 			{% endif %}
+			<!-- reply -->
+			{% if wall_post.reply_content != None and wall_post.reply_content != ''%}
+			<div class="wallpost_content_reply">
+				<div class="timestampcontainer"><span class="custom-span"><b>{{wall_post.reply_by}}</b> replied @ {{wall_post.reply_time}}</span></div>
+				<p class="card-text wallpostcontent" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to copy">
+					{{wall_post.reply_content}}
+				</p>
+			</div>	
+			{% endif %}	
 
 		</div>
 		<div class="timestampcontainer">
@@ -81,10 +95,12 @@
 			Unka contents post pannungo annai !!!
 		</div>
 
-
-		<form class="row g-3 needs-validation formblockcontent" action="{% url 'wall_post_save' %}" method="POST"
+		<br>
+		<form class="row g-3 needs-validation formblockcontent" id="formblockcontent" action="{% url 'wall_post_save' %}" method="POST"
 			enctype="multipart/form-data">
 			{% csrf_token %}
+			<input type="hidden" name="wp_reply_id" id="wp_reply_id" value="0">
+			<input class="form-control" name="wp_subject" id="wp_subject" placeholder="Add a subject here...">
 			<textarea rows="20" cols="30" name="wp_content"></textarea>
 			<!-- <input class="form-control" type="file" id="uploadFile" name="wp_img" accept="image/*"> -->
 			<input class="form-control" type="file" id="uploadFile" name="wp_img">
@@ -103,9 +119,9 @@
 				</ul>
 			</div>
 			<div class="fixed-container">
-				<div class="col-md-2">Post for</div>
+				<div class="col-md-2" id="post_for">Post for</div>
 				<div class="col-md-6">
-					<select class="form-select" name="wp_sendto_ip">
+					<select class="form-select" name="wp_sendto_ip" id="wp_sendto_ip">
 						{% for ip in send_to %}
 							{% if ip.ip == "0" %}
 								<option value="{{ip.ip}}" selected>{{ ip.name }}</option>
