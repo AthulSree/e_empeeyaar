@@ -3,43 +3,7 @@
 {% load static %}
 {% block content %}
 <style>
-	.card {
-		border: 1px solid #ddd;
-		border-radius: 8px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		padding: 16px;
-		max-width: 600px;
-		margin: 20px auto;
-	}
-	.card-body {
-		padding: 16px;
-	}
-	.folder-list {
-		display: inline-flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-	}
-	.folder {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin: 10px;
-		text-align: center;
-		cursor: pointer;
-		transition: transform 0.2s;
-        color: #0965b9
-	}
-	.folder:hover {
-		transform: scale(1.05);
-	}
-	.folder i {
-		font-size: 40px;
-		margin-bottom: 8px;
-	}
-	.folder-name {
-		font-size: 13px;
-        color: #063866
-	}
+
 </style>
 
 </style>
@@ -66,34 +30,29 @@
 
 		<div
 			class="report-body" id="leaveUpdate_list_table">
-			{# table goes here #}
-
-
-<div class="card">
-	<div class="card-body">
-		<h5>Docs Created by You</h5>
-		<div class="folder-list">
-			<div class="folder">
-				<i class="fa fa-folder" aria-hidden="true"></i>
-				<span class="folder-name">Folder 1</span>
-			</div>
-			<div class="folder">
-				<i class="fa fa-folder" aria-hidden="true"></i>
-				<span class="folder-name">Folder 2</span>
-			</div>
-			<div class="folder">
-				<i class="fa fa-folder" aria-hidden="true"></i>
-				<span class="folder-name">Folder 3</span>
-			</div>
-			<div class="folder">
-				<i class="fa fa-folder" aria-hidden="true"></i>
-				<span class="folder-name">Folder 4</span>
-			</div>
-		</div>
-	</div>
-</div>
-
-
+				<div class="card_dq">
+					<div class="card-body">
+						<h5>Docs Created by You</h5>
+						<div class="folder-list-dq">
+							<div class="folder_dq">
+								<i class="fa fa-folder" aria-hidden="true"></i>
+								<span class="folder-name-dq">Folder 1</span>
+							</div>
+							<div class="folder_dq">
+								<i class="fa fa-folder" aria-hidden="true"></i>
+								<span class="folder-name-dq">Folder 2</span>
+							</div>
+							<div class="folder_dq">
+								<i class="fa fa-folder" aria-hidden="true"></i>
+								<span class="folder-name-dq">Folder 3</span>
+							</div>
+							<div class="folder_dq">
+								<i class="fa fa-folder" aria-hidden="true"></i>
+								<span class="folder-name-dq">Folder 4</span>
+							</div>
+						</div>
+					</div>
+				</div>
 			<br>
 			<div class="card">
 				<div class="card-body">
@@ -106,74 +65,5 @@
 	</div>
 </div>
 
-<script>
-	        $(document).ready(function () {
-				// setTimeout(openFirstAlert, 1000);
-            function openFirstAlert() {
-                Swal.fire({
-                    title: 'Ethayalum vannille...',
-                    input: 'textarea',
-                    // inputLabel: 'Let me know your feedback about byte-WhaSsh',
-					html: `<label for="swal-input1" style="display: block; margin-bottom: 10px;">
-							Let me know your feedback about <i>byte-WhaSsh</i>
-							</label>`,
-                    inputPlaceholder: 'Type your message here...',
-                    inputAttributes: {
-                        'aria-label': 'Type your message here'
-                    },
-                    showCancelButton: true,
-                    confirmButtonText: 'Save',
-                    cancelButtonText: 'Parayoola!',
-                    preConfirm: function (message) {
-                        if (!message) {
-                            Swal.showValidationMessage('Please enter a message');
-                            return false;
-                        }
-                        return message;
-                    }
-                }).then(function (result) {
-                    if (!result.isConfirmed) {
-                        Swal.fire({
-                            title: 'Aahaa! 🤨',
-                            text: "Paranjitt poyaa mathi",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonText: 'Parayaam',
-                            cancelButtonText: 'Enthayalum Parayaam',
-                        }).then(function () {
-                            openFirstAlert();
-                        });
-                    } else{
-
-						my_ip = $("#id_myip").val();
-						path =  $("#id_myip").data('path');
-						feedback = result.value;
-						var csrf_token = $('#csrf_token').val();
-						// console.log(result.value);
-						// console.log(path,feedback,my_ip);
-						$.ajax({
-							url: path,
-							type: 'POST',
-							data:{'csrfmiddlewaretoken':csrf_token ,'feedback':feedback,'my_ip':my_ip},
-							success: function(data){
-								Swal.fire({
-									title: 'Good Boy',
-									text : 'Tengz🙂',
-									icon: 'success'
-								});
-							}
-
-						})
-
-
-
-
-                    }
-                });
-            }
-
-                // openFirstAlert();
-				setTimeout(openFirstAlert, 1000);
-        });
-</script>
+<script src="{% static 'js/docs_quad.js' %}"></script>
 {% endblock %}
