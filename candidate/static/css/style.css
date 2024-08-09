@@ -647,7 +647,7 @@ piv {
   text-wrap:pretty;
   max-height: 25em;
   cursor: copy;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 /* -----not a member page styles */

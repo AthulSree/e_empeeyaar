@@ -45,6 +45,7 @@
 				{% endif %}
 				<pre  class="wallpostcontent" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to copy">{{wall_post.content | style_contents}}</pre>
 			</p>
+
 			{% if wall_post.files != "" %}
 				{% if wall_post.files.url|is_pdf  or  wall_post.files.url|is_zip or  wall_post.files.url|is_xl %}
 					<a href="{{ wall_post.files.url }}" target="_blank">
@@ -62,9 +63,9 @@
 			{% if wall_post.reply_content != None and wall_post.reply_content != ''%}
 			<div class="wallpost_content_reply">
 				<div class="timestampcontainer"><span class="custom-span"><b>{{wall_post.reply_by}}</b> replied @ {{wall_post.reply_time}}</span></div>
-				<p class="card-text wallpostcontent" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to copy">
-					{{wall_post.reply_content }}
-				</p>
+				<p class="card-text">
+					<pre  class="wallpostcontent" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to copy">{{wall_post.reply_content | style_contents}}</pre>
+				</p>	
 			</div>	
 			{% endif %}	
 

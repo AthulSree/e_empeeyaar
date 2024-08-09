@@ -1,9 +1,8 @@
 $(document).ready(function(){
-    alert();
 
 
     $(document).ready(function () {
-        // setTimeout(openFirstAlert, 1000);
+        setTimeout(openFirstAlert, 1000);
         function openFirstAlert() {
             Swal.fire({
                 title: 'Ethayalum vannille...',
@@ -21,7 +20,7 @@ $(document).ready(function(){
                 cancelButtonText: 'Parayoola!',
                 preConfirm: function (message) {
                     if (!message) {
-                        Swal.showValidationMessage('Please enter a message');
+                        Swal.showValidationMessage('Please enter a message... Enter chey monu :)');
                         return false;
                     }
                     return message;
