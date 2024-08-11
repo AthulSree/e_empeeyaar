@@ -2,61 +2,119 @@
 
 {% load static %}
 {% block content %}
-<style>
 
-</style>
-
-</style>
-
-	<div class="main">
+<div class="main">
 	<input type="hidden" value="{{my_ip}}" id="id_myip" data-path="{% url 'savefeedback'%}">
-		{% if pagestat != NULL %}
-			<input type="hidden" id="id_pagestat" value="{{pagestat}}">
-		{% endif %}
+	{% if pagestat != NULL %}
+	<input type="hidden" id="id_pagestat" value="{{pagestat}}">
+	{% endif %}
 
 
-		<div class="report-container">
-			<div class="report-header">
-				<h1 class="recent-Articles">
-					<span style="color: #0255a0;">Docs</span>'
-					<span style="color: #0255a0;">Q</span>uick
-					<span style="color: #0255a0;">U</span>tility for
-					<span style="color: #0255a0;">A</span>rchiving &
-					<span style="color: #0255a0;">D</span>istribution
-				</h1>
-				<input type="hidden" id="leave_update_list" value="{% url 'leaveUpdate_list' %}"></input>
+	<div class="report-container-nomargin">
+		<div class="report-header">
+			<h1 class="recent-Articles">
+				<span style="color: #0255a0;">Docs</span>'
+				<span style="color: #0255a0;">Q</span>uick
+				<span style="color: #0255a0;">U</span>tility for
+				<span style="color: #0255a0;">A</span>rchiving &
+				<span style="color: #0255a0;">D</span>istribution
+			</h1>
+			<input type="hidden" id="leave_update_list" value="{% url 'leaveUpdate_list' %}"></input>
 
 		</div>
 
-		<div
-			class="report-body" id="leaveUpdate_list_table">
-				<div class="card_dq">
-					<div class="card-body">
-						<h5>Docs Created by You</h5>
-						<div class="folder-list-dq">
-							<div class="folder_dq">
-								<i class="fa fa-folder" aria-hidden="true"></i>
-								<span class="folder-name-dq">Folder 1</span>
-							</div>
-							<div class="folder_dq">
-								<i class="fa fa-folder" aria-hidden="true"></i>
-								<span class="folder-name-dq">Folder 2</span>
-							</div>
-							<div class="folder_dq">
-								<i class="fa fa-folder" aria-hidden="true"></i>
-								<span class="folder-name-dq">Folder 3</span>
-							</div>
-							<div class="folder_dq">
-								<i class="fa fa-folder" aria-hidden="true"></i>
-								<span class="folder-name-dq">Folder 4</span>
-							</div>
+		<div class="report-body" id="leaveUpdate_list_table">
+			<div class="card_dq">
+				<div class="card-body" id="own_folder_chamber" data-url="{% url 'display_own_folders' %}">
+					{# own folder chamber #}
+				</div>
+			</div>
+
+
+			<div class="card_dq">
+				<div class="card-body">
+					<h5>Docs from Brahmoski to the PUBLIC</h5>
+					<div class="folder-list-dq">
+						<div class="folder_dq_pub">
+							<i class="fa fa-folder" aria-hidden="true"></i>
+							<span class="folder-name-dq">Folder 1</span>
+						</div>
+						<div class="folder_dq_pub">
+							<i class="fa fa-folder" aria-hidden="true"></i>
+							<span class="folder-name-dq">Folder 2</span>
+						</div>
+						<div class="folder_dq_pub">
+							<i class="fa fa-folder" aria-hidden="true"></i>
+							<span class="folder-name-dq">Folder 3</span>
+						</div>
+						<div class="folder_dq_pub">
+							<i class="fa fa-folder" aria-hidden="true"></i>
+							<span class="folder-name-dq">Folder 4</span>
 						</div>
 					</div>
 				</div>
-			<br>
-			<div class="card">
-				<div class="card-body">
-					Docs shared with you
+			</div>
+
+
+
+			<!-- Upload files === The Modal -->
+			<div id="myModal" class="modal">
+				<div class="modal-dialog modal-dialog-centered modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Upload a File</h5>
+						</div>
+						<div class="modal-body">
+							<div id="dropzone" class="dropzone">Drag & Drop files or click to upload</div>
+							<ul id="fileList" class="file-list"></ul>
+							<input type="file" id="fileInput" multiple style="display: none;">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary closemodal"
+								data-bs-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary" id="saveFiles">Save changes</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- New Folder === The Modal -->
+			<div id="newFolderModal" class="modal">
+				<div class="modal-dialog modal-dialog-centered modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title newfolderdom">New Folder</h5>
+							<h5 class="modal-title renamefolderdom">Rename Folder</h5>
+						</div>
+						<div class="modal-body">
+							{# ----------- Form begin ----------------- #}
+							<form class="row g-3 needs-validation formblockcontent" disabled="true" id="newFolderForm" novalidate data-action="{% url 'save_New_Folder' %}" method="post"
+								enctype="multipart/form-data">
+								{% csrf_token %}
+								<div class="col-md-8">
+									<label class="form-label">Folder Name</label>
+									<input type="text" class="form-control" name="docs_folderName" id="docs_folderName" required>
+								</div>
+
+								<div class="col-md-4 newfolderdom">
+									<label class="form-label">Visibility</label>
+									<select class="form-select" name="docs_folderprivacy" id="docs_folderprivacy">
+										<option value="O" selected>Private</option>
+										<option value="A">Public</option>
+									</select>
+								</div>
+	
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary closemodal"
+										data-bs-dismiss="modal">Close</button>
+									<button type="submit" class="btn btn-primary newfolderdom" id="saveFolder">Create Folder</button>
+									<button type="button" class="btn btn-success renamefolderdom" id="renameFolder">Rename Folder</button>
+								</div>
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -65,5 +123,17 @@
 	</div>
 </div>
 
+
+<div class="floating-btn-docs">
+	<button id="main-button-docs">+</button>
+	<div class="menu_docs">
+		<button class="menu_docs-item" style="background-color:#522258">New File</button>
+		<button class="menu_docs-item" style="background-color:#8C3061" id="new_folder">New Folder</button>
+		<button class="menu_docs-item" style="background-color:#C63C51" id="file_upload">Upload a File</button>
+	</div>
+</div>
+
+
+<script src="{% static 'js/modal.js' %}"></script>
 <script src="{% static 'js/docs_quad.js' %}"></script>
 {% endblock %}

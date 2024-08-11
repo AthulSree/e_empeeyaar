@@ -1,0 +1,51 @@
+<h5>Docs Created by You</h5>
+<input value="{{parentid}}" id="prentid_dir">
+<input value="{% url 'edit_folder' %}" id="folderedit_url">
+<div class="folder-list-dq">
+    {% for folders in folderlists %}
+    {% if folders.privacy == 'O' %}
+        <div class="card docs_card">
+            <div class="dropdown docs_dd">
+                <button type="button" class="btn  dropdown-toggle-split" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                <b class="vertical-dots">⋮</b></button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" data-ddtype="rename_folder" data-fid="{{folders.id}}" data-name="{{folders.name}}">Rename</a></li>
+                    <li><a class="dropdown-item" data-ddtype="disable_folder" data-fid="{{folders.id}}">Archive</a></li>
+                    <li><a class="dropdown-item" data-ddtype="switch_privacy_folder" data-fid="{{folders.id}}">Switch Privacy</a></li>
+                </ul>
+            </div>
+            <div class="folder_dq">
+                <i class="fa fa-folder private_folder" aria-hidden="true"></i>
+                <span class="folder-name-dq private_folder">{{folders.name}}</span>
+            </div>
+        </div>
+    {% else %}
+        <div class="card docs_card">
+            <div class="dropdown docs_dd">
+                <button type="button" class="btn  dropdown-toggle-split" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                <b class="vertical-dots">⋮</b></button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" data-ddtype="rename_folder" data-fid="{{folders.id}}" data-name="{{folders.name}}">Rename</a></li>
+                    <li><a class="dropdown-item" data-ddtype="disable_folder" data-fid="{{folders.id}}">Archive</a></li>
+                    <li><a class="dropdown-item" data-ddtype="switch_privacy_folder" data-fid="{{folders.id}}">Switch Privacy</a></li>
+                </ul>
+            </div>
+            <div class="folder_dq">
+                <i class="fa fa-folder public_folder" aria-hidden="true"></i>
+                <span class="folder-name-dq public_folder">{{folders.name}}</span>
+            </div>
+        </div>
+    {% endif %}
+    {% endfor %}
+
+    {% if folderlists|length == 0 %}
+    <div style="text-align: center; color: #ff4d4d; font-size: 18px; font-weight: bold; padding: 20px;">
+        No folders available!</div>
+    {% endif %}
+
+    <!-- Example split danger button -->
+
+
+</div>

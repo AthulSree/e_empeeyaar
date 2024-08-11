@@ -22,7 +22,7 @@ class CheckSessionMiddleware:
         request.session['cur_month_selected'] = month  # Setting session for month
         request.session['cur_year_selected'] = year
       
-
+        request.wp_ip = request.META.get('HTTP_X_REAL_IP', 'Anonym')
         response = self.get_response(request)
         return response
 

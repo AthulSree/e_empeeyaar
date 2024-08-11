@@ -298,6 +298,15 @@ header {
   padding: 0px 20px 20px 20px;
 }
 
+.report-container-nomargin {
+  min-height: 300px;
+  max-width: 1500px;
+  background-color: #ffffff;
+  border-radius: 30px;
+  box-shadow: 3px 3px 10px rgb(188, 188, 188);
+  padding: 0px 20px 20px 20px;
+}
+
 .report-header {
   height: 80px;
   width: 100%;
@@ -545,7 +554,7 @@ body {
   /* height: 100vh; */
 }
 
-.timestampcontainer{
+.timestampcontainer {
   text-align: right;
   color: gray;
   font-style: italic;
@@ -639,12 +648,12 @@ piv {
   display: inline-block;
 }
 
-.roundbadge{
+.roundbadge {
   border-radius: 9px;
 }
 
-.wallpostcontent{
-  text-wrap:pretty;
+.wallpostcontent {
+  text-wrap: pretty;
   max-height: 25em;
   cursor: copy;
   overflow-y: auto;
@@ -661,14 +670,16 @@ piv {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden; /* Prevent scrolling */
+  overflow: hidden;
+  /* Prevent scrolling */
 
 }
 
 .nam_image {
   width: 192vh;
   height: 93vh;
-  object-fit: cover; /* Ensure the image covers the entire container */
+  object-fit: cover;
+  /* Ensure the image covers the entire container */
 }
 
 .nam_text {
@@ -679,53 +690,263 @@ piv {
   font-size: 24px;
   font-weight: bold;
   color: white;
-  text-shadow: 2px 2px 4px rgba(0,0,0,1); /* Optional: Add a text shadow */
-  z-index: 10; /* Ensure the text appears above the image */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  /* Optional: Add a text shadow */
+  z-index: 10;
+  /* Ensure the text appears above the image */
 }
 
 /* wallpost reply */
-.replyWallPost{
+.replyWallPost {
   cursor: pointer;
 }
 
 
 /* --------docs quad */
-  	.card_dq {
-  	  border: 1px solid #ddd;
-  	  border-radius: 8px;
-  	  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  	  padding: 16px;
-  	  max-width: 70%;
-  	  margin: 20px auto;
-  	}
-  
-  	.folder-list-dq {
-  	  display: inline-flex;
-  	  flex-wrap: wrap;
-  	  justify-content: space-between;
-  	}
-  
-  	.folder_dq {
-  	  display: flex;
-  	  flex-direction: column;
-  	  align-items: center;
-  	  margin: 10px;
-  	  text-align: center;
-  	  cursor: pointer;
-  	  transition: transform 0.2s;
-  	  color: #0965b9
-  	}
-  
-  	.folder_dq:hover {
-  	  transform: scale(1.05);
-  	}
-  
-  	.folder_dq i {
-  	  font-size: 40px;
-  	  margin-bottom: 8px;
-  	}
-  
-  	.folder-name-dq {
-  	  font-size: 13px;
-  	  color: #063866
-  	}
+.card_dq {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  max-width: 70%;
+  margin: 20px auto;
+}
+
+.folder-list-dq {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.folder_dq {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  color: #0965b9
+}
+
+
+.folder_dq:hover {
+  transform: scale(1.05);
+}
+
+.folder_dq i {
+  font-size: 40px;
+}
+
+.folder-name-dq {
+  font-size: 13px;
+  color: #063866
+}
+
+.folder_dq_pub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  color: #1f424b
+}
+
+.folder_dq_pub:hover {
+  transform: scale(1.05);
+}
+
+.folder_dq_pub i {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+
+
+
+/* ==================== MODAL CSS ====================== */
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1000;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.6);
+  /* Black with opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  /* 10% from the top and centered */
+  padding: 20px;
+  border-radius: 10px;
+  width: 50%;
+  /* Could be more or less, depending on screen size */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+  /* Ensure it stays above the background */
+}
+
+/* Close Button */
+.close-btn {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Disable background content when modal is active */
+body.modal-active {
+  overflow: hidden;
+}
+
+
+/* ================ DOCS QUAD ================= */
+.floating-btn-docs {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+#main-button-docs {
+  background: linear-gradient(to right, #CB218E, #6617CB);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 32px;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.3s ease;
+}
+
+.menu_docs {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu_docs-item {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.3s ease;
+  width: 10em;
+}
+
+.menu_docs-item:hover {
+  background-color: #0056b3;
+}
+
+.floating-btn-docs.active .menu_docs {
+  display: flex;
+}
+
+.floating-btn-docs.active #main-button-docs {
+  transform: rotate(45deg);
+}
+
+.private_folder {
+  color: #C54943;
+}
+
+.public_folder {
+  color: #134B70;
+}
+
+
+.docs_card {
+  background-color: #f9f9f9;
+  /* Slight white color */
+  border-radius: 8px;
+  padding: 16px;
+  position: relative;
+  margin-top: 1em;
+  margin-left: 0.7em;
+  width: 150px;
+  /* Adjust width as needed */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Shadow effect */
+}
+
+.docs_dd {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Styling for the drag-and-drop area */
+.dropzone {
+  width: 300px;
+  height: 150px;
+  border: 2px dashed #cb218e;
+  border-radius: 10px;
+  line-height: 150px;
+  text-align: center;
+  color: #cb218e;
+  font-size: 16px;
+  margin: 20px auto;
+  position: relative;
+}
+
+.dropzone.dragover {
+  background-color: #f3e5f5;
+  border-color: #6617cb;
+}
+
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px auto;
+  text-align: left;
+  font-size: 14px;
+  max-width: 300px;
+}
+
+.file-list li {
+  padding: 5px;
+  border-bottom: 1px solid #cb218e;
+}
+
+.file-list li:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item{
+  cursor: pointer;
+}
+
+.vertical-dots {
+  font-size: 25px;
+  /* Adjust as needed */
+}

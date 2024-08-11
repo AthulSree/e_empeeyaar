@@ -11,10 +11,6 @@ $(document).on('click', '.searchbtn,.dp', function () {
     alert('തെക്കോട്ട് നോക്കി ഇരുന്നോ');
 })
 
-$(document).on('click','.coming_soon_no_akrantham', function(){
-    alert('ഭാസ്കരൻ പണി തുടങ്ങീട്ടെ ഉള്ളു, അടിച്ചു കേറി വരാൻ വൈകും.            Stay Calm!           ബ്രോ ഈസ് സ്റ്റിൽ കുക്കിംഗ്.')
-})
-
 $(document).on('change','#id_curr_month',function(){
     var path = $(this).data('path')
     var month = $(this).val();
@@ -93,6 +89,26 @@ function showToast(message, bgColor = '#333') {
             }, 300);
         }, 3000);
     }, 100);
+}
+
+
+function toastmessage(type, msg) {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+    Toast.fire({
+        icon: type,
+        title: msg
+    });
+
 }
 
 
