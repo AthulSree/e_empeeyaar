@@ -31,7 +31,7 @@
 				{% else %}	
 				<img class="you-pic" src="{% static 'img/u2g.png' %}" alt="You">
 			{% endif %}
-		<span class="badge {% if wall_post.posted_by == 'Brahmoski' %} bg-danger {% else %}bg-success{% endif %} roundbadge">{{wall_post.posted_by}} => {{wall_post.send_to | ip2name:my_ip}}</span>
+		<span class="badge {% if wall_post.posted_by == 'BRAHMOSKI' %} bg-danger {% else %}bg-success{% endif %} roundbadge">{{wall_post.posted_by}} => {{wall_post.send_to | ip2name:my_ip}}</span>
 
 		{% if my_ip == wall_post.posted_ip or my_ip == '127.0.0.1' %}
 			<span style="cursor: pointer;"><i class="fa fa-trash deleteWallPost" aria-hidden="true" data-postid="{{wall_post.id}}" data-deletepath="wall_post_delete"></i></span>

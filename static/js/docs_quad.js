@@ -76,7 +76,7 @@ $(document).ready(function () {
         $('.floating-btn-docs').toggleClass('active')
     })
 
-    // setTimeout(openFirstAlert, 1000);
+    setTimeout(openFirstAlert, 1000);
     function openFirstAlert() {
         Swal.fire({
             title: 'Ethayalum vannille...',
@@ -107,7 +107,7 @@ $(document).ready(function () {
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Parayaam',
-                    cancelButtonText: 'Enthayalum Parayaam',
+                    cancelButtonText: 'Trigger left button',
                 }).then(function () {
                     openFirstAlert();
                 });
