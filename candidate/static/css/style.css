@@ -718,7 +718,7 @@ piv {
   justify-content: space-between;
 }
 
-.folder_dq {
+.folder_dq,.file_dq {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -730,11 +730,11 @@ piv {
 }
 
 
-.folder_dq:hover {
+.folder_dq,.file_dq:hover {
   transform: scale(1.05);
 }
 
-.folder_dq i {
+.folder_dq,.file_dq i {
   font-size: 40px;
 }
 
@@ -794,6 +794,20 @@ piv {
   padding: 20px;
   border-radius: 10px;
   width: 50%;
+  /* Could be more or less, depending on screen size */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+  /* Ensure it stays above the background */
+}
+
+/* Modal Content */
+.modal-content-lg {
+  background-color: #fefefe;
+  margin: 10% auto;
+  /* 10% from the top and centered */
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
   /* Could be more or less, depending on screen size */
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 1001;
@@ -884,6 +898,10 @@ body.modal-active {
   color: #134B70;
 }
 
+.fa-file.public_folder {
+  color: #127daa;
+}
+
 
 .docs_card {
   background-color: #f9f9f9;
@@ -949,4 +967,8 @@ body.modal-active {
 .vertical-dots {
   font-size: 25px;
   /* Adjust as needed */
+}
+
+.onam_agaya{
+  display:none;
 }

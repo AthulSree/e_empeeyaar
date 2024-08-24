@@ -3,6 +3,9 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect # type:
 
 from .models import*
 from candidate.models import wallpostIPs
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 # Create your views here.
 
@@ -30,12 +33,26 @@ def savefeedback(request):
 def displayOwnFolders(request):
      wp_ip = request.wp_ip
      uId = wallpostIPs.objects.get(ip = wp_ip)
-     parentid = request.POST.get('parentid','None')
-     if(parentid != 'None'):
-        ownFolders = Docsquad.objects.filter(userId=uId,parent_id=parentid, disabled='N')
-     else:
-        ownFolders = Docsquad.objects.filter(userId=uId, disabled='N')
-     context = {'folderlists':ownFolders, 'parentid':parentid}
+     parentid = int(request.POST.get('parentid'))
+     p_id = parentid
+     if(parentid == 0):
+        p_id = None
+
+     ownFolders = Docsquad.objects.filter(userId=uId,parent_id=p_id, disabled='N')
+    #  parentid = 0
+     try:
+        parent_chain = []
+        while p_id is not None:
+            folder_name = Docsquad.objects.get(id=p_id)
+            parent_chain.insert(0,{'id':p_id,'name':folder_name.name , 'privacy':folder_name.privacy})
+            parent = Docsquad.objects.values('parent_id').get(id=p_id)
+            p_id = parent['parent_id']
+     except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        
+     
+
+     context = {'folderlists':ownFolders, 'parentid':parentid, 'parent_chain':parent_chain}
      return render(request,'doc_squad_own_folder.html', context)
 
 def saveNewFolder(request):
@@ -43,7 +60,11 @@ def saveNewFolder(request):
         uId = wallpostIPs.objects.get(ip = wp_ip)
         folder_name = request.POST.get('docs_folderName')
         folder_privacy = request.POST.get('docs_folderprivacy')
-        parent_id = None
+        parent_id = int(request.POST.get('parent_id'))
+        if(parent_id == 0):
+            parent_id = None
+        else:
+            parent_id = Docsquad.objects.get(id=parent_id)
 
         try:
             Docsquad.objects.create(userId=uId, file_type='D', name=folder_name, privacy=folder_privacy, parent_id=parent_id)
@@ -85,3 +106,31 @@ def editFolder(request):
         msg = str(e)
 
     return JsonResponse({'status':status,'msg':msg})
+
+
+def saveDragNDrop(request):
+    wp_ip = request.wp_ip
+    uId = wallpostIPs.objects.get(ip = wp_ip)
+    if request.method == 'POST':
+        if request.FILES:
+            files = request.FILES.getlist('files[]')  # Retrieve list of files
+            prentid_dir = request.POST.get('prentid_dir')
+            doc_parent = Docsquad.objects.get(id=prentid_dir)
+
+            for f in files:
+                print(f)
+                # Handle each file here
+                try:
+                    Docsquad.objects.create(userId=uId, file_type='F', name=f.name, privacy='A', parent_id=doc_parent, file_path=f)
+                    status = 'success'
+                    msg = 'Successfully created'
+                except Exception as e:
+                    msg = str(e)
+                    status = 'error'
+                    return JsonResponse({'status': 'error', 'msg': 'Some error occurred.'+msg})
+                
+            return JsonResponse({'status': 'success', 'msg': 'Files uploaded successfully.'})
+        else:
+            return JsonResponse({'status': 'error', 'msg': 'No files received.'})
+    
+    return JsonResponse({'status': 'error', 'msg': 'Invalid request method.'})

@@ -1,6 +1,23 @@
-<h5>Docs Created by You</h5>
-<input value="{{parentid}}" id="prentid_dir">
-<input value="{% url 'edit_folder' %}" id="folderedit_url">
+    
+<input type="hidden" value="{{parentid}}" id="prentid_dir">
+<input type="hidden" value="{% url 'edit_folder' %}" id="folderedit_url">
+
+<nav aria-label="breadcrumb">   
+    <ol class="breadcrumb">
+        <h5>Docs From Your </h5> &nbsp;&nbsp;
+            <li class="breadcrumb-item" data-parentid="0"><a href="#" > <b><h5><i class="fa fa-home"></i></h5></b> </a></li>
+            {% for bread in parent_chain %}
+                <li class="breadcrumb-item" data-parentid="{{bread.id}}">
+                    <a href="#"  {% if bread.privacy == 'O' %} style="color:tomato" {% endif %}>
+                        <b>{{bread.name}}</b>
+                    </a>
+                </li>
+            {% endfor %}
+    </ol>
+</nav>
+
+
+
 <div class="folder-list-dq">
     {% for folders in folderlists %}
     {% if folders.privacy == 'O' %}
@@ -15,8 +32,13 @@
                     <li><a class="dropdown-item" data-ddtype="switch_privacy_folder" data-fid="{{folders.id}}">Switch Privacy</a></li>
                 </ul>
             </div>
-            <div class="folder_dq">
-                <i class="fa fa-folder private_folder" aria-hidden="true"></i>
+                {% if folders.file_type == 'D' %}
+                <div class="folder_dq"  data-parentid="{{folders.id}}">
+                    <i class="fa fa-folder private_folder" aria-hidden="true"></i>
+                {% else %}
+                <div class="file_dq"  data-parentid="{{folders.id}}">
+                    <i class="fa fa-file private_folder" aria-hidden="true"></i>
+                {% endif %}
                 <span class="folder-name-dq private_folder">{{folders.name}}</span>
             </div>
         </div>
@@ -32,8 +54,13 @@
                     <li><a class="dropdown-item" data-ddtype="switch_privacy_folder" data-fid="{{folders.id}}">Switch Privacy</a></li>
                 </ul>
             </div>
-            <div class="folder_dq">
-                <i class="fa fa-folder public_folder" aria-hidden="true"></i>
+                {% if folders.file_type == 'D' %}
+                <div class="folder_dq"  data-parentid="{{folders.id}}">
+                    <i class="fa fa-folder public_folder" aria-hidden="true"></i>
+                {% else %}
+                <div class="file_dq"  data-parentid="{{folders.id}}" data-file="{{folders.file_path.url}}">
+                    <i class="fa fa-file public_folder" aria-hidden="true"></i>
+                {% endif %}
                 <span class="folder-name-dq public_folder">{{folders.name}}</span>
             </div>
         </div>

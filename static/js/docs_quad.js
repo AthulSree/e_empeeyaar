@@ -1,16 +1,34 @@
 $(document).ready(function () {
     // fetching own folders
-    load_own_folders();
+    load_own_folders(0);
+
+
+    // when a folder is clicked to open
+    $(document).on('click', '.folder_dq,.breadcrumb-item', function(){
+        var parentid = this.dataset.parentid;
+        load_own_folders(parentid)
+    })
+
+    $(document).on('click','.file_dq', function(){
+        file = this.dataset.file;
+        window.open(file, '_blank');
+        // $('#fileDisplay').attr('src',file)
+        // loadmodal('iframe_modal')
+    })
+
+    $(document).on('click','.closemodal',function(){
+        closemodal('iframe_modal')
+    })
+
 
     // loading own folders
-    function load_own_folders() {
+    function load_own_folders(parentid) {
         var csrf_token = $('#csrf_token').val()
         var path = $('#own_folder_chamber').data('url');
-        console.log(csrf_token);
         $.ajax({
             url: path,
             type: "POST",
-            data: { 'csrfmiddlewaretoken': csrf_token },
+            data: { 'csrfmiddlewaretoken': csrf_token,parentid },
             success: function (data) {
                 $('#own_folder_chamber').html(data)
             }
@@ -19,6 +37,8 @@ $(document).ready(function () {
 
 
     $(document).on('click', '#file_upload', function () {
+        console.log($('.dir_struct').text());
+        
         loadmodal('myModal')
     })
     $(document).on('click', '#new_folder', function () {
@@ -33,7 +53,8 @@ $(document).ready(function () {
         e.preventDefault()
         path = this.dataset.action
         var formdata = new FormData(this);
-        console.log(path);
+        var parentid = $('#prentid_dir').val();
+        formdata.append('parent_id',parentid)
 
         $.ajax({
             url: path,
@@ -44,7 +65,7 @@ $(document).ready(function () {
             success: function (data) {
                 // swal(data.status,data.msg,data.status)
                 toastmessage(data.status, data.msg)
-                load_own_folders();
+                load_own_folders(parentid);
                 $('.closemodal').trigger('click')
             }
         })
@@ -147,6 +168,7 @@ $(document).ready(function () {
     function performAjaxRequest(ddtype, fid, newName = null) {
         var path = $("#folderedit_url").val();
         var csrfmiddlewaretoken = $('#csrf_token').val();
+        var parentid = $('#prentid_dir').val();
 
         var data = {
             csrfmiddlewaretoken,
@@ -164,7 +186,7 @@ $(document).ready(function () {
             data: data,
             success: function (data) {
                 toastmessage(data.status, data.msg);
-                load_own_folders();
+                load_own_folders(parentid);
                 $('.closemodal').trigger('click');
             },
             error: function (error) {
@@ -231,7 +253,29 @@ $(document).ready(function () {
 
 
     $(document).on('click', '#saveFiles', function () {
+        path = this.dataset.path
+        var csrfmiddlewaretoken = $('#csrf_token').val();
+        var prentid_dir = $('#prentid_dir').val();
+        formData.append('csrfmiddlewaretoken', csrfmiddlewaretoken);
+        formData.append('prentid_dir', prentid_dir);
+
         console.log(formData);
+        $.ajax({
+            url: path,
+            type: "POST",
+            data:formData,
+            processData: false,
+            contentType: false,
+            success: function(data){
+                // $('.closemodal').trigger('click')
+                $('#myModal').css('display', 'none');
+
+                parentid = $('#prentid_dir').val()
+                console.log(parentid);
+                
+                load_own_folders(parentid)
+            }
+        })
     })
 
 

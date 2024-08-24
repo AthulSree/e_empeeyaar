@@ -21,11 +21,65 @@
 
 </head>
 
+{# ----- Onam ------ #}
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #ffffff;
+        /* Background color */
+    }
+
+    .flower,
+    .word {
+        position: fixed;
+        top: -100px;
+        z-index: 9999;
+        pointer-events: none;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(100vh);
+            opacity: 0;
+        }
+    }
+
+    @keyframes fallWithRotation {
+        to {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    .flower {
+        animation-name: fallWithRotation;
+        animation-timing-function: ease-in;
+        animation-iteration-count: 1;
+        filter: drop-shadow(0px 8px 4px rgba(17, 17, 15, 0.5));
+        /* More blurred shadow for flowers */
+    }
+
+    .word {
+        font-size: 24px;
+        color: rgb(47, 141, 70);
+        font-weight: bold;
+        animation-name: fall;
+        animation-timing-function: ease-in;
+        animation-iteration-count: 1;
+        filter: drop-shadow(0px 8px 4px rgba(17, 17, 15, 0.5));
+        /* More blurred shadow for words */
+    }
+</style>
+{# ----- Onam ------ #}
 
 <body>
-<input type="hidden" value="{{ csrf_token }}" id="csrf_token">
+    <input type="hidden" value="{{ csrf_token }}" id="csrf_token">
 
-<!-- <button id="processpdf" data-path="{% url 'process_pdfs' %}">Process</button -->
+    <div class="onam_agaya" id="flower-container"></div>
+    <audio id="onamSong" src="{% static 'img/onam/onam_song.mp3' %}" type="audio/mp3"></audio>
+
+
 
 
     {% block header %}{% endblock %}
@@ -33,7 +87,71 @@
 
 </body>
 
-<script src = "{% static 'js/dashboard.js' %}"></script>
+<script src="{% static 'js/dashboard.js' %}"></script>
 
+{# ------ Onam ------- #}
+<script>
+    $(document).ready(function () {
+        let $flowerContainer = $('#flower-container');
+        let flowerImages = ["{% static 'img/onam/yellow_flower.png' %}", "{% static 'img/onam/white_flower.png' %}", "{% static 'img/onam/coconut.png' %}"];
+        let words = ["Thuthuru", "Thuthuru", "Thoothumbi"];
+        let $audio = $('#onamSong');
+
+        function createElement() {
+            // Set higher probability for flowers
+            let isFlower = Math.random() > 0.2; // 80% chance of creating a flower
+            let $element;
+
+            if (isFlower) {
+                $element = $('<img />', {
+                    src: flowerImages[Math.floor(Math.random() * flowerImages.length)],
+                    class: 'flower'
+                });
+            } else {
+                $element = $('<span />', {
+                    text: words[Math.floor(Math.random() * words.length)],
+                    class: 'word'
+                });
+            }
+
+            $element.css({
+                left: Math.random() * 100 + 'vw',
+                animationDuration: Math.random() * 2 + 3 + 's',
+                width: isFlower ? Math.random() * 20 + 30 + 'px' : ''
+            });
+
+            $flowerContainer.append($element);
+
+            // Remove the element after the animation ends
+            $element.on('animationend', function () {
+                $(this).remove();
+            });
+        }
+
+        function startEffect() {
+            let effect = setInterval(createElement, 150); // Increase the frequency of elements being created
+            setTimeout(function () {
+                clearInterval(effect);
+            }, 10000);  // Stop after 10 seconds
+        }
+
+        function showAnimation() {
+            startEffect();
+            setTimeout(function () {
+                localStorage.setItem('onamAnimationShown', 'true');
+            }, 10000); // Mark as shown after initial effect duration
+        }
+
+        if (!localStorage.getItem('onamAnimationShown')) {
+            // Play the song when the page loads
+            $audio[0].play();
+            showAnimation();
+        } else {
+            // Set up interval for subsequent animations
+            setInterval(showAnimation, 20000); // Show animation every 20 seconds
+        }
+    });
+</script>
+{# ------ Onam ------- #}
 
 </html>

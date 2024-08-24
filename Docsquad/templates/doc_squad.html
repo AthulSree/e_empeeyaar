@@ -26,6 +26,7 @@
 		<div class="report-body" id="leaveUpdate_list_table">
 			<div class="card_dq">
 				<div class="card-body" id="own_folder_chamber" data-url="{% url 'display_own_folders' %}">
+
 					{# own folder chamber #}
 				</div>
 			</div>
@@ -72,7 +73,7 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary closemodal"
 								data-bs-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary" id="saveFiles">Save changes</button>
+							<button type="button" class="btn btn-primary" id="saveFiles" data-path="{% url 'save_drag_drop' %}">Save changes</button>
 						</div>
 					</div>
 				</div>
@@ -117,6 +118,7 @@
 					</div>
 				</div>
 			</div>
+			
 
 
 		</div>

@@ -1,11 +1,4 @@
 
-let menuicn = document.querySelector(".menuicn");
-let nav = document.querySelector(".navcontainer");
-
-menuicn.addEventListener("click", () => {
-    nav.classList.toggle("navclose");
-})
-
 
 $(document).on('click', '.searchbtn,.dp', function () {
     alert('തെക്കോട്ട് നോക്കി ഇരുന്നോ');
