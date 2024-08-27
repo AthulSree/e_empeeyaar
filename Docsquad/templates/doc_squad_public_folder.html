@@ -1,0 +1,60 @@
+    
+<input type="hidden" value="{{parentid}}" id="prentid_dir_public">
+<!-- <input type="hidden" value="{% url 'edit_folder' %}" id="folderedit_url"> -->
+
+<nav aria-label="breadcrumb">   
+    <ol class="breadcrumb">
+        <h5>Public Docs From {{user_name}}'s </h5> &nbsp;&nbsp;
+            <li class="breadcrumb-item breadcrumb-item-public" data-parentid="0"><a href="#" > <b><h5><i class="fa fa-home"></i></h5></b> </a></li>
+            {% for bread in parent_chain %}
+                <li class="breadcrumb-item breadcrumb-item-public" data-parentid="{{bread.id}}">
+                    <a href="#"  {% if bread.privacy == 'O' %} style="color:tomato" {% endif %}>
+                        <b>{{bread.name}}</b>
+                    </a>
+                </li>
+            {% endfor %}
+    </ol>
+</nav>
+
+
+
+<div class="folder-list-dq">
+    {% for folders in folderlists %}
+    {% if folders.privacy == 'O' %}
+        <div class="card docs_card">
+
+                {% if folders.file_type == 'D' %}
+                <div class="folder_dq public_doc_fold"  data-parentid="{{folders.id}}">
+                    <i class="fa fa-folder private_folder" aria-hidden="true"></i>
+                {% else %}
+                <div class="file_dq"  data-parentid="{{folders.id}}">
+                    <i class="fa fa-file private_folder" aria-hidden="true"></i>
+                {% endif %}
+                <span class="folder-name-dq private_folder">{{folders.name}}</span>
+            </div>
+        </div>
+    {% else %}
+        <div class="card docs_card">
+
+                {% if folders.file_type == 'D' %}
+                <div class="folder_dq public_doc_fold"  data-parentid="{{folders.id}}">
+                    <i class="fa fa-folder public_folder" aria-hidden="true"></i>
+                {% else %}
+                <div class="file_dq"  data-parentid="{{folders.id}}" data-file="{{folders.file_path.url}}">
+                    <i class="fa fa-file public_folder" aria-hidden="true"></i>
+                {% endif %}
+                <span class="folder-name-dq public_folder">{{folders.name}}</span>
+            </div>
+        </div>
+    {% endif %}
+    {% endfor %}
+
+    {% if folderlists|length == 0 %}
+    <div style="text-align: center; color: #ff4d4d; font-size: 18px; font-weight: bold; padding: 20px;">
+        No folders available for public!</div>
+    {% endif %}
+
+    <!-- Example split danger button -->
+
+
+</div>

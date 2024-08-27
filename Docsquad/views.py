@@ -10,8 +10,14 @@ logging.basicConfig(level=logging.INFO)
 # Create your views here.
 
 def docsquad_land(request):
-    wp_ip = request.META.get('HTTP_X_REAL_IP','Anonym')
-    context = {'option':'docsquad','my_ip':wp_ip}
+    wp_ip = request.wp_ip
+    # getting distinct userids from a join django query
+    uniq_ipnames = set()
+    ipnames = Docsquad.objects.select_related('userId')
+    for name in ipnames:
+        uniq_ipnames.add((name.userId.id,name.userId.name))
+                
+    context = {'option':'docsquad','my_ip':wp_ip,'uniq_ipnames':uniq_ipnames}
     return render(request,'doc_squad.html',context)
 
 
@@ -49,14 +55,37 @@ def displayOwnFolders(request):
             p_id = parent['parent_id']
      except Exception as e:
         logging.error(f"An error occurred: {e}")
-        
-     
-
      context = {'folderlists':ownFolders, 'parentid':parentid, 'parent_chain':parent_chain}
      return render(request,'doc_squad_own_folder.html', context)
+ 
+ 
+def displayPublicFolders(request):
+     uId = request.POST.get('u_id')
+     parentid = int(request.POST.get('parentid'))
+     p_id = parentid
+     
+     u_name = wallpostIPs.objects.get(id=uId)
+     if(parentid == 0):
+        p_id = None
+
+     publicFolders = Docsquad.objects.filter(userId=uId,parent_id=p_id, disabled='N', privacy='A')
+    #  parentid = 0
+     try:
+        parent_chain = []
+        while p_id is not None:
+            folder_name = Docsquad.objects.get(id=p_id)
+            parent_chain.insert(0,{'id':p_id,'name':folder_name.name , 'privacy':folder_name.privacy})
+            parent = Docsquad.objects.values('parent_id').get(id=p_id)
+            p_id = parent['parent_id']
+     except Exception as e:
+        logging.error(f"An error occurred: {e}")
+     context = {'folderlists':publicFolders, 'parentid':parentid, 'parent_chain':parent_chain,'user_name':u_name.name}
+     return render(request,'doc_squad_public_folder.html', context)
+ 
+ 
 
 def saveNewFolder(request):
-        wp_ip = request.META.get('HTTP_X_REAL_IP','Anonym')
+        wp_ip = request.wp_ip
         uId = wallpostIPs.objects.get(ip = wp_ip)
         folder_name = request.POST.get('docs_folderName')
         folder_privacy = request.POST.get('docs_folderprivacy')

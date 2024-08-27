@@ -4,16 +4,21 @@ $(document).ready(function () {
 
 
     // when a folder is clicked to open
-    $(document).on('click', '.folder_dq,.breadcrumb-item', function(){
+    $(document).on('click', '.own_doc_fold,.breadcrumb-item-own', function(){
         var parentid = this.dataset.parentid;
         load_own_folders(parentid)
     })
 
+        // when a shared folder is clicked to open
+        $(document).on('click', '.public_doc_fold,.breadcrumb-item-public', function(){
+            var parentid = this.dataset.parentid;
+            load_public_folders(u_id,parentid)
+        })
+    
+
     $(document).on('click','.file_dq', function(){
         file = this.dataset.file;
         window.open(file, '_blank');
-        // $('#fileDisplay').attr('src',file)
-        // loadmodal('iframe_modal')
     })
 
     $(document).on('click','.closemodal',function(){
@@ -34,12 +39,30 @@ $(document).ready(function () {
             }
         })
     }
+    // loading public folders
+    function load_public_folders(u_id,parentid) {
+        var csrf_token = $('#csrf_token').val()
+        var path = $('#public_folder_chamber').data('url');
+        $.ajax({
+            url: path,
+            type: "POST",
+            data: { 'csrfmiddlewaretoken': csrf_token,parentid,u_id },
+            success: function (data) {
+                $('#public_folder_chamber').html(data)
+            }
+        })
+    }
 
 
     $(document).on('click', '#file_upload', function () {
-        console.log($('.dir_struct').text());
-        
-        loadmodal('myModal')
+        parentid = $("#prentid_dir").val();  
+        if(parentid == 0){
+            toastmessage('error', 'U cant add a file in root')
+        }else{      
+             formData = new FormData();
+             fileList.html('');
+            loadmodal('myModal')
+        }
     })
     $(document).on('click', '#new_folder', function () {
         $('.newfolderdom').show();
@@ -47,6 +70,11 @@ $(document).ready(function () {
         loadmodal('newFolderModal')
     })
 
+
+    $(document).on('change','#public_doc_dd', function(){
+        u_id = this.value
+        load_public_folders(u_id,0)
+    })
 
     // saving new folder
     $(document).on('submit', '#newFolderForm', function (e) {
@@ -76,7 +104,7 @@ $(document).ready(function () {
         $('.floating-btn-docs').toggleClass('active')
     })
 
-    setTimeout(openFirstAlert, 1000);
+    // setTimeout(openFirstAlert, 1000);
     function openFirstAlert() {
         Swal.fire({
             title: 'Ethayalum vannille...',
@@ -107,7 +135,7 @@ $(document).ready(function () {
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Parayaam',
-                    cancelButtonText: 'Trigger left button',
+                    cancelButtonText: 'Enthayalum Parayaam',
                 }).then(function () {
                     openFirstAlert();
                 });

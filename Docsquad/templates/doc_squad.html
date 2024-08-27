@@ -23,6 +23,7 @@
 
 		</div>
 
+		<!-- Own docs -->
 		<div class="report-body" id="leaveUpdate_list_table">
 			<div class="card_dq">
 				<div class="card-body" id="own_folder_chamber" data-url="{% url 'display_own_folders' %}">
@@ -32,28 +33,32 @@
 			</div>
 
 
+
+
+			<!-- Dropdown -->
+			<div class="mb-3 row">
+				<div class="col-sm-5"></div>
+				<label for="staticEmail" class="col-sm-2 col-form-label">Get public files shared by:</label>
+				<div class="col-sm-3">
+					<select class="form-select" id="public_doc_dd">
+						<option value="">--Oru card edunko saar--</option>
+						{% for u_id,u_name in uniq_ipnames %}
+						<option value="{{u_id}}">{{u_name}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+
+
+			<!-- Files by others -->
 			<div class="card_dq">
 				<div class="card-body">
-					<h5>Docs from Brahmoski to the PUBLIC</h5>
-					<div class="folder-list-dq">
-						<div class="folder_dq_pub">
-							<i class="fa fa-folder" aria-hidden="true"></i>
-							<span class="folder-name-dq">Folder 1</span>
-						</div>
-						<div class="folder_dq_pub">
-							<i class="fa fa-folder" aria-hidden="true"></i>
-							<span class="folder-name-dq">Folder 2</span>
-						</div>
-						<div class="folder_dq_pub">
-							<i class="fa fa-folder" aria-hidden="true"></i>
-							<span class="folder-name-dq">Folder 3</span>
-						</div>
-						<div class="folder_dq_pub">
-							<i class="fa fa-folder" aria-hidden="true"></i>
-							<span class="folder-name-dq">Folder 4</span>
-						</div>
+					<div class="card-body" id="public_folder_chamber" data-url="{% url 'display_public_folders' %}">
+
+						{# public folder chamber #}
+						<div style="text-align: center;"><img src="{% static 'img/parrot.png' %}" style="width:100px"></div>
 					</div>
-				</div>
+					</div>
 			</div>
 
 
@@ -73,7 +78,8 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary closemodal"
 								data-bs-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary" id="saveFiles" data-path="{% url 'save_drag_drop' %}">Save changes</button>
+							<button type="button" class="btn btn-primary" id="saveFiles"
+								data-path="{% url 'save_drag_drop' %}">Save changes</button>
 						</div>
 					</div>
 				</div>
@@ -91,12 +97,14 @@
 						</div>
 						<div class="modal-body">
 							{# ----------- Form begin ----------------- #}
-							<form class="row g-3 needs-validation formblockcontent" disabled="true" id="newFolderForm" novalidate data-action="{% url 'save_New_Folder' %}" method="post"
+							<form class="row g-3 needs-validation formblockcontent" disabled="true" id="newFolderForm"
+								novalidate data-action="{% url 'save_New_Folder' %}" method="post"
 								enctype="multipart/form-data">
 								{% csrf_token %}
 								<div class="col-md-8">
 									<label class="form-label">Folder Name</label>
-									<input type="text" class="form-control" name="docs_folderName" id="docs_folderName" required>
+									<input type="text" class="form-control" name="docs_folderName" id="docs_folderName"
+										required>
 								</div>
 
 								<div class="col-md-4 newfolderdom">
@@ -106,19 +114,21 @@
 										<option value="A">Public</option>
 									</select>
 								</div>
-	
+
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary closemodal"
 										data-bs-dismiss="modal">Close</button>
-									<button type="submit" class="btn btn-primary newfolderdom" id="saveFolder">Create Folder</button>
-									<button type="button" class="btn btn-success renamefolderdom" id="renameFolder">Rename Folder</button>
+									<button type="submit" class="btn btn-primary newfolderdom" id="saveFolder">Create
+										Folder</button>
+									<button type="button" class="btn btn-success renamefolderdom"
+										id="renameFolder">Rename Folder</button>
 								</div>
 							</form>
 						</div>
 					</div>
 				</div>
 			</div>
-			
+
 
 
 		</div>
@@ -129,7 +139,7 @@
 <div class="floating-btn-docs">
 	<button id="main-button-docs">+</button>
 	<div class="menu_docs">
-		<button class="menu_docs-item" style="background-color:#522258">New File</button>
+		<!-- <button class="menu_docs-item" style="background-color:#522258">New File</button> -->
 		<button class="menu_docs-item" style="background-color:#8C3061" id="new_folder">New Folder</button>
 		<button class="menu_docs-item" style="background-color:#C63C51" id="file_upload">Upload a File</button>
 	</div>
