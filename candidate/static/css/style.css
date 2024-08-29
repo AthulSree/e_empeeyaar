@@ -972,3 +972,46 @@ body.modal-active {
 .onam_agaya{
   display:none;
 }
+
+
+/* -====== Stephen new msg */
+.image-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100px;
+  /* Set the width of the image */
+  height: auto;
+  overflow: visible;
+}
+
+#pulldown-image {
+  top: -150px;
+  /* Start the image out of view */
+  right: 0;
+  animation: pulldown 2s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+  /* Apply both animations */
+}
+
+
+@keyframes pulldown {
+  0% {
+    top: -150px;
+    /* Start position */
+  }
+
+  50% {
+    top: 60px;
+    /* Smoothly move past the end point */
+  }
+
+  70% {
+    top: 40px;
+    /* Bounce back slightly */
+  }
+
+  100% {
+    top: 50px;
+    /* Settle in the final position smoothly */
+  }
+}

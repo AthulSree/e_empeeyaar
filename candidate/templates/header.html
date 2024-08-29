@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block header %}
+
 	<!-- Toast Container -->
 	<div class="toast-container" id="toast-container"></div>
 
@@ -12,7 +13,6 @@
 				<i>byte-WhaSSH</i>
 			</div>
 			<img class="onam_agaya" src="/static/img/onam/maveli_laughing.gif" id="menuicn" alt="menu-icon" class="" style="height: 4.5em;mix-blend-mode: multiply;position: relative;bottom: -5px;right: 1em;"></div>
-
 
 		<div class="searchbar">
 			<input type="text" placeholder="Search">
@@ -39,6 +39,9 @@
 			<div class="dp">
 				<img src="{% static 'img/user.png' %}" class="dpicn" alt="dp">
 			</div>
+		</div>
+		<div class="image-container">
+			<img id="pulldown-image" src="{% static 'img/stefen.png' %}" alt="Pull Down Image" style="height: 6em;mix-blend-mode: multiply;position: absolute;bottom: -100px;right: 3em;">
 		</div>
 
 	</header>
@@ -73,7 +76,7 @@
 					
 					<!-- Wall Post option -->
 					<a  href="{% url 'wall_post' %}"  class="nav-option {% if option == 'wall_post' %}option1{% endif %}">
-						<h4>Wall Post<span class="timestampcontainer"> (β) V24.7.7</span></h4>
+						<h4>Wall Post<span class="timestampcontainer"> (β) V24.7.13</span></h4>
 					</a>
 					<!-- Wall Post option -->
 					<a  href="{% url 'connect_to_server' %}"  class="nav-option {% if option == 'uconnect' %}option1{% endif %}">
@@ -90,4 +93,6 @@
 		</div>
 		{% block content %}{% endblock %}
 	</div>
+
+	
 {% endblock %}

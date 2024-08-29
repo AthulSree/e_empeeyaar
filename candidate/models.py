@@ -58,6 +58,7 @@ class Wallpost(models.Model):
     posted_by = models.CharField(max_length=30)
     send_to = models.CharField(max_length=20)
     posted_time = models.DateTimeField(null=False) 
+    seen = models.CharField(max_length=1)
     
     reply_content = models.TextField(null=True)
     reply_ip = models.CharField(max_length=15, null=True)

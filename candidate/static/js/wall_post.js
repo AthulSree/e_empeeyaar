@@ -1,6 +1,19 @@
 
 
 $(document).ready(function(){
+    csrftoken = $('#csrf_token').val();
+
+   var path = $("#wallpost_msg_read").val();
+   
+    $.ajax({
+        url : path,
+        type: 'POST',
+        data : {'csrfmiddlewaretoken':csrftoken},
+        success: function(data){
+
+        }
+    })
+
 
   $('#imageDisplay').hide()
   poststat = $('#poststat').val();
@@ -95,7 +108,6 @@ $(document).ready(function(){
       successimgurl = $('#deletesuccess').data('imgurl');
       failedimgurl = $('#deletefailed').data('imgurl');
       path = $(this).data('deletepath');
-      csrftoken = $('#csrf_token').val();
 
       if(postid == 1){
           Swal.fire("Can't delete")
@@ -153,7 +165,7 @@ $(document).ready(function(){
 
   // ------- cpy to clipboard
 
-  $(document).on('click','.wallpostcontent', function(){
+  $(document).on('dblclick','.wallpostcontent', function(){
       var content = $(this).text()
       console.log(content);
       var tempElement = $('<textarea>');
@@ -211,6 +223,12 @@ $(document).ready(function(){
         $("#post_for").show();
         $("#wp_reply_id").val(0);
     })
+
+    $(document).on('click', '.vodey', function () {
+        const div = $('.frosted-glass');
+        div.css('transform', 'translateY(-250px)'); // Moves the div upwards by 100px
+    });
+
 
 })
 

@@ -167,7 +167,7 @@ def leaveRecordSave(request):
 
 
 def wallpost(request):
-    my_ip = request.META.get('HTTP_X_REAL_IP')    
+    my_ip = request.wp_ip    
     send_to = wallpostIPs.objects.all()       
     poststat = request.GET.get('poststat',200)
     
@@ -184,7 +184,7 @@ def wallpost(request):
         query = query.filter((Q(send_to = '0')|Q(send_to = my_ip) | Q(posted_ip=my_ip)))
     wallpost = query.order_by('-posted_time')
     
-    context = {'option':'wall_post', 'wallpost':wallpost, 'send_to':send_to,'my_ip':my_ip,'poststat':poststat}
+    context = {'option':'wall_post', 'wallpost':wallpost, 'send_to':send_to,'my_ip':my_ip,'poststat':poststat,'unReadAvail':0}
     return render(request, 'wall_post.html',context)
 
 
@@ -198,7 +198,7 @@ def wallpost_save(request):
     data = request.POST.get("wp_content")
     file = request.FILES.get("wp_img")
     wp_sendto_ip = request.POST.get("wp_sendto_ip")
-    wp_ip = request.META.get('HTTP_X_REAL_IP','Anonym')
+    wp_ip = request.wp_ip
     wp_reply = int(request.POST.get('wp_reply_id'))
     
     # ----
@@ -210,6 +210,10 @@ def wallpost_save(request):
     except ObjectDoesNotExist:
         wp_by = 'Anonym.'
      
+    seen = 'N'
+    if(wp_sendto_ip == '0'):
+        seen = 'Y'
+
     wp_time = datetime.now()
     
     if(wp_reply > 0):
@@ -220,7 +224,7 @@ def wallpost_save(request):
         wallpostContent.reply_time = wp_time
         wallpostContent.save()
     elif(data != "" or file != None):
-        Wallpost.objects.create(subject=subject , content= data, files=file, posted_ip= wp_ip, posted_by= wp_by , send_to=wp_sendto_ip, posted_time=wp_time)
+        Wallpost.objects.create(subject=subject , content= data, files=file, posted_ip= wp_ip, posted_by= wp_by , send_to=wp_sendto_ip,seen=seen, posted_time=wp_time)
     return HttpResponseRedirect(reverse('wall_post')+'?poststat=200')
 
 
@@ -235,6 +239,15 @@ def wallpost_delete(request):
     except Exception as e:
         return JsonResponse({'status':300})
 
+
+def wallpost_msg_read(request):
+    wp_ip = request.wp_ip
+    try:
+        Wallpost.objects.filter(send_to=wp_ip).update(seen = 'Y')
+    except Exception as e:
+        return JsonResponse({'status':300})
+        
+    return JsonResponse({'status':200})
 
 
 def changeMonth(request):

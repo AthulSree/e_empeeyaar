@@ -1,5 +1,6 @@
 from datetime import datetime
 import calendar
+from .models import Wallpost
 
 
 def lastThreeMonths(request):
@@ -21,3 +22,8 @@ def lastThreeMonths(request):
     request.session['mprformonth'] = str(current_month) + " " + str(cur_year_selected)
 
     return {'last_three_months':last_three_months, 'current_month':current_month, 'current_year':cur_year_selected, 'cur_month_selected':cur_month_selected}
+
+def unReadMessages(request):
+    my_ip = request.wp_ip
+    unReadAvail = Wallpost.objects.filter(seen='N',send_to=my_ip).count()
+    return {'unReadAvail':unReadAvail}

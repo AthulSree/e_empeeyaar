@@ -5,80 +5,134 @@
 
 {% block content %}
 
+<style>
+	.frosted-glass {
+	width: 300px; /* Adjust the width as needed */
+	height: 200px; /* Adjust the height as needed */
+	background: linear-gradient(to bottom right, rgba(238, 130, 238, 0.2), rgba(75, 0, 130, 0.3)); /* Lighter violet to indigo gradient with transparency */
+	backdrop-filter: blur(10px); /* Frosted glass effect */
+	border-radius: 15px; /* Rounded corners */
+	padding: 20px; /* Space inside the div */
+    color: rgb(49, 0, 71) !important; /* Text color */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+	overflow: hidden; /* Prevent overflow */
+	border-radius: 19px !important; 
+	position:fixed; 
+	width:60em !important;
+	animation: whatsnew_pulldown 2s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+	transition: transform 0.5s ease;
+
+	}
+
+@keyframes whatsnew_pulldown {
+
+  0% {
+    top: -150px;
+    /* Start position */
+  }
+
+
+  100% {
+    top: 80px;
+    /* Settle in the final position smoothly */
+  }
+}
+
+</style>
+
+
 <input type="hidden" id="deleteconfirm" data-imgurl="{% static 'img/delete_confirm.png' %}">
 <input type="hidden" id="deletesuccess" data-imgurl="{% static 'img/delete_success.png' %}">
 <input type="hidden" id="deletefailed" data-imgurl="{% static 'img/delete_failed.png' %}">
 <input type="hidden" id="poststat" value="{{poststat}}">
+<input type="hidden" id="wallpost_msg_read" value="{% url 'wallpost_msg_read' %}">
+
 <div class="card main container">
 
-	<div class="card-header d-flex justify-content-between align-items-center shadow-lg p-3 mb-5 bg-body-tertiary rounded border border-bottom-0"
-		style="border-radius: 19px !important;">
-		<span>
-			<h5 style="color:rgb(49, 0, 71)"><i class="fa fa-google-wallet" aria-hidden="true"></i> Wall Post Feeds</h5>
-		</span>
-		<button class="btn btn-success ms-auto post_item" type="button" data-bs-toggle="offcanvas"
-			data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-			<b>+ Post</b>
-		</button>
+	<div class="frosted-glass ">
+				<div>
+					<h5 style="">
+						<i class="fa fa-google-wallet" aria-hidden="true"></i>
+						What's New in Wall Post v24.7.13 ?!</h5>
+						<ul>
+							<li>Copying a wallpost content will now be triggered only when <b>double clicked</b>, allowing you to select the content more easily.</li>
+							<li>You will be notified for unread messages since <i>byte-WaSSH</i> is loaded. </li>
+						</ul>
+				</div>
+		<div style="text-align:right">
+			<button class="btn btn-primary vodey"  style="background-color:indigo">Vodey<button>
+		</div>
 	</div>
 
 
-	<!-- -------- Wall post content---------- -->
-	<div class="card-body">
-		{% for wall_post in wallpost %}
-			{% if wall_post.send_to != '0' %}
-				<img class="you-pic" src="{% static 'img/u2u.png' %}" alt="You">
-				{% else %}	
-				<img class="you-pic" src="{% static 'img/u2g.png' %}" alt="You">
-			{% endif %}
-		<span class="badge {% if wall_post.posted_by == 'BRAHMOSKI' %} bg-danger {% else %}bg-success{% endif %} roundbadge">{{wall_post.posted_by}} => {{wall_post.send_to | ip2name:my_ip}}</span>
+		<div class="card-header d-flex justify-content-between align-items-center shadow-lg p-3 mb-5 bg-body-tertiary rounded border border-bottom-0"
+			style="border-radius: 19px !important;">
+			<span>
+				<h5 style="color:rgb(49, 0, 71)"><i class="fa fa-google-wallet" aria-hidden="true"></i> Wall Post Feeds</h5>
+			</span>
+			<button class="btn btn-success ms-auto post_item" type="button" data-bs-toggle="offcanvas"
+				data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+				<b>+ Post</b>
+			</button>
+		</div>
 
-		{% if my_ip == wall_post.posted_ip or my_ip == '127.0.0.1' %}
-			<span style="cursor: pointer;"><i class="fa fa-trash deleteWallPost" aria-hidden="true" data-postid="{{wall_post.id}}" data-deletepath="wall_post_delete"></i></span>
-		{% endif %}
-			<i class="replyWallPost fa fa-reply" data-postid="{{wall_post.id}}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>
-		</button>
-		<div class=" wallpost_content">
-			<p class="card-text">
-				{% if wall_post.subject != None %} 
-					<strong>{{wall_post.subject}}</strong> 
-				{% endif %}
-				<pre  class="wallpostcontent" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to copy">{{wall_post.content | style_contents}}</pre>
-			</p>
 
-			{% if wall_post.files != "" %}
-				{% if wall_post.files.url|is_pdf  or  wall_post.files.url|is_zip or  wall_post.files.url|is_xl %}
-					<a href="{{ wall_post.files.url }}" target="_blank">
-						{{ wall_post.files.name|getFileName }}
-					</a>
-				{% else %}
-					<a href="{{ wall_post.files.url }}" target="_blank">
-						<img src="{{ wall_post.files.url }}" style="width:150px !important;height:auto">
-					</a>
-					<br><span style="font-size:10px;font-style: italic;color:blueviolet;">Click the image to open in full
-						size</span>
+		<!-- -------- Wall post content---------- -->
+		<div class="card-body">
+			{% for wall_post in wallpost %}
+				{% if wall_post.send_to != '0' %}
+					<img class="you-pic" src="{% static 'img/u2u.png' %}" alt="You">
+					{% else %}	
+					<img class="you-pic" src="{% static 'img/u2g.png' %}" alt="You">
 				{% endif %}
+			<span class="badge {% if wall_post.posted_by == 'BRAHMOSKI' %} bg-danger {% else %}bg-success{% endif %} roundbadge">{{wall_post.posted_by}} => {{wall_post.send_to | ip2name:my_ip}}</span>
+
+			{% if my_ip == wall_post.posted_ip or my_ip == '127.0.0.1' %}
+				<span style="cursor: pointer;"><i class="fa fa-trash deleteWallPost" aria-hidden="true" data-postid="{{wall_post.id}}" data-deletepath="wall_post_delete"></i></span>
 			{% endif %}
-			<!-- reply -->
-			{% if wall_post.reply_content != None and wall_post.reply_content != ''%}
-			<div class="wallpost_content_reply">
-				<div class="timestampcontainer"><span class="custom-span"><b>{{wall_post.reply_by}}</b> replied @ {{wall_post.reply_time}}</span></div>
+				<i class="replyWallPost fa fa-reply" data-postid="{{wall_post.id}}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>
+			</button>
+			<div class=" wallpost_content">
 				<p class="card-text">
-					<pre  class="wallpostcontent" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to copy">{{wall_post.reply_content | style_contents}}</pre>
-				</p>	
-			</div>	
-			{% endif %}	
+					{% if wall_post.subject != None %} 
+						<strong>{{wall_post.subject}}</strong> 
+					{% endif %}
+					<pre  class="wallpostcontent" data-bs-toggle="tooltip" data-bs-placement="top" title="Double Click to copy">{{wall_post.content | style_contents}}</pre>
+				</p>
+
+				{% if wall_post.files != "" %}
+					{% if wall_post.files.url|is_pdf  or  wall_post.files.url|is_zip or  wall_post.files.url|is_xl %}
+						<a href="{{ wall_post.files.url }}" target="_blank">
+							{{ wall_post.files.name|getFileName }}
+						</a>
+					{% else %}
+						<a href="{{ wall_post.files.url }}" target="_blank">
+							<img src="{{ wall_post.files.url }}" style="width:150px !important;height:auto">
+						</a>
+						<br><span style="font-size:10px;font-style: italic;color:blueviolet;">Click the image to open in full
+							size</span>
+					{% endif %}
+				{% endif %}
+				<!-- reply -->
+				{% if wall_post.reply_content != None and wall_post.reply_content != ''%}
+				<div class="wallpost_content_reply">
+					<div class="timestampcontainer"><span class="custom-span"><b>{{wall_post.reply_by}}</b> replied @ {{wall_post.reply_time}}</span></div>
+					<p class="card-text">
+						<pre  class="wallpostcontent" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to copy">{{wall_post.reply_content | style_contents}}</pre>
+					</p>	
+				</div>	
+				{% endif %}	
+
+			</div>
+			<div class="timestampcontainer">
+				<span class="custom-span">{{wall_post.posted_time}}</span>
+			</div>
+			<br>
+			{% endfor %}
 
 		</div>
-		<div class="timestampcontainer">
-			<span class="custom-span">{{wall_post.posted_time}}</span>
-		</div>
-		<br>
-		{% endfor %}
 
 	</div>
-
-</div>
 
 
 
