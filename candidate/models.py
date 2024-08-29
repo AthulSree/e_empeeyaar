@@ -80,3 +80,13 @@ class wallpostIPs(models.Model):
         
     def __str__(self) -> str:
         return f"{self.ip}-{self.name}"
+    
+class wallpostAccessRecords(models.Model):
+    user = models.ForeignKey(wallpostIPs, on_delete=models.CASCADE)
+    last_active_time = models.DateTimeField()
+
+    class Meta:
+        db_table = 'wallpost_access_records'
+
+    def __str__(self) -> str:
+        return f"{self.user} was last active @ {self.last_active_time}"

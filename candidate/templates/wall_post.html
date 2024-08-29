@@ -8,7 +8,7 @@
 <style>
 	.frosted-glass {
 	width: 300px; /* Adjust the width as needed */
-	height: 200px; /* Adjust the height as needed */
+	height: 230px; /* Adjust the height as needed */
 	background: linear-gradient(to bottom right, rgba(238, 130, 238, 0.2), rgba(75, 0, 130, 0.3)); /* Lighter violet to indigo gradient with transparency */
 	backdrop-filter: blur(10px); /* Frosted glass effect */
 	border-radius: 15px; /* Rounded corners */
@@ -47,22 +47,31 @@
 <input type="hidden" id="poststat" value="{{poststat}}">
 <input type="hidden" id="wallpost_msg_read" value="{% url 'wallpost_msg_read' %}">
 
+
+
+
 <div class="card main container">
 
-	<div class="frosted-glass ">
-				<div>
-					<h5 style="">
-						<i class="fa fa-google-wallet" aria-hidden="true"></i>
-						What's New in Wall Post v24.7.13 ?!</h5>
-						<ul>
-							<li>Copying a wallpost content will now be triggered only when <b>double clicked</b>, allowing you to select the content more easily.</li>
-							<li>You will be notified for unread messages since <i>byte-WaSSH</i> is loaded. </li>
-						</ul>
+		{% if wallpost_last_active < "Aug. 29, 2024" %}
+			<div class="frosted-glass ">
+						<div>
+							<h5 style="">
+								<i class="fa fa-google-wallet" aria-hidden="true"></i>
+								What's New in Wall Post v24.7.13 ?!</h5>
+								<ul>
+									<li>Copying a wallpost content will now be triggered only when <b>double clicked</b>, allowing you to select the content more easily.</li>
+									<li>You will be notified for unread messages since <i>byte-WaSSH</i> is loaded. </li>
+									<li>New messages will have an <i style="color:crimson"><b>UnRead</b></i> badge.</li>
+								</ul>
+						</div>
+				<div style="text-align:right">
+					<button class="btn btn-primary vodey"  style="background-color:indigo">Vodey<button>
 				</div>
-		<div style="text-align:right">
-			<button class="btn btn-primary vodey"  style="background-color:indigo">Vodey<button>
-		</div>
-	</div>
+				<br>
+				<br>
+				<br>
+			</div>
+		{% endif %}
 
 
 		<div class="card-header d-flex justify-content-between align-items-center shadow-lg p-3 mb-5 bg-body-tertiary rounded border border-bottom-0"
@@ -91,7 +100,11 @@
 				<span style="cursor: pointer;"><i class="fa fa-trash deleteWallPost" aria-hidden="true" data-postid="{{wall_post.id}}" data-deletepath="wall_post_delete"></i></span>
 			{% endif %}
 				<i class="replyWallPost fa fa-reply" data-postid="{{wall_post.id}}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>
-			</button>
+
+			{% if wall_post.posted_time > wallpost_last_active %}
+			<i style="color:crimson"><b>UnRead</b></i> 
+			{% endif %}
+			
 			<div class=" wallpost_content">
 				<p class="card-text">
 					{% if wall_post.subject != None %} 

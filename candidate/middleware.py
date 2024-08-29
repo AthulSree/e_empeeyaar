@@ -23,7 +23,7 @@ class CheckSessionMiddleware:
         request.session['cur_year_selected'] = year
       
         request.wp_ip = request.META.get('HTTP_X_REAL_IP', 'Anonym')
-        # request.wp_ip = '127.0.0.1'
+        request.wp_ip = '127.0.0.1'
         response = self.get_response(request)
         return response
 

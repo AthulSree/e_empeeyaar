@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect # type:
 from django.template import loader # type: ignore
 from django.template.loader import render_to_string # type: ignore
 from django.urls import reverse # type: ignore
-from .models import Candidate,LeaveRecords,Wallpost,wallpostIPs
+from .models import Candidate,LeaveRecords,Wallpost,wallpostIPs,wallpostAccessRecords
 from django.db.models import Q # type: ignore
 from datetime import datetime,date
 from django.utils.dateparse import parse_date  # type: ignore
@@ -173,27 +173,31 @@ def wallpost(request):
     
     # checking if the req ip is included in the universe
     try:
-        wallpostIPs.objects.get(ip=my_ip)
+        user_id = wallpostIPs.objects.get(ip=my_ip)
     except ObjectDoesNotExist:
         return render(request,'notAMember.html')
     
-    # wallpost = Wallpost.objects.all().filter(Q(disabled='N') & (Q(send_to = '0') | Q(send_to = my_ip))).order_by('-posted_time')    #if there is multi cond with or & and
     
     query = Wallpost.objects.filter(disabled = 'N')
     if(my_ip != '127.0.0.1'):
         query = query.filter((Q(send_to = '0')|Q(send_to = my_ip) | Q(posted_ip=my_ip)))
+        query = query.filter()
     wallpost = query.order_by('-posted_time')
-    
-    context = {'option':'wall_post', 'wallpost':wallpost, 'send_to':send_to,'my_ip':my_ip,'poststat':poststat,'unReadAvail':0}
+
+    try:
+        wallpost_last_active = wallpostAccessRecords.objects.values('last_active_time').get(user=user_id)
+        wallpost_last_active = wallpost_last_active['last_active_time']
+    except wallpostAccessRecords.DoesNotExist:
+        wallpost_last_active = "Aug. 28, 2024, 10:56 p.m."
+        
+    context = {'option':'wall_post', 'wallpost':wallpost, 'send_to':send_to,'my_ip':my_ip,'poststat':poststat,'wallpost_last_active':wallpost_last_active,'unReadAvail':0}
     return render(request, 'wall_post.html',context)
 
 
-def wallpost_save(request):
-    # reply_content = models.TextField(null=True)
-    # reply_ip = models.CharField(max_length=15, null=True)
-    # reply_by = models.CharField(max_length=30, null=True)
-    # reply_time = models.DateTimeField(null=True) 
 
+
+
+def wallpost_save(request):
     subject = request.POST.get("wp_subject")
     data = request.POST.get("wp_content")
     file = request.FILES.get("wp_img")
@@ -244,13 +248,26 @@ def wallpost_msg_read(request):
     wp_ip = request.wp_ip
     try:
         Wallpost.objects.filter(send_to=wp_ip).update(seen = 'Y')
+        wp_user = wallpostIPs.objects.get(ip=wp_ip)
+
+        try:
+            wp_access = wallpostAccessRecords.objects.get(user = wp_user)
+        except wallpostAccessRecords.DoesNotExist:
+            wp_access = None
+
+        if(wp_access):
+            wp_access.last_active_time = datetime.now()
+            wp_access.save()
+        else:
+            wallpostAccessRecords.objects.create(user=wp_user,last_active_time=datetime.now())
     except Exception as e:
-        return JsonResponse({'status':300})
+        return JsonResponse({'status':300,'msg':str(e)})
         
     return JsonResponse({'status':200})
 
 
 def changeMonth(request):
+    
      if(request.method == 'POST'):
           month = request.POST.get('month')
           request.session['cur_month_selected']=month
