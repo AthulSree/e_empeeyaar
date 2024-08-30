@@ -1,5 +1,10 @@
 
 
+var unReadcount = $("#unReadAvail").val();
+if(unReadcount == 0){
+    $("#pulldown-image").hide();
+}
+
 $(document).on('click', '.searchbtn,.dp', function () {
     alert('തെക്കോട്ട് നോക്കി ഇരുന്നോ');
 })
