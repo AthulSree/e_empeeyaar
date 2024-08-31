@@ -14,8 +14,7 @@ class Command(BaseCommand):
         target_names = ['ATHUL', 'SREERAJ','NISANTH','SIMI','ANUJITH','VIMAL']
 
         for filename in os.listdir(pdf_folder):
-            if filename.endswith('.pdf'):
-                print("?????????")
+            if filename.endswith('.PDF'):
                 file_path = os.path.join(pdf_folder, filename)
                 doc = fitz.open(file_path)
                 text = ''

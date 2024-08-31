@@ -69,6 +69,10 @@ class Wallpost(models.Model):
 
     class Meta:
         db_table = 'wall_post'
+        
+    def __str__(self):
+        # Return a descriptive string for the admin interface
+        return f"{self.subject} - {self.posted_by} ({self.posted_time})"
 
 class wallpostIPs(models.Model):
     ip = models.CharField(max_length=20)

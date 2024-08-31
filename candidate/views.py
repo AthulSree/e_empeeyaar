@@ -8,6 +8,8 @@ from django.db.models import Q # type: ignore
 from datetime import datetime,date
 from django.utils.dateparse import parse_date  # type: ignore
 import pdfkit,calendar,os,fitz,base64 # type: ignore
+from django.utils import timezone #type: ignore
+import pytz
 # import time
 # import pywhatkit as kit #type: ignore
 from my_mpr.settings import WKHTMLTOPDF_PATH,MPR_HTML_HEAD,SIGNED_MPR_SIGN_IMG_PATH  # type: ignore
@@ -188,9 +190,23 @@ def wallpost(request):
         wallpost_last_active = wallpostAccessRecords.objects.values('last_active_time').get(user=user_id)
         wallpost_last_active = wallpost_last_active['last_active_time']
     except wallpostAccessRecords.DoesNotExist:
-        wallpost_last_active = "Aug. 28, 2024, 10:56 p.m."
-        
-    context = {'option':'wall_post', 'wallpost':wallpost, 'send_to':send_to,'my_ip':my_ip,'poststat':poststat,'wallpost_last_active':wallpost_last_active,'unReadAvail':0}
+        wallpost_last_active = datetime.strptime("Aug. 28, 2024, 10:56 PM", "%b. %d, %Y, %I:%M %p")
+        wallpost_last_active = timezone.make_aware(wallpost_last_active, timezone=pytz.timezone('Asia/Kolkata')) 
+          
+    
+     
+    comparison_date = datetime(2024, 8, 31, 0, 0)
+    comparison_date = timezone.make_aware(comparison_date, timezone=pytz.timezone('Asia/Kolkata'))
+    
+    context = {'option':'wall_post', 
+               'wallpost':wallpost, 
+               'send_to':send_to,
+               'my_ip':my_ip,
+               'poststat':poststat,
+               'wallpost_last_active':wallpost_last_active,
+               'comparison_date':comparison_date,
+               'unReadAvail':0
+               }
     return render(request, 'wall_post.html',context)
 
 
@@ -371,7 +387,7 @@ def generatepdf(request):
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename='+file_name
     return response
-
+    #  run this command in a terminal to rename scanned files => python3 manage.py pdf2img
 
 # ================== Other testing functions =========================>
 
