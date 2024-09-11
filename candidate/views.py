@@ -195,7 +195,7 @@ def wallpost(request):
           
     
      
-    comparison_date = datetime(2024, 8, 31, 0, 0)
+    comparison_date = datetime(2024, 9, 4, 0, 0)
     comparison_date = timezone.make_aware(comparison_date, timezone=pytz.timezone('Asia/Kolkata'))
     
     context = {'option':'wall_post', 
@@ -235,6 +235,13 @@ def wallpost_save(request):
         seen = 'Y'
 
     wp_time = datetime.now()
+    
+    # ---noti
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect('10.162.6.11', username="athul", password="nic*123")
+    ssh.exec_command("notify-send 'New message in byte-WhaSSH'")
+    # -------
     
     if(wp_reply > 0):
         wallpostContent = Wallpost.objects.get(id=wp_reply)
