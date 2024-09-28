@@ -23,12 +23,14 @@
 
 		{# ------------ MOnth dropdown-begin #}
 		<div class='col-3'></div>
-		<div class='col-1'>
-			<select class="form-select" style="background-color: lavender;border-radius: 10px;" id="id_curr_month" data-path = "{% url 'change_month' %}">
-				{% for  months in  last_three_months  %}
-					<option value="{{months.value}}" {% if months.value == cur_month_selected %} selected="" {% endif %}>{{months.name}} / {{request.session.cur_year_selected}}</option>
-				{% endfor %}
-			</select>
+		<div class="col-m-2">
+			<div class='col-12'>
+				<select class="form-select" style="background-color: lavender;border-radius: 10px;" id="id_curr_month" data-path = "{% url 'change_month' %}">
+					{% for  months in  last_three_months  %}
+						<option value="{{months.value}}" {% if months.value == cur_month_selected %} selected="" {% endif %}>{{months.name}} / {{request.session.cur_year_selected}}</option>
+					{% endfor %}
+				</select>
+			</div>
 		</div>
 		{# ------------ MOnth dropdown-ends #}
 
@@ -56,7 +58,7 @@
 					class="nav-upper-options">
 					<!-- Dashboard option -->
 					<a href="{% url 'dashboard' %}" class="nav-option {% if option == 'dashboard' %}option1{% endif %}">
-						<h4>Dashboard</h4>
+						<h4>iMPRint</h4>
 					</a>
 
 					<!-- Candidate option -->
@@ -86,6 +88,11 @@
 					<!-- Docs Quad option -->
 					<a  href="{% url 'docsquad_land' %}" class="nav-option {% if option == 'docsquad' %}option1{% endif %}">
 						<h4>Docs Quad<span class="timestampcontainer"> (β)V1.1.0</span></h4>
+					</a>
+
+					<!-- Notification option -->
+					<a  href="{% url 'notiboi_index' %}" class="nav-option {% if option == 'notiboi' %}option1{% endif %}">
+						<h4>Noti Boi<span class="timestampcontainer"></span></h4>
 					</a>
 					
 				</div>

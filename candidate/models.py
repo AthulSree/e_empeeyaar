@@ -78,6 +78,8 @@ class wallpostIPs(models.Model):
     ip = models.CharField(max_length=20)
     name = models.CharField(max_length=50)
     group = models.CharField(max_length=10)
+    uname = models.CharField(max_length=20, null=True)
+    password = models.CharField(max_length=20,null=True)
     
     class Meta:
         db_table = 'wall_post_ip'

@@ -969,7 +969,9 @@ body.modal-active {
   /* Adjust as needed */
 }
 
-
+.onam_agaya{
+  display: none;
+}
 
 
 /* -====== Stephen new msg */

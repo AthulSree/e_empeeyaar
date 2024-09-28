@@ -1,0 +1,100 @@
+{% extends 'header.html' %}
+
+{% load static %}
+{% block content %}
+
+<div class="report-container" style="height: fit-content;">
+    <div class="report-header">
+        <h1 class="recent-Articles"><i>Notification Broadcast Operation Interface</i></h1>
+    </div>
+
+
+    <div class="report-body" id="leaveUpdate_list_table">
+
+
+        <form method="post" data-action="{% url 'send_notification' %}" id="sendNoti">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="hostname" class="form-label">Hostname: <sup>(Optional)</sup></label>
+                <select class="form-select" id="hostname_selection">
+                    <option selected>--- select hostname ---</option>
+                    <option value="1">Athul</option>
+                    <option value="2">Sreeraj</option>
+                    <option value="3">Nisanth</option>
+                    <option value="4">Simi</option>
+                    <option value="5">Vimal</option>
+                    <option value="6">Anujith</option>
+                    <option value="7">Akhil</option>
+                    <option value="8">Nikhil</option>
+                    <option value="9">Sooraj</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="hostname" class="form-label">HostIP:</label>
+                <input type="text" class="form-control" id="hostname" name="hostname" required>
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">Notification Content</label>
+                <textarea type="content" class="form-control" id="content" name="content" rows="6" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Notify</button>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var hostArray = {
+                1: { ip: '10.162.6.11', un: 'athul', pw: 'nic*123' },
+                2: { ip: '10.162.6.169', un: 'sreeraj', pw: 'nic*1234' },
+                3: { ip: '10.162.6.190', un: 'nisanth', pw: 'nic*123' },
+                4: { ip: '10.162.6.167', un: 'simi', pw: 'nic*123' },
+                5: { ip: '10.162.6.12', un: 'shershad', pw: 'nic*123' },
+                6: { ip: '10.162.6.160', un: 'anujith', pw: 'nic*123' },
+                7: { ip: '10.162.6.236', un: 'akhil', pw: 'nic*123' },
+                8: { ip: '10.162.6.102', un: 'nikhil', pw: '1' },
+                9: { ip: '10.162.6.180', un: 'sooraj', pw: 'nic*2024' }
+            };
+
+        $(document).on('change', '#hostname_selection', function () {
+            var hostname = $(this).val();
+            ip = hostArray[hostname]['ip'];
+            un = hostArray[hostname]['un'];
+            pw = hostArray[hostname]['pw'];
+            $('#hostname').val(ip);
+            $('#username').val(un);
+            $('#password').val(pw);
+        })
+
+        $(document).on('submit','#sendNoti', function(e){
+            e.preventDefault();
+            var formdata = new FormData(this);
+            var path = this.dataset.action;
+
+            $.ajax({
+                url: path,
+                type: "POST",
+                data: formdata,
+                processData: false,
+                contentType: false,
+                
+                success: function(data){
+                    toastmessage(data.status, data.msg)
+                }
+
+            })
+
+        })
+    })
+</script>
+{% endblock %}

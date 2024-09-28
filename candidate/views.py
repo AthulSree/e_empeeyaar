@@ -38,7 +38,7 @@ def dashboard(request):
     query = " SELECT   C.c_id,C.name,C.image,L.month,L.year,L.paid_leave_days,L.non_paid_leave_days,L.no_of_leaves,L.att_details,L.att_graph,L.id FROM candidates C LEFT JOIN leave_records L ON C.C_ID=L.C_ID AND L.MONTH = %s AND L.YEAR=%s  order by c_id"
     leaves = Candidate.objects.raw(query,[month,year])
     context = {'option':'dashboard','leave_records':leaves,'month_year':f"{month}/{year}"}
-
+    print('MMMMM',leaves[0])
     return render(request, 'dashboard.html', context)
 
 
@@ -236,13 +236,6 @@ def wallpost_save(request):
 
     wp_time = datetime.now()
     
-    # ---noti
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect('10.162.6.11', username="athul", password="nic*123")
-    ssh.exec_command("notify-send 'New message in byte-WhaSSH'")
-    # -------
-    
     if(wp_reply > 0):
         wallpostContent = Wallpost.objects.get(id=wp_reply)
         wallpostContent.reply_content = data
@@ -250,11 +243,45 @@ def wallpost_save(request):
         wallpostContent.reply_by = wp_by
         wallpostContent.reply_time = wp_time
         wallpostContent.save()
+        # print('XXXXXXXXXXXXXXXXXXXXXXx',wallpostContent.posted_ip)
+        if(wp_ip == wallpostContent.posted_ip):
+            sendWallpostNoti(wp_by,wallpostContent.send_to,'reply')
+        else:
+            sendWallpostNoti(wp_by,wallpostContent.posted_ip,'reply')
+            
+            
     elif(data != "" or file != None):
         Wallpost.objects.create(subject=subject , content= data, files=file, posted_ip= wp_ip, posted_by= wp_by , send_to=wp_sendto_ip,seen=seen, posted_time=wp_time)
+        sendWallpostNoti(wp_by,wp_sendto_ip,'new')
+        
+
     return HttpResponseRedirect(reverse('wall_post')+'?poststat=200')
 
 
+def sendWallpostNoti(sender,receiverId,mode):
+    if(receiverId != 0):
+        ipData = wallpostIPs.objects.filter(ip = receiverId).first()
+        receiverIP = ipData.ip
+        receiverPassword = ipData.password
+        receiverUname = ipData.uname
+        
+        # ---noti
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(receiverIP, username=receiverUname, password=receiverPassword)
+        if(mode =='new'):
+            msg = f"{sender} has sent you a message in Byte-whaSSH!"
+            
+        else:
+            msg = f"{sender} had replied to one of your message in Byte-whaSSH!"
+        ssh.exec_command(f"notify-send -u critical -i /home/{receiverUname}/notification-bell.png  'New message in byte-WhaSSH`s WALLPOST' '{msg} \n\n\n Click to open Wallpost http://bytewash.com \n\n\n\t\t\t\t\t\t\t\t\t -Brahmoski' ")
+        # -------
+        
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect('10.162.6.11', username="athul", password="nic*123")
+    ssh.exec_command("notify-send 'New message in byte-WhaSSH'")
+    
 
 def wallpost_delete(request):
     postid = request.POST.get('postid')

@@ -7,7 +7,7 @@ from django.conf.urls.static import static # type: ignore
 
 
 urlpatterns = [
-    path('',views.dashboard, name="dashboard"),
+    path('dashboard',views.dashboard, name="dashboard"),
     path('candidatedetails', views.candidatelist, name="candidate_details"),
     path('gen_mpr',views.gen_mpr, name="gen_mpr"),
     path('pdf',views.generatepdf, name="pdf"),
@@ -19,7 +19,7 @@ urlpatterns = [
     path('leaveRecordSave',views.leaveRecordSave, name='leaveRecord_Save'),
     path('changeMonth',views.changeMonth, name='change_month'),
     path('send_whatsapp_msgs',views.send_whatsapp_msgs, name='send_whatsapp_message'),
-    path('wall_post',views.wallpost, name="wall_post"),
+    path('',views.wallpost, name="wall_post"),
     path('wall_post_save',views.wallpost_save, name='wall_post_save'),
     path('process_pdfs', views.process_pdfs, name='process_pdfs'),
     path('wall_post_delete',views.wallpost_delete, name="wall_post_delete"),
